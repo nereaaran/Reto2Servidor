@@ -7,13 +7,19 @@ package entidad;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  * Clase que define los atributos y los métodos de la entidad "Usuario".
@@ -21,14 +27,15 @@ import javax.persistence.Table;
  * @author Cristina Milea
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipoUsuario")
 @Table(name = "usuario", schema = "bibliotecadb")
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Atributo que guarda el id del usuario. Es la clave primaria de la tabla
-     * "usuario".
+     * Id del usuario. Es la clave primaria de la tabla "usuario".
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,63 +43,54 @@ public class Usuario implements Serializable {
     /**
      * Login del usuario.
      */
+    @NotNull
     private String login;
     /**
      * Email del usuario.
      */
+    @NotNull
     private String email;
     /**
      * Nombre completo del usuario.
      */
+    @NotNull
     private String fullName;
     /**
      * Estado del usuario, que puede ser ENABLED o DISABLED.
      */
+    @NotNull
     @Enumerated(EnumType.STRING) //ORDINAL crea una columna de tipo int y STRING crea una columna de tipo varchar.
     private UserStatus status;
     /**
      * Privilegio del usuario, que puede ser ADMIN o USER.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
     /**
+     * Tipo de usuario, que puede ser BIBLIOTECARIO, PROFESOR o ALUMNO.
+     */
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+    /**
      * Contraseña del usuario.
      */
+    @NotNull
     private String password;
     /**
      * Fecha del último acceso del usuario.
      */
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastPasswordChange;
-
-    /**
-     * Constructor de la clase "Usuario".
-     *
-     * @param idUsuario el id del usuario.
-     * @param login el login del usuario.
-     * @param email el email del usuario.
-     * @param fullName el nombre completo del usuario.
-     * @param status el estado del usuario.
-     * @param privilege el privilegio del usuario.
-     * @param password la contraseña del usuario.
-     * @param lastAccess el último acceso del usuario.
-     * @param lastPasswordChange el último cambio de contraseña del usuario.
-     */
-    public Usuario(Integer idUsuario, String login, String email, String fullName, UserStatus status, UserPrivilege privilege, String password, Timestamp lastAccess, Timestamp lastPasswordChange) {
-        this.idUsuario = idUsuario;
-        this.login = login;
-        this.email = email;
-        this.fullName = fullName;
-        this.status = status;
-        this.privilege = privilege;
-        this.password = password;
-        this.lastAccess = lastAccess;
-        this.lastPasswordChange = lastPasswordChange;
-    }
 
     /**
      * Método que muestra el id del usuario.
@@ -200,6 +198,24 @@ public class Usuario implements Serializable {
      */
     public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
+    }
+
+    /**
+     * Método que muestra el tipo de usuario.
+     *
+     * @return el tipo de usuario que se va a mostrar.
+     */
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    /**
+     * Método que guarda el tipo de usuario.
+     *
+     * @param tipoUsuario el tipo de usuario que se va a guardar.
+     */
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     /**

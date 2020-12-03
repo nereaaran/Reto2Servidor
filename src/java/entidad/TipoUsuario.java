@@ -12,6 +12,10 @@ package entidad;
  */
 public enum TipoUsuario {
     /**
+     * El usuario es un bibliotecario.
+     */
+    BIBLIOTECARIO,
+    /**
      * El usuario es un profesor
      */
     PROFESOR,

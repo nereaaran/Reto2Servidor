@@ -29,23 +29,23 @@ public class Bibliotecario extends Usuario implements Serializable {
      * Relación 1:N de la entidad "Bibliotecario" con "Libro".
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLibro")
-    private Collection<Libro> libro;
+    private Collection<Libro> libros;
 
     /**
      * Método que muestra la colección de libros.
      *
      * @return los libros de la colección.
      */
-    public Collection<Libro> getLibro() {
-        return libro;
+    public Collection<Libro> getLibros() {
+        return libros;
     }
 
     /**
      * Método que guarda la colección de libros.
      *
-     * @param libro los libros que se van a guardar.
+     * @param libros los libros que se van a guardar.
      */
-    public void setLibro(Collection<Libro> libro) {
-        this.libro = libro;
+    public void setLibro(Collection<Libro> libros) {
+        this.libros = libros;
     }
 }

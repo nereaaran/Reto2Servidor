@@ -6,9 +6,17 @@
 package entidad;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,20 +40,29 @@ public class Alumno extends Usuario implements Serializable {
     /**
      * Fecha de nacimiento del alumno.
      */
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     @Past
-    private Timestamp fechaNacimiento;
+    private Date fechaNacimiento;
+
+    
+    
+    /**
+     * Relación 1:N de la entidad "Alumno" con "reserva_alumno_libro".
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAlumno")
+    private Collection<Libro> libros;
     
     
     
     
-    /*@ManyToMany (fetch = FetchType.EAGER)
-    @JoinTable(name = "libro_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idLibro", referencedColumnName= "idLibro"), 
-            inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName= "idGrupo"))
-    private Collection<Grupo> grupos;*/
-    
-    
-    
+    /**
+     * Relación N:M de la entidad "Alumno" con "Libro".
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "alumno_libro", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idAlumno"),
+            inverseJoinColumns = @JoinColumn(name = "idLibro", referencedColumnName = "idLibro"))
+    private Collection<Libro> libros;
+
     /**
      * Método que muestra el teléfono del alumno.
      *
@@ -69,7 +86,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return la fecha de nacimiento que va a mostrar.
      */
-    public Timestamp getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
@@ -78,8 +95,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @param fechaNacimiento la fecha de nacimineto que se va a guardar.
      */
-    public void setFechaNacimiento(Timestamp fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
 }

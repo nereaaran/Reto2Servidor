@@ -28,7 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "tipoUsuario")
+@DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.
 @Table(name = "usuario", schema = "bibliotecadb")
 public class Usuario implements Serializable {
 

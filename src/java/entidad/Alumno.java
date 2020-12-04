@@ -49,13 +49,13 @@ public class Alumno extends Usuario implements Serializable {
      * Relación 1:N de la entidad "Alumno" con "AlumnoLibro".
      */
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
-    private Collection<Libro> libros;
+    private Collection<AlumnoLibro> AlumnoLibro;
 
     /**
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
-    @ManyToMany(FetchType.EAGER)
-    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario"),
+    @ManyToMany(CascadeType.ALL)
+    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
 
@@ -100,7 +100,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los libros de la colección.
      */
-    public Collection<Libro> getLibros() {
+    public Collection<AlumnoLibro> getLibros() {
         return libros;
     }
 
@@ -109,7 +109,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @param libros los libros que se van a guardar.
      */
-    public void setLibro(Collection<Libro> libros) {
+    public void setLibro(Collection<AlumnoLibro> libros) {
         this.libros = libros;
     }
 

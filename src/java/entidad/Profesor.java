@@ -55,7 +55,7 @@ public class Profesor extends Usuario implements Serializable{
         this.telefono = telefono;
     }
 
-    
+    //Relacion
     @OneToMany(cascade = ALL, mappedBy = "grupo")
     private Collection<Grupo> grupos;
 

@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 
 
 /**
- * Clase Asignar.
+ * 
  * @author Joanthan
  */
 @Entity

@@ -34,5 +34,4 @@ class GrupoLibroId implements Serializable{
         this.libroId = libroId;
     }
     
-    
 }

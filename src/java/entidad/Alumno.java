@@ -7,7 +7,6 @@ package entidad;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -16,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -29,7 +30,7 @@ import javax.validation.constraints.Past;
  */
 @Entity
 @Table(name = "alumno", schema = "bibliotecadb")
-@DiscriminatorValue("ALUMNO")
+@DiscriminatorValue("ALUMNO") //Valor que diferenciará a los alumnos en la tabla de usuarios.
 public class Alumno extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,27 +45,22 @@ public class Alumno extends Usuario implements Serializable {
     @Past
     private Date fechaNacimiento;
 
-    
-    
     /**
-     * Relación 1:N de la entidad "Alumno" con "reserva_alumno_libro".
+     * Relación 1:N de la entidad "Alumno" con "AlumnoLibro".
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idAlumno")
-    private Collection<Libro> libros;
-    
-    
-    
-    
-    /**
-     * Relación N:M de la entidad "Alumno" con "Libro".
-     */
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "alumno_libro", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idAlumno"),
-            inverseJoinColumns = @JoinColumn(name = "idLibro", referencedColumnName = "idLibro"))
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
     private Collection<Libro> libros;
 
     /**
-     * Método que muestra el teléfono del alumno.
+     * Relación N:M de la entidad "Alumno" con "Grupo".
+     */
+    @ManyToMany(FetchType.EAGER)
+    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idUsuario", referencedColumnName = "idUsuario"),
+            inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
+    private Collection<Grupo> grupos;
+
+    /**
+     * Método que establece el teléfono del alumno.
      *
      * @return el teléfono que va a mostrar.
      */
@@ -73,7 +69,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el teléfono del alumno.
+     * Método que obtiene el teléfono del alumno.
      *
      * @param telefono el teléfono que se va a guardar.
      */
@@ -82,7 +78,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra la fecha de nacimiento del alumno.
+     * Método que establece la fecha de nacimiento del alumno.
      *
      * @return la fecha de nacimiento que va a mostrar.
      */
@@ -91,11 +87,47 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda la fecha de nacimiento del alumno.
+     * Método que obtiene la fecha de nacimiento del alumno.
      *
      * @param fechaNacimiento la fecha de nacimineto que se va a guardar.
      */
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    /**
+     * Método que establece la colección de libros.
+     *
+     * @return los libros de la colección.
+     */
+    public Collection<Libro> getLibros() {
+        return libros;
+    }
+
+    /**
+     * Método que obtiene la colección de libros.
+     *
+     * @param libros los libros que se van a guardar.
+     */
+    public void setLibro(Collection<Libro> libros) {
+        this.libros = libros;
+    }
+
+    /**
+     * Método que establece la colección de grupos.
+     *
+     * @return los grupos de la colección.
+     */
+    public Collection<Grupo> getGrupos() {
+        return grupos;
+    }
+
+    /**
+     * Método que obtiene la colección de grupos.
+     *
+     * @param grupos los grupos que se van a guardar.
+     */
+    public void setGrupos(Collection<Grupo> grupos) {
+        this.grupos = grupos;
     }
 }

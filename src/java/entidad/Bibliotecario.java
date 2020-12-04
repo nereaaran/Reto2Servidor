@@ -19,8 +19,8 @@ import javax.persistence.Table;
  * @author Cristina Milea
  */
 @Entity
-@Table(name = "alumno", schema = "bibliotecadb")
-@DiscriminatorValue("ALUMNO")
+@Table(name = "bibliotecario", schema = "bibliotecadb")
+@DiscriminatorValue("BIBLIOTECARIO") //Valor que diferenciará al bibliotecario en la tabla de usuarios.
 public class Bibliotecario extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,11 +28,11 @@ public class Bibliotecario extends Usuario implements Serializable {
     /**
      * Relación 1:N de la entidad "Bibliotecario" con "Libro".
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idLibro")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "libro")
     private Collection<Libro> libros;
 
     /**
-     * Método que muestra la colección de libros.
+     * Método que establece la colección de libros.
      *
      * @return los libros de la colección.
      */
@@ -41,7 +41,7 @@ public class Bibliotecario extends Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda la colección de libros.
+     * Método que obtiene la colección de libros.
      *
      * @param libros los libros que se van a guardar.
      */

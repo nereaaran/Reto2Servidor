@@ -48,7 +48,7 @@ public class Profesor extends Usuario implements Serializable{
     }
     
     /**
-     * Guarda el dato telefon
+     * Guarda el dato telefono
      * @param telefono que almacenamos
      */
     public void setTelefono(Integer telefono) {

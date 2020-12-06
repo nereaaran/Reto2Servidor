@@ -149,6 +149,7 @@ public class Grupo implements Serializable {
         this.profesor = profesor;
     }
     
+    
     @OneToMany(mappedBy = "grupo", cascade = ALL)
     private Collection<GrupoLibro> grupoLibro;
     

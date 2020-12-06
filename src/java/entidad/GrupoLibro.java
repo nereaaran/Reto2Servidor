@@ -17,7 +17,7 @@ import javax.persistence.TemporalType;
 
 
 /**
- * 
+ * Clase grupo libro
  * @author Joanthan
  */
 @Entity

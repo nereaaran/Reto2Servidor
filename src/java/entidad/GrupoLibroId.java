@@ -9,7 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Embeddable;
 
 /**
- *
+ * Clase de PK de GrupoLibro
  * @author Jonathan Viñan
  */
 @Embeddable

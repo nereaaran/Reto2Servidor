@@ -18,8 +18,7 @@ import javax.persistence.Table;
  *
  * @author Cristina Milea
  */
-@Entity
-@Table(name = "bibliotecario", schema = "bibliotecadb")
+@Entity(name = "bibliotecario")
 @DiscriminatorValue("BIBLIOTECARIO") //Valor que diferenciará al bibliotecario en la tabla de usuarios.
 public class Bibliotecario extends Usuario implements Serializable {
 

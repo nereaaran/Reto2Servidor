@@ -11,12 +11,9 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -28,8 +25,7 @@ import javax.validation.constraints.Past;
  *
  * @author Cristina Milea
  */
-@Entity
-@Table(name = "alumno", schema = "bibliotecadb")
+@Entity(name = "alumno")
 @DiscriminatorValue("ALUMNO") //Valor que diferenciará a los alumnos en la tabla de usuarios.
 public class Alumno extends Usuario implements Serializable {
 

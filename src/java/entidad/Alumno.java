@@ -15,7 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
@@ -90,23 +89,23 @@ public class Alumno extends Usuario implements Serializable {
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-
+    
     /**
-     * Método que establece la colección de libros.
+     * Método que establece la colección de libros por alumno.
      *
-     * @return los libros de la colección.
+     * @return los alumnos y sus libros de la colección.
      */
-    public Collection<AlumnoLibro> getLibros() {
-        return libros;
+    public Collection<AlumnoLibro> getAlumnoLibro() {
+        return AlumnoLibro;
     }
 
     /**
-     * Método que obtiene la colección de libros.
+     * Método que obtiene la colección de libros por alumno.
      *
-     * @param libros los libros que se van a guardar.
+     * @param AlumnoLibro los alumnos y sus libros que se van a guardar.
      */
-    public void setLibro(Collection<AlumnoLibro> libros) {
-        this.libros = libros;
+    public void setAlumnoLibro(Collection<AlumnoLibro> AlumnoLibro) {
+        this.AlumnoLibro = AlumnoLibro;
     }
 
     /**

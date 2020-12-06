@@ -7,13 +7,19 @@ package entidad;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 /**
  * Clase que define los atributos y los métodos de la entidad "Usuario".
@@ -21,14 +27,15 @@ import javax.persistence.Table;
  * @author Cristina Milea
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.
 @Table(name = "usuario", schema = "bibliotecadb")
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * Atributo que guarda el id del usuario. Es la clave primaria de la tabla
-     * "usuario".
+     * Id del usuario. Es la clave primaria de la tabla "usuario".
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,66 +43,57 @@ public class Usuario implements Serializable {
     /**
      * Login del usuario.
      */
+    @NotNull
     private String login;
     /**
      * Email del usuario.
      */
+    @NotNull
     private String email;
     /**
      * Nombre completo del usuario.
      */
+    @NotNull
     private String fullName;
     /**
      * Estado del usuario, que puede ser ENABLED o DISABLED.
      */
+    @NotNull
     @Enumerated(EnumType.STRING) //ORDINAL crea una columna de tipo int y STRING crea una columna de tipo varchar.
     private UserStatus status;
     /**
      * Privilegio del usuario, que puede ser ADMIN o USER.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     private UserPrivilege privilege;
     /**
+     * Tipo de usuario, que puede ser BIBLIOTECARIO, PROFESOR o ALUMNO.
+     */
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+    /**
      * Contraseña del usuario.
      */
+    @NotNull
     private String password;
     /**
      * Fecha del último acceso del usuario.
      */
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastPasswordChange;
 
     /**
-     * Constructor de la clase "Usuario".
-     *
-     * @param idUsuario el id del usuario.
-     * @param login el login del usuario.
-     * @param email el email del usuario.
-     * @param fullName el nombre completo del usuario.
-     * @param status el estado del usuario.
-     * @param privilege el privilegio del usuario.
-     * @param password la contraseña del usuario.
-     * @param lastAccess el último acceso del usuario.
-     * @param lastPasswordChange el último cambio de contraseña del usuario.
-     */
-    public Usuario(Integer idUsuario, String login, String email, String fullName, UserStatus status, UserPrivilege privilege, String password, Timestamp lastAccess, Timestamp lastPasswordChange) {
-        this.idUsuario = idUsuario;
-        this.login = login;
-        this.email = email;
-        this.fullName = fullName;
-        this.status = status;
-        this.privilege = privilege;
-        this.password = password;
-        this.lastAccess = lastAccess;
-        this.lastPasswordChange = lastPasswordChange;
-    }
-
-    /**
-     * Método que muestra el id del usuario.
+     * Método que establece el id del usuario.
      *
      * @return el id que se va a mostrar.
      */
@@ -104,7 +102,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el id del usuario.
+     * Método que obtiene el id del usuario.
      *
      * @param idUsuario el id que se va a guardar.
      */
@@ -113,7 +111,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el login del usuario.
+     * Método que establece el login del usuario.
      *
      * @return el login que se va a mostrar.
      */
@@ -122,7 +120,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el login del usuario.
+     * Método que obtiene el login del usuario.
      *
      * @param login el login que se va a guardar.
      */
@@ -131,7 +129,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el email del usuario.
+     * Método que establece el email del usuario.
      *
      * @return el email que se va a mostrar.
      */
@@ -140,7 +138,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el email del usuario.
+     * Método que obtiene el email del usuario.
      *
      * @param email el email que se va a guardar.
      */
@@ -149,7 +147,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el nombre completo del usuario.
+     * Método que establece el nombre completo del usuario.
      *
      * @return el nombre completo que se va a mostrar.
      */
@@ -158,7 +156,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el nombre completo del usuario.
+     * Método que obtiene el nombre completo del usuario.
      *
      * @param fullName el nombre completo que se va a guardar.
      */
@@ -167,7 +165,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el estado del usuario.
+     * Método que establece el estado del usuario.
      *
      * @return el estado que se va a mostrar.
      */
@@ -176,7 +174,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el estado del usuario.
+     * Método que obtiene el estado del usuario.
      *
      * @param status el estado que se va a guardar.
      */
@@ -185,7 +183,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el privilegio del usuario.
+     * Método que establece el privilegio del usuario.
      *
      * @return el privilegio que se va a mostrar.
      */
@@ -194,7 +192,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el privilegio del usuario.
+     * Método que obtiene el privilegio del usuario.
      *
      * @param privilege el privilegio que se va a guardar.
      */
@@ -203,7 +201,25 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra la contraseña del usuario.
+     * Método que establece el tipo de usuario.
+     *
+     * @return el tipo de usuario que se va a mostrar.
+     */
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    /**
+     * Método que obtiene el tipo de usuario.
+     *
+     * @param tipoUsuario el tipo de usuario que se va a guardar.
+     */
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+    /**
+     * Método que establece la contraseña del usuario.
      *
      * @return la contraseña que se va a mostrar.
      */
@@ -212,7 +228,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda la contraseña del usuario.
+     * Método que obtiene la contraseña del usuario.
      *
      * @param password la contraseña que se va a guardar.
      */
@@ -221,7 +237,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el último acceso del usuario.
+     * Método que establece el último acceso del usuario.
      *
      * @return el último acceso que se va a mostrar.
      */
@@ -230,7 +246,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el último acceso del usuario.
+     * Método que obtiene el último acceso del usuario.
      *
      * @param lastAccess el último acceso que se va a guardar.
      */
@@ -239,7 +255,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que muestra el último cambio de contraseña del usuario.
+     * Método que establece el último cambio de contraseña del usuario.
      *
      * @return la fecha del último cambio de contraseña que se va a mostrar.
      */
@@ -248,7 +264,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que guarda el último cambio de contraseña del usuario.
+     * Método que obtiene el último cambio de contraseña del usuario.
      *
      * @param lastPasswordChange la fecha del último cambio de contraseña que se
      * va a guardar.

@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -27,6 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table (name = "grupo" , schema = "bibliotecadb")
+@XmlRootElement
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;

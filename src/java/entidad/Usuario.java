@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase que define los atributos y los métodos de la entidad "Usuario".
@@ -30,6 +31,7 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.
 @Table(name = "usuario", schema = "bibliotecadb")
+@XmlRootElement
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;

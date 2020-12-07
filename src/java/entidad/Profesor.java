@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -28,6 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table (name="profesor", schema="bibliotecadb")
 @DiscriminatorValue("PROFESOR") //Valor que diferenciará al profesor en la tabla de usuarios.
+@XmlRootElement
 public class Profesor extends Usuario implements Serializable{
     
     private static final long serialVersionUID = 1L;

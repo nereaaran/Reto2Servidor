@@ -14,6 +14,7 @@ import javax.persistence.MapsId;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Clase para guardar las relaciones entre alumno y libro y sus atributos.
@@ -22,6 +23,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "alumno_libro", schema = "bibliotecadb")
+@XmlRootElement
 public class AlumnoLibro implements Serializable {
 
     private static final long serialVersionUID = 1L;

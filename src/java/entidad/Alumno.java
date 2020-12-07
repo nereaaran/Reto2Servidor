@@ -18,6 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase que define los atributos y los métodos de la entidad "Alumno".
@@ -26,6 +28,7 @@ import javax.validation.constraints.Past;
  */
 @Entity(name = "alumno")
 @DiscriminatorValue("ALUMNO") //Valor que diferenciará a los alumnos en la tabla de usuarios.
+@XmlRootElement
 public class Alumno extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -113,6 +116,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
+    @XmlTransient
     public Collection<Grupo> getGrupos() {
         return grupos;
     }

@@ -26,8 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Jonathan
  */
 
-@Entity
-@Table (name="profesor", schema="bibliotecadb")
+@Entity(name = "profesor")
 @DiscriminatorValue("PROFESOR") //Valor que diferenciará al profesor en la tabla de usuarios.
 @XmlRootElement
 public class Profesor extends Usuario implements Serializable{

@@ -17,6 +17,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class AlumnoLibroId implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    
     private Integer alumnoId;
     private Integer libroId;
 

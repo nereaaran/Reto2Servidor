@@ -18,6 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase entidad de Libro que contiene sus atributos.
@@ -26,6 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "libro", schema = "bibliotecadb")
+@XmlRootElement
 public class Libro implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -283,6 +286,7 @@ public class Libro implements Serializable {
      *
      * @return Coleccion de alumnoLibro.
      */
+    @XmlTransient
     public Collection<AlumnoLibro> getAlumnoLibro() {
         return alumnoLibro;
     }
@@ -301,6 +305,7 @@ public class Libro implements Serializable {
      *
      * @return Coleccion de grupoLibro.
      */
+    @XmlTransient
     public Collection<GrupoLibro> getGrupoLibro() {
         return grupoLibro;
     }

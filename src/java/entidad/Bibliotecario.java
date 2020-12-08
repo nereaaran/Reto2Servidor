@@ -11,6 +11,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase de la entidad "Bibliotecario".
@@ -19,6 +21,7 @@ import javax.persistence.OneToMany;
  */
 @Entity(name = "bibliotecario")
 @DiscriminatorValue("BIBLIOTECARIO") //Valor que diferenciará al bibliotecario en la tabla de usuarios.
+@XmlRootElement
 public class Bibliotecario extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -26,7 +29,7 @@ public class Bibliotecario extends Usuario implements Serializable {
     /**
      * Relación 1:N de la entidad "Bibliotecario" con "Libro".
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "libro")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "bibliotecario")
     private Collection<Libro> libros;
 
     /**
@@ -34,6 +37,7 @@ public class Bibliotecario extends Usuario implements Serializable {
      *
      * @return los libros de la colección.
      */
+    @XmlTransient
     public Collection<Libro> getLibros() {
         return libros;
     }

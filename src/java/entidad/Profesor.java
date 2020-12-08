@@ -18,37 +18,39 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Clase Profesor 
+ * Clase Profesor
+ *
  * @author Jonathan
  */
-
-@Entity
-@Table (name="profesor", schema="bibliotecadb")
+@Entity(name = "profesor")
 @DiscriminatorValue("PROFESOR") //Valor que diferenciará al profesor en la tabla de usuarios.
-public class Profesor extends Usuario implements Serializable{
-    
+@XmlRootElement
+public class Profesor extends Usuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     /**
-     * Numero de telefono del profesor 
+     * Numero de telefono del profesor
      */
     @NotNull
     private Integer telefono;
 
-
     /**
      * Muestroa el telefono
+     *
      * @return telefono
      */
     public Integer getTelefono() {
         return telefono;
     }
-    
+
     /**
      * Guarda el dato telefono
+     *
      * @param telefono que almacenamos
      */
     public void setTelefono(Integer telefono) {
@@ -56,7 +58,7 @@ public class Profesor extends Usuario implements Serializable{
     }
 
     //Relacion
-    @OneToMany(cascade = ALL, mappedBy = "grupo")
+    @OneToMany(cascade = ALL, mappedBy = "profesor")
     private Collection<Grupo> grupos;
 
     @XmlTransient
@@ -68,18 +70,4 @@ public class Profesor extends Usuario implements Serializable{
         this.grupos = grupos;
     }
 
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-    
-    
-    
 }

@@ -15,6 +15,8 @@ import javax.persistence.Embeddable;
 @Embeddable
 class GrupoLibroId implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
     private Integer grupoId;
     private Integer libroId;
 

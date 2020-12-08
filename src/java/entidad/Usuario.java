@@ -7,6 +7,7 @@ package entidad;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,8 +18,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -73,6 +72,7 @@ public class Usuario implements Serializable {
      * Tipo de usuario, que puede ser BIBLIOTECARIO, PROFESOR o ALUMNO.
      */
     @NotNull
+    @Column(insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
     /**
@@ -84,14 +84,12 @@ public class Usuario implements Serializable {
      * Fecha del último acceso del usuario.
      */
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
     @NotNull
-    @Temporal(TemporalType.TIMESTAMP)
     private Timestamp lastPasswordChange;
 
     /**

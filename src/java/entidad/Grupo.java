@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -27,12 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jonathan
  */
 @Entity
-@Table (name = "grupo" , schema = "bibliotecadb")
+@Table(name = "grupo", schema = "bibliotecadb")
 @XmlRootElement
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-        
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idGrupo;
@@ -42,9 +43,9 @@ public class Grupo implements Serializable {
     private String descripcion;
     @NotNull
     private Integer numAlumno;
-   
+
     /**
-     * 
+     *
      * @return idGrupo
      */
     public Integer getIdGrupo() {
@@ -53,6 +54,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se muestra el nombre del grupo
+     *
      * @param idGrupo
      */
     public void setIdGrupo(Integer idGrupo) {
@@ -61,6 +63,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se devuelve eñ nombre del grupo
+     *
      * @return nombre
      */
     public String getNombre() {
@@ -69,6 +72,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se muestra el nombre del grupo
+     *
      * @param nombre
      */
     public void setNombre(String nombre) {
@@ -77,6 +81,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se devuelve la dscripcion
+     *
      * @return description
      */
     public String getDescripcion() {
@@ -85,6 +90,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se muestra el valor la descripcion
+     *
      * @param descripcion
      */
     public void setDescripcion(String descripcion) {
@@ -93,6 +99,7 @@ public class Grupo implements Serializable {
 
     /**
      * De vuelve la cantidad
+     *
      * @return numAlumno
      */
     public Integer getNumAlumno() {
@@ -101,6 +108,7 @@ public class Grupo implements Serializable {
 
     /**
      * Se muestra numAlumno del grupo
+     *
      * @param numAlumno
      */
     public void setNumAlumno(Integer numAlumno) {
@@ -139,33 +147,38 @@ public class Grupo implements Serializable {
     public String toString() {
         return "Grupo{" + "idGrupo=" + idGrupo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", numAlumno=" + numAlumno + '}';
     }
-    
+
     @ManyToOne
     private Profesor profesor;
 
     public Profesor getProfesor() {
         return profesor;
     }
-    
+
     public void setProfesor(Profesor profesor) {
         this.profesor = profesor;
     }
-    
-    
+
     @OneToMany(mappedBy = "grupo", cascade = ALL)
     private Collection<GrupoLibro> grupoLibro;
-    
-            
-    
-    
-    
-    
-    
-    
 
-   
+    @ManyToMany(mappedBy = "grupos")
+    private Collection<Alumno> alumnos;
 
-    
+    public Collection<GrupoLibro> getGrupoLibro() {
+        return grupoLibro;
+    }
 
-    
+    public void setGrupoLibro(Collection<GrupoLibro> grupoLibro) {
+        this.grupoLibro = grupoLibro;
+    }
+
+    public Collection<Alumno> getAlumnos() {
+        return alumnos;
+    }
+
+    public void setAlumnos(Collection<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+
 }

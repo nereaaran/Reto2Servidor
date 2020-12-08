@@ -29,7 +29,7 @@ public class AlumnoLibro implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private AlumnoLibro idAlumnoLibro;
+    private AlumnoLibroId idAlumnoLibro;
     @MapsId("idUsuario")
     @ManyToOne
     private Alumno alumno;
@@ -47,7 +47,7 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El idAlumnoLibro de AlumnoLibro.
      */
-    public AlumnoLibro getIdAlumnoLibro() {
+    public AlumnoLibroId getIdAlumnoLibro() {
         return idAlumnoLibro;
     }
 
@@ -56,7 +56,7 @@ public class AlumnoLibro implements Serializable {
      *
      * @param idAlumnoLibro El idAlumnoLibro de AlumnoLibro.
      */
-    public void setId(AlumnoLibro idAlumnoLibro) {
+    public void setId(AlumnoLibroId idAlumnoLibro) {
         this.idAlumnoLibro = idAlumnoLibro;
     }
 

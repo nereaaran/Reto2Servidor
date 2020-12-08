@@ -15,8 +15,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,13 +31,13 @@ public class Alumno extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
-     * Teléfono del alumno.
+     * DNI del alumno.
      */
-    private Integer telefono;
+    private String dni;
     /**
      * Fecha de nacimiento del alumno.
      */
-    @Temporal(TemporalType.DATE)
+    //@Temporal(TemporalType.DATE)
     @Past
     private Date fechaNacimiento;
 
@@ -53,26 +51,26 @@ public class Alumno extends Usuario implements Serializable {
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
+    @JoinTable(name = "alumno_grupo", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
 
     /**
-     * Método que establece el teléfono del alumno.
+     * Método que establece el DNI del alumno.
      *
-     * @return el teléfono que va a mostrar.
+     * @return el DNI que va a mostrar.
      */
-    public Integer getTelefono() {
-        return telefono;
+    public String getDni() {
+        return dni;
     }
 
     /**
-     * Método que obtiene el teléfono del alumno.
+     * Método que obtiene el DNI del alumno.
      *
-     * @param telefono el teléfono que se va a guardar.
+     * @param dni el DNI que se va a guardar.
      */
-    public void setTelefono(Integer telefono) {
-        this.telefono = telefono;
+    public void setDni(String dni) {
+        this.dni = dni;
     }
 
     /**

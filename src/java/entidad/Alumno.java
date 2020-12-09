@@ -51,7 +51,7 @@ public class Alumno extends Usuario implements Serializable {
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "alumno_grupo", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
+    @JoinTable(name = "alumno_grupo", schema="bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
 

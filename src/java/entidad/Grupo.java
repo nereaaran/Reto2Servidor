@@ -22,6 +22,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -165,6 +166,7 @@ public class Grupo implements Serializable {
     @ManyToMany(mappedBy = "grupos")
     private Collection<Alumno> alumnos;
 
+    @XmlTransient
     public Collection<GrupoLibro> getGrupoLibro() {
         return grupoLibro;
     }
@@ -173,6 +175,7 @@ public class Grupo implements Serializable {
         this.grupoLibro = grupoLibro;
     }
 
+    @XmlTransient
     public Collection<Alumno> getAlumnos() {
         return alumnos;
     }

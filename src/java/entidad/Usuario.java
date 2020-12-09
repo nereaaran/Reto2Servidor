@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -26,6 +28,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Cristina Milea
  */
+@NamedQueries({
+    @NamedQuery(
+            name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE tipoUsuario=:ALUMNO"
+    ),
+    @NamedQuery(
+            name = "consultarProfesor", query = "SELECT u FROM Usuario u WHERE u.fullName=:fullName"
+    )
+})
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.

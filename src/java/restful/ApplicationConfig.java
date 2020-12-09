@@ -36,8 +36,10 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(restful.AlumnoFacadeREST.class);
+        resources.add(restful.AlumnoLibroFacadeREST.class);
         resources.add(restful.BibliotecarioFacadeREST.class);
         resources.add(restful.GrupoFacadeREST.class);
+        resources.add(restful.GrupoLibroFacadeREST.class);
         resources.add(restful.LibroFacadeREST.class);
         resources.add(restful.ProfesorFacadeREST.class);
         resources.add(restful.UsuarioFacadeREST.class);

@@ -13,7 +13,7 @@ import javax.persistence.Embeddable;
  * @author Jonathan Viñan
  */
 @Embeddable
-class GrupoLibroId implements Serializable{
+public class GrupoLibroId implements Serializable{
     
     private static final long serialVersionUID = 1L;
     

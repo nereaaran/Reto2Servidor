@@ -7,6 +7,7 @@ package restful;
 
 import entidad.Alumno;
 import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +29,7 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("entidad.alumno")
 public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
-
+    
     /**
      * El Entity Manager se le pide al servidor de aplicaciones.
      */

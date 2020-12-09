@@ -17,23 +17,23 @@ public class GrupoLibroId implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
-    private Integer grupoId;
-    private Integer libroId;
+    private Integer idGrupo;
+    private Integer idLibro;
 
-    public Integer getGrupoId() {
-        return grupoId;
+    public Integer getIdGrupo() {
+        return idGrupo;
     }
 
-    public void setGrupoId(Integer grupoId) {
-        this.grupoId = grupoId;
+    public void setIdGrupo(Integer idGrupo) {
+        this.idGrupo = idGrupo;
     }
 
-    public Integer getLibroId() {
-        return libroId;
+    public Integer getIdLibro() {
+        return idLibro;
     }
 
-    public void setLibroId(Integer libroId) {
-        this.libroId = libroId;
+    public void setIdLibro(Integer idLibro) {
+        this.idLibro = idLibro;
     }
     
 }

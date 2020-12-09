@@ -43,13 +43,13 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
          */
         entidad.AlumnoLibroId key = new entidad.AlumnoLibroId();
         javax.ws.rs.core.MultivaluedMap<String, String> map = pathSegment.getMatrixParameters();
-        java.util.List<String> alumnoId = map.get("alumnoId");
-        if (alumnoId != null && !alumnoId.isEmpty()) {
-            key.setAlumnoId(new java.lang.Integer(alumnoId.get(0)));
+        java.util.List<String> idUsuario = map.get("idUsuario");
+        if (idUsuario != null && !idUsuario.isEmpty()) {
+            key.setIdUsuario(new java.lang.Integer(idUsuario.get(0)));
         }
-        java.util.List<String> libroId = map.get("libroId");
-        if (libroId != null && !libroId.isEmpty()) {
-            key.setLibroId(new java.lang.Integer(libroId.get(0)));
+        java.util.List<String> idLibro = map.get("idLibro");
+        if (idLibro != null && !idLibro.isEmpty()) {
+            key.setIdLibro(new java.lang.Integer(idLibro.get(0)));
         }
         return key;
     }

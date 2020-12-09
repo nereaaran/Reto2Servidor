@@ -19,43 +19,43 @@ public class AlumnoLibroId implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private Integer alumnoId;
-    private Integer libroId;
+    private Integer idUsuario;
+    private Integer idLibro;
 
     /**
-     * Obtiene el alumnoId.
+     * Obtiene el idUsuario.
      *
-     * @return El alumnoId.
+     * @return El idUsuario.
      */
-    public Integer getAlumnoId() {
-        return alumnoId;
+    public Integer getIdUsuario() {
+        return idUsuario;
     }
 
     /**
-     * Establece el alumnoId.
+     * Establece el idUsuario.
      *
-     * @param alumnoId El alumnoId.
+     * @param idUsuario El idUsuario.
      */
-    public void setAlumnoId(Integer alumnoId) {
-        this.alumnoId = alumnoId;
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     /**
-     * Obtiene el libroId.
+     * Obtiene el idLibro.
      *
-     * @return El libroId.
+     * @return El idLibro.
      */
-    public Integer getLibroId() {
-        return libroId;
+    public Integer getIdLibro() {
+        return idLibro;
     }
 
     /**
-     * Establece el libroId.
+     * Establece el idLibro.
      *
-     * @param libroId El libroId.
+     * @param idLibro El idLibro.
      */
-    public void setLibroId(Integer libroId) {
-        this.libroId = libroId;
+    public void setIdLibro(Integer idLibro) {
+        this.idLibro = idLibro;
     }
 
 }

@@ -43,13 +43,13 @@ public class GrupoLibroFacadeREST extends AbstractFacade<GrupoLibro> {
          */
         entidad.GrupoLibroId key = new entidad.GrupoLibroId();
         javax.ws.rs.core.MultivaluedMap<String, String> map = pathSegment.getMatrixParameters();
-        java.util.List<String> grupoId = map.get("grupoId");
-        if (grupoId != null && !grupoId.isEmpty()) {
-            key.setGrupoId(new java.lang.Integer(grupoId.get(0)));
+        java.util.List<String> idGrupo = map.get("idGrupo");
+        if (idGrupo != null && !idGrupo.isEmpty()) {
+            key.setIdGrupo(new java.lang.Integer(idGrupo.get(0)));
         }
-        java.util.List<String> libroId = map.get("libroId");
-        if (libroId != null && !libroId.isEmpty()) {
-            key.setLibroId(new java.lang.Integer(libroId.get(0)));
+        java.util.List<String> idLibro = map.get("idLibro");
+        if (idLibro != null && !idLibro.isEmpty()) {
+            key.setIdLibro(new java.lang.Integer(idLibro.get(0)));
         }
         return key;
     }

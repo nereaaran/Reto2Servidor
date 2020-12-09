@@ -36,7 +36,6 @@ public class Profesor extends Usuario implements Serializable {
     /**
      * Numero de telefono del profesor
      */
-    @NotNull
     private Integer telefono;
 
     /**

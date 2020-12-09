@@ -14,6 +14,8 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -37,7 +39,6 @@ public class Alumno extends Usuario implements Serializable {
     /**
      * Fecha de nacimiento del alumno.
      */
-    //@Temporal(TemporalType.DATE)
     @Past
     private Date fechaNacimiento;
 
@@ -51,7 +52,7 @@ public class Alumno extends Usuario implements Serializable {
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "alumno_grupo", schema="bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
+    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
 

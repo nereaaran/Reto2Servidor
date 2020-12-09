@@ -30,13 +30,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @NamedQueries({
     @NamedQuery(
-            name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE tipoUsuario=:ALUMNO"
+        name = "consultarTodosBibliotecarios", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO'"
     ),
     @NamedQuery(
-            name = "consultarProfesor", query = "SELECT u FROM Usuario u WHERE u.fullName=:fullName"
+        name = "consultarTodosProfesores", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR'"
+    ),
+    @NamedQuery(
+        name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
+    ),    
+    @NamedQuery(
+        name = "consultarBibliotecarioPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO' AND u.fullName LIKE :fullName"
+    ),
+    @NamedQuery(
+        name = "consultarProfesorPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR' AND u.fullName LIKE :fullName"
+    ),
+    @NamedQuery(
+        name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
     )
 })
-
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.

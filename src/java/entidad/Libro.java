@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,6 +28,24 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
+@NamedQueries({
+    @NamedQuery(
+        name = "consultarTodosLibrosBibliotecario", query = "SELECT l FROM Libro l ORDER BY l.titulo DESC"
+    ),
+    @NamedQuery(
+        name = "consultarTodosLibrosAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l ORDER BY l.titulo DESC"
+    ),
+    @NamedQuery(
+        name = "consultarLibroPorTituloBibliotecario", query = "SELECT l FROM Libro l WHERE l.titulo LIKE :titulo"
+    ),
+    @NamedQuery(
+        name = "consultarLibroPorTituloAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.titulo LIKE :titulo"
+    ),
+    @NamedQuery(
+        name = "consultarLibroPorAutorAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.autor LIKE :autor"
+    )
+})
+
 @Entity
 @Table(name = "libro", schema = "bibliotecadb")
 @XmlRootElement
@@ -57,7 +77,7 @@ public class Libro implements Serializable {
      * ISBN del libro.
      */
     @NotNull
-    private Integer isbn;
+    private Long isbn;
     /**
      * Genero literario del libro.
      */
@@ -178,7 +198,7 @@ public class Libro implements Serializable {
      *
      * @return El isbn del libro.
      */
-    public Integer getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
@@ -187,7 +207,7 @@ public class Libro implements Serializable {
      *
      * @param isbn El isbn del libro.
      */
-    public void setIsbn(Integer isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 
@@ -355,7 +375,7 @@ public class Libro implements Serializable {
      * @param obj El objeto a comparar.
      * @return True si los objetos son iguales.
      */
-    @Override   
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;

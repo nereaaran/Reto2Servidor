@@ -47,7 +47,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
         name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
     )
-})
+}) //Queries del login y sign up
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoUsuario") //Columna que va a diferenciar a los distintos tipos de usuario.

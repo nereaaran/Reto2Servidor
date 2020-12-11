@@ -11,6 +11,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -43,7 +44,7 @@ public class Alumno extends Usuario implements Serializable {
     /**
      * Relación 1:N de la entidad "Alumno" con "AlumnoLibro".
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
+    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER, mappedBy = "alumno")
     private Collection<AlumnoLibro> AlumnoLibro;
 
     /**

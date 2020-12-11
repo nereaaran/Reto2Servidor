@@ -30,6 +30,15 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @NamedQueries({
     @NamedQuery(
+        name = "consultarUsuariosPorLogin", query = "SELECT u FROM Usuario u WHERE u.login=:login"
+    ),
+    @NamedQuery(
+        name = "consultarUsuariosPorEmail", query = "SELECT u FROM Usuario u WHERE u.email=:email"
+    ),
+    @NamedQuery(
+        name = "comprobarContrasenias", query = "SELECT u FROM Usuario u WHERE u.password=:password"
+    ),
+    @NamedQuery(
         name = "consultarTodosBibliotecarios", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO'"
     ),
     @NamedQuery(
@@ -47,7 +56,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
         name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
     )
-}) //Queries del login y sign up
+})
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -334,7 +343,6 @@ public class Usuario implements Serializable {
      */
     @Override
     public String toString() {
-        return "entidad.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "Usuario{" + "idUsuario=" + idUsuario + ", login=" + login + ", email=" + email + ", fullName=" + fullName + ", status=" + status + ", privilege=" + privilege + ", tipoUsuario=" + tipoUsuario + ", password=" + password + ", lastAccess=" + lastAccess + ", lastPasswordChange=" + lastPasswordChange + '}';
     }
-
 }

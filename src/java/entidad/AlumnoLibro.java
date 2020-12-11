@@ -23,11 +23,10 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Nerea Aranguren
  */
-/*@NamedQueries({
+@NamedQueries({
     @NamedQuery(
-        name="consultarReservaAlumno", query="SELECT al FROM AlumnoLibro al WHERE (SELECT u FROM Usuario u WHERE u.idUsuario=:idUsuario)"
-    )
-})*/
+        name="consultarReservaAlumno", query="SELECT al FROM AlumnoLibro al WHERE al.idUsuario=:idUsuario")
+})
 
 @Entity
 @Table(name = "alumno_libro", schema = "bibliotecadb")

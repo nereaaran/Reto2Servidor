@@ -47,12 +47,12 @@ public class Alumno extends Usuario implements Serializable {
      * Relación 1:N de la entidad "Alumno" con "AlumnoLibro".
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "alumno")
-    private Collection<AlumnoLibro> AlumnoLibro;
+    private Collection<AlumnoLibro> alumnoLibros;
 
     /**
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
@@ -98,8 +98,11 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los alumnos y sus libros de la colección.
      */
-    public Collection<AlumnoLibro> getAlumnoLibro() {
-        return AlumnoLibro;
+    
+    //Si pongo el xmltransient aqui saca el alumno y no da error, pero no saca la info de los libros
+    //@XmlTransient
+    public Collection<AlumnoLibro> getAlumnoLibros() {
+        return alumnoLibros;
     }
 
     /**
@@ -107,8 +110,8 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @param AlumnoLibro los alumnos y sus libros que se van a guardar.
      */
-    public void setAlumnoLibro(Collection<AlumnoLibro> AlumnoLibro) {
-        this.AlumnoLibro = AlumnoLibro;
+    public void setAlumnoLibros(Collection<AlumnoLibro> alumnoLibros) {
+        this.alumnoLibros = alumnoLibros;
     }
 
     /**
@@ -140,7 +143,7 @@ public class Alumno extends Usuario implements Serializable {
         int hash = 7;
         hash = 97 * hash + Objects.hashCode(this.dni);
         hash = 97 * hash + Objects.hashCode(this.fechaNacimiento);
-        hash = 97 * hash + Objects.hashCode(this.AlumnoLibro);
+        hash = 97 * hash + Objects.hashCode(this.alumnoLibros);
         hash = 97 * hash + Objects.hashCode(this.grupos);
         return hash;
     }
@@ -169,7 +172,7 @@ public class Alumno extends Usuario implements Serializable {
         if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
             return false;
         }
-        if (!Objects.equals(this.AlumnoLibro, other.AlumnoLibro)) {
+        if (!Objects.equals(this.alumnoLibros, other.alumnoLibros)) {
             return false;
         }
         if (!Objects.equals(this.grupos, other.grupos)) {
@@ -185,6 +188,6 @@ public class Alumno extends Usuario implements Serializable {
      */
     @Override
     public String toString() {
-        return "Alumno{" + "dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", AlumnoLibro=" + AlumnoLibro + ", grupos=" + grupos + '}';
+        return "Alumno{" + "dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", AlumnoLibro=" + alumnoLibros + ", grupos=" + grupos + '}';
     }
 }

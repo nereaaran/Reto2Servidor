@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase para guardar las relaciones entre alumno y libro y sus atributos.
@@ -73,6 +74,9 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El alumno.
      */
+    
+    //Lo logico seria ponerlo aqui pero sique cascando
+    @XmlTransient
     public Alumno getAlumno() {
         return alumno;
     }

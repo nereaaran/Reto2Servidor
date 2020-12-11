@@ -28,19 +28,26 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
+
+//Coleccion de queries para realizar operaciones en la base de datos.
 @NamedQueries({
+    //Selecciona todos los libros y sus atributos ordenados en descendente para bibliotecario
     @NamedQuery(
         name = "consultarTodosLibrosBibliotecario", query = "SELECT l FROM Libro l ORDER BY l.titulo DESC"
     ),
+    //Selecciona todos los libros y algunos de sus atributos ordenados en descendente para alumno y/o profesor
     @NamedQuery(
         name = "consultarTodosLibrosAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l ORDER BY l.titulo DESC"
     ),
+    //Selecciona libros y sus atributos a partir del titulo para bibliotecario
     @NamedQuery(
         name = "consultarLibroPorTituloBibliotecario", query = "SELECT l FROM Libro l WHERE l.titulo LIKE :titulo"
     ),
+    //Selecciona libros y algunos de sus atributos a partir del titulo para alumno y/o profesor
     @NamedQuery(
         name = "consultarLibroPorTituloAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.titulo LIKE :titulo"
     ),
+    //Selecciona libros y algunos de sus atributos a partir del autor para alumno y/o profesor
     @NamedQuery(
         name = "consultarLibroPorAutorAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.autor LIKE :autor"
     )
@@ -107,7 +114,7 @@ public class Libro implements Serializable {
      * Relacion 1:N de la entidad Libro con alumnoLibro.
      */
     @OneToMany(mappedBy = "libro", fetch = FetchType.EAGER, cascade = (CascadeType.ALL))
-    private Collection<AlumnoLibro> alumnoLibro;
+    private Collection<AlumnoLibro> alumnoLibros;
 
     /**
      * Relacion 1:N de la entidad Libro con LibroGrupo.
@@ -307,17 +314,17 @@ public class Libro implements Serializable {
      * @return Coleccion de alumnoLibro.
      */
     @XmlTransient
-    public Collection<AlumnoLibro> getAlumnoLibro() {
-        return alumnoLibro;
+    public Collection<AlumnoLibro> getAlumnoLibros() {
+        return alumnoLibros;
     }
 
     /**
      * Establece una coleccion de alumnoLibro.
      *
-     * @param alumnoLibro una coleccion de alumnoLibro.
+     * @param alumnoLibros una coleccion de alumnoLibro.
      */
-    public void setAlumnoLibro(Collection<AlumnoLibro> alumnoLibro) {
-        this.alumnoLibro = alumnoLibro;
+    public void setAlumnoLibros(Collection<AlumnoLibro> alumnoLibros) {
+        this.alumnoLibros = alumnoLibros;
     }
 
     /**
@@ -417,7 +424,7 @@ public class Libro implements Serializable {
         if (!Objects.equals(this.cantidadDisponible, other.cantidadDisponible)) {
             return false;
         }
-        if (!Objects.equals(this.alumnoLibro, other.alumnoLibro)) {
+        if (!Objects.equals(this.alumnoLibros, other.alumnoLibros)) {
             return false;
         }
         if (!Objects.equals(this.grupoLibro, other.grupoLibro)) {
@@ -436,7 +443,7 @@ public class Libro implements Serializable {
      */
     @Override
     public String toString() {
-        return "Libro{" + "idLibro=" + idLibro + ", titulo=" + titulo + ", autor=" + autor + ", editorial=" + editorial + ", isbn=" + isbn + ", genero=" + genero + ", cantidadTotal=" + cantidadTotal + ", cantidadDisponible=" + cantidadDisponible + ", descargable=" + descargable + ", linkDescarga=" + linkDescarga + ", alumnoLibro=" + alumnoLibro + ", grupoLibro=" + grupoLibro + ", bibliotecario=" + bibliotecario + '}';
+        return "Libro{" + "idLibro=" + idLibro + ", titulo=" + titulo + ", autor=" + autor + ", editorial=" + editorial + ", isbn=" + isbn + ", genero=" + genero + ", cantidadTotal=" + cantidadTotal + ", cantidadDisponible=" + cantidadDisponible + ", descargable=" + descargable + ", linkDescarga=" + linkDescarga + ", alumnoLibro=" + alumnoLibros + ", grupoLibro=" + grupoLibro + ", bibliotecario=" + bibliotecario + '}';
     }
 
 }

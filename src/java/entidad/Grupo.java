@@ -161,19 +161,19 @@ public class Grupo implements Serializable {
         this.profesor = profesor;
     }
 
-    @OneToMany(mappedBy = "grupo", cascade = ALL)
-    private Collection<GrupoLibro> grupoLibro;
+    @OneToMany(mappedBy = "grupo", fetch=FetchType.EAGER, cascade = ALL)
+    private Collection<GrupoLibro> grupoLibros;
 
-    @ManyToMany(mappedBy = "grupos")
+    @ManyToMany(mappedBy = "grupos", fetch=FetchType.EAGER)
     private Collection<Alumno> alumnos;
 
-    @XmlTransient
-    public Collection<GrupoLibro> getGrupoLibro() {
-        return grupoLibro;
+    //@XmlTransient ///////////////////////////////////////////////////
+    public Collection<GrupoLibro> getGrupoLibros() {
+        return grupoLibros;
     }
 
-    public void setGrupoLibro(Collection<GrupoLibro> grupoLibro) {
-        this.grupoLibro = grupoLibro;
+    public void setGrupoLibros(Collection<GrupoLibro> grupoLibros) {
+        this.grupoLibros = grupoLibros;
     }
 
     @XmlTransient

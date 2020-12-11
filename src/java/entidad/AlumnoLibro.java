@@ -75,7 +75,7 @@ public class AlumnoLibro implements Serializable {
      * @return El alumno.
      */
     
-    //Lo logico seria ponerlo aqui pero sique cascando
+    ////////////////////////////////////////////////////////////////////
     @XmlTransient
     public Alumno getAlumno() {
         return alumno;
@@ -95,6 +95,8 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El libro.
      */
+    ////////////////////////////////////////////////////////////////////
+    @XmlTransient
     public Libro getLibro() {
         return libro;
     }

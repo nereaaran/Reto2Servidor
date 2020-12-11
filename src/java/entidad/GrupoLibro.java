@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -48,7 +49,8 @@ public class GrupoLibro implements Serializable {
     public void setIdGrupoLibro(GrupoLibroId idGrupoLibro) {
         this.idGrupoLibro = idGrupoLibro;
     }
-
+    
+    @XmlTransient //////////////////////////////////////////////
     public Grupo getGrupo() {
         return grupo;
     }

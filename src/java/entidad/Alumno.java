@@ -108,7 +108,7 @@ public class Alumno extends Usuario implements Serializable {
     /**
      * Método que obtiene la colección de libros por alumno.
      *
-     * @param AlumnoLibro los alumnos y sus libros que se van a guardar.
+     * @param alumnoLibros los alumnos y sus libros que se van a guardar.
      */
     public void setAlumnoLibros(Collection<AlumnoLibro> alumnoLibros) {
         this.alumnoLibros = alumnoLibros;
@@ -119,7 +119,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
-    @XmlTransient
+    //@XmlTransient
     public Collection<Grupo> getGrupos() {
         return grupos;
     }

@@ -50,4 +50,9 @@ public class Bibliotecario extends Usuario implements Serializable {
     public void setLibro(Collection<Libro> libros) {
         this.libros = libros;
     }
+
+    @Override
+    public String toString() {
+        return "Bibliotecario{" + "libros=" + libros + '}';
+    }
 }

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Alumno extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     /**
      * DNI del alumno.
      */
@@ -126,5 +127,10 @@ public class Alumno extends Usuario implements Serializable {
      */
     public void setGrupos(Collection<Grupo> grupos) {
         this.grupos = grupos;
+    }
+
+    @Override
+    public String toString() {
+        return "Alumno{" + "dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", AlumnoLibro=" + AlumnoLibro + ", grupos=" + grupos + '}';
     }
 }

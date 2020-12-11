@@ -7,6 +7,7 @@ package entidad;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.DiscriminatorValue;
@@ -69,4 +70,53 @@ public class Profesor extends Usuario implements Serializable {
         this.grupos = grupos;
     }
 
+    /**
+     * Método que compara el código hash de dos objetos.
+     *
+     * @return el código hash del objeto.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.telefono);
+        hash = 83 * hash + Objects.hashCode(this.grupos);
+        return hash;
+    }
+
+    /**
+     * Método que compara si un objeto es igual al objeto "Profesor".
+     *
+     * @param obj cualquier tipo de objeto.
+     * @return un "false" si los objetos noson iguales y un "true" si lo son.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Profesor other = (Profesor) obj;
+        if (!Objects.equals(this.telefono, other.telefono)) {
+            return false;
+        }
+        if (!Objects.equals(this.grupos, other.grupos)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Método que devuelve un String con los atributos del profesor.
+     *
+     * @return un String con los atributos de la entidad.
+     */
+    @Override
+    public String toString() {
+        return "Profesor{" + "telefono=" + telefono + ", grupos=" + grupos + '}';
+    }
 }

@@ -5,8 +5,6 @@
  */
 package restful;
 
-import java.util.Collection;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -17,9 +15,7 @@ import javax.persistence.EntityManager;
  * @author Cristina Milea
  */
 public abstract class AbstractFacade<T> {
-    
-    private static final Logger LOGGER = Logger.getLogger("restful.AlumnoFacadeREST");
-    
+
     /**
      * Atributo que define cualquiera de las entidades.
      */
@@ -41,13 +37,6 @@ public abstract class AbstractFacade<T> {
      */
     protected abstract EntityManager getEntityManager();
 
-    
-    /*public Collection<T> consultar(parametro que recibe) {
-    return getEntityManager().createNamedQuery("consultarTodosBibliotecarios", parametro que se le envia).getResultList();
-    logger
-    throw new InternalServerError(e)
-    }*/
-    
     /**
      * Método que ejecuta la sentencia INSERT de SQL.
      *

@@ -98,9 +98,6 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los alumnos y sus libros de la colección.
      */
-    
-    //Si pongo el xmltransient aqui saca el alumno y no da error, pero no saca la info de los libros
-    //@XmlTransient
     public Collection<AlumnoLibro> getAlumnoLibros() {
         return alumnoLibros;
     }
@@ -119,7 +116,6 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
-    //@XmlTransient
     public Collection<Grupo> getGrupos() {
         return grupos;
     }

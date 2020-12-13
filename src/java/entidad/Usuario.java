@@ -30,32 +30,30 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Cristina Milea
  */
 @NamedQueries({
+    //Sign Up + Sign In + Perfil.
     @NamedQuery(
-        name = "consultarUsuariosPorLogin", query = "SELECT u FROM Usuario u WHERE u.login=:login"
+        name = "buscarUsuarioPorLogin",
+        query = "SELECT u FROM Usuario u WHERE u.login=:login"
     ),
+    //Sign Up + Recuperación de contraseña.
     @NamedQuery(
-        name = "consultarUsuariosPorEmail", query = "SELECT u FROM Usuario u WHERE u.email=:email"
+        name = "buscarUsuarioPorEmail",
+        query = "SELECT u FROM Usuario u WHERE u.email=:email"
     ),
+    //Sign In.
     @NamedQuery(
-        name = "comprobarContrasenias", query = "SELECT u FROM Usuario u WHERE u.password=:password"
+        name = "buscarLoginYContrasenia",
+        query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
     ),
+    //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarTodosBibliotecarios", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO'"
+        name = "consultarTodosAlumnos",
+        query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
     ),
+    //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarTodosProfesores", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR'"
-    ),
-    @NamedQuery(
-        name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
-    ),    
-    @NamedQuery(
-        name = "consultarBibliotecarioPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO' AND u.fullName LIKE :fullName"
-    ),
-    @NamedQuery(
-        name = "consultarProfesorPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR' AND u.fullName LIKE :fullName"
-    ),
-    @NamedQuery(
-        name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
+        name = "consultarAlumnoPorNombre",
+        query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullname"
     )
 })
 

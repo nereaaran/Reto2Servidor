@@ -12,8 +12,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,10 +23,6 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
-/*@NamedQueries({
-    @NamedQuery(
-        name="consultarReservaAlumno", query="SELECT al FROM AlumnoLibro al WHERE al.idUsuario=:idUsuario")
-})*/
 
 @Entity
 @Table(name = "alumno_libro", schema = "bibliotecadb")
@@ -75,7 +69,6 @@ public class AlumnoLibro implements Serializable {
      * @return El alumno.
      */
     
-    ////////////////////////////////////////////////////////////////////
     @XmlTransient
     public Alumno getAlumno() {
         return alumno;
@@ -95,7 +88,7 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El libro.
      */
-    ////////////////////////////////////////////////////////////////////
+    
     @XmlTransient
     public Libro getLibro() {
         return libro;

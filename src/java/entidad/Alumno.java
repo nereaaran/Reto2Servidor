@@ -19,7 +19,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Clase que define los atributos y los métodos de la entidad "Alumno".
@@ -98,9 +97,6 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los alumnos y sus libros de la colección.
      */
-    
-    //Si pongo el xmltransient aqui saca el alumno y no da error, pero no saca la info de los libros
-    //@XmlTransient
     public Collection<AlumnoLibro> getAlumnoLibros() {
         return alumnoLibros;
     }
@@ -119,7 +115,7 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
-    //@XmlTransient
+    
     public Collection<Grupo> getGrupos() {
         return grupos;
     }

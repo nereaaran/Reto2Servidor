@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,6 +30,21 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Jonathan
  */
+
+//Queries para realizar opreciones en la base de datos
+@NamedQueries({
+    //Query para la listar todos los grupos en descendente
+    @NamedQuery(
+            name="listarGrupos", query = "SELECT g FROM Grupo g ORFER BY g.nombre DESC "
+    ),
+    //Query para listar los grupos a partir de su nombre
+    @NamedQuery(
+            name="listaGrupoProfeosor", query = "SELECT g FROM GRUPO g WHERER g.nombre LIKE :nombre"
+    ),
+        
+})
+
+
 @Entity
 @Table(name = "grupo", schema = "bibliotecadb")
 @XmlRootElement

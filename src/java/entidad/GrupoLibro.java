@@ -50,7 +50,7 @@ public class GrupoLibro implements Serializable {
         this.idGrupoLibro = idGrupoLibro;
     }
     
-    @XmlTransient //////////////////////////////////////////////
+    @XmlTransient
     public Grupo getGrupo() {
         return grupo;
     }

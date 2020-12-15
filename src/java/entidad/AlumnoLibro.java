@@ -59,7 +59,7 @@ public class AlumnoLibro implements Serializable {
      *
      * @param idAlumnoLibro El idAlumnoLibro de AlumnoLibro.
      */
-    public void setId(AlumnoLibroId idAlumnoLibro) {
+    public void setIdAumnoLibro(AlumnoLibroId idAlumnoLibro) {
         this.idAlumnoLibro = idAlumnoLibro;
     }
 
@@ -89,7 +89,6 @@ public class AlumnoLibro implements Serializable {
      * @return El libro.
      */
     
-    @XmlTransient
     public Libro getLibro() {
         return libro;
     }

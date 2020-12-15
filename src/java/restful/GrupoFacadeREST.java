@@ -6,18 +6,23 @@
 package restful;
 
 import entidad.Grupo;
-import java.util.List;
+import java.util.Collection;
+import java.util.logging.Logger;
+import javax.ejb.Asynchronous;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.container.AsyncResponse;
+import javax.ws.rs.container.Suspended;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -25,46 +30,137 @@ import javax.ws.rs.core.MediaType;
  * @author Cristina Milea
  */
 @Stateless
-@Path("entidad.grupo")
-public class GrupoFacadeREST extends AbstractFacade<Grupo> {
+@Path("grupo")
+public class GrupoFacadeREST extends GrupoAbstractFacade {
+    
+    /**
+     * Atributo estático y constante de los loggers de esta clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("restful.GrupoFacadeREST");
 
+    /**
+     * Variable de Entity Manager que gestiona los datos que llegan a la BBDD.
+     *
+     * @PersistenceContext Determina el archivo de persistencia que tiene que
+     * usar
+     */
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;
-
+    /**
+     * Constructor que usa el constructor de la superclase
+     * (GrupoAbstractFacade).
+     */
     public GrupoFacadeREST() {
         super(Grupo.class);
     }
-
+     /**
+     * Metodo que crea un grupo cuando mediante la peticion de tipo POST por
+     * HTTP.
+     *
+     * @param entity La entidad "Grupo".
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Grupo entity) {
-        super.create(entity);
+        try {
+            LOGGER.info("GrupoFacadeREST: Creando grupo");
+            super.create(entity);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);  
+        }
     }
-
+    /**
+     * Método que modifica un grupo cuando mediante la petición de tipo PUT por
+     * HTTP.
+     *
+     * @param entity La entidad "Grupo".
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Grupo entity) {
-        super.edit(entity);
+       try {
+            LOGGER.info("GrupoFacadeREST: editando grupo");
+            super.edit(entity); 
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);  
+        }
     }
-
+     /**
+     * Método que elimina un grupo mediante la petición de tipo DELETE
+     * por HTTP.
+     *
+     * @param id El id que se usa para buscar un grupo.
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+        try {
+            LOGGER.info("GrupoFacadeREST: Eliminando grupo");
+            super.remove(super.find(id)); 
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);  
+        }
+        
     }
-
+    /**
+     * Método que devuelve una variable tipo libro por una petición de
+     * tipo GET por HTTP.
+     *
+     * @param id El id del grupo que se busca.
+     * @return El grupo correspondiente a la id.
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Grupo find(@PathParam("id") Integer id) {
-        return super.find(id);
+        try {
+            LOGGER.info("GrupoFacadeREST: Buscando grupo por id");
+            return super.find(id); 
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);  
+        }
+        
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+    
+    /**
+     * Método que devuelve una variable tipo Grupo cuando llega una petición de
+     * tipo GET por HTTP
+     * @return la lista de grupos
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Grupo> listarGrupoPorNombre(@PathParam ("nombre") String nombre){
+        try {
+            LOGGER.info("listarGrupoPorNombre: Listando los grupos por el nombre");
+            return super.listarGrupoPorNombre(nombre);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    private Collection<Grupo> ListarTodosLosGrupos() {
+        try {
+            LOGGER.info("listarTodosLosGrupo: Listando los grupos");
+            return super.listarGrupos();
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
     }
     
 }

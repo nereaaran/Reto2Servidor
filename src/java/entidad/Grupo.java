@@ -7,11 +7,8 @@ package entidad;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
-import javax.annotation.Generated;
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.CascadeType.MERGE;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +16,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -28,7 +27,21 @@ import javax.xml.bind.annotation.XmlTransient;
 /**
  *
  * @author Jonathan
+ * 
  */
+
+//Queries para realizar opreciones en la base de datos
+@NamedQueries({
+    //Busca todos los libros y sus atributos ordenados en descendente
+    @NamedQuery(
+        name = "listarGrupos", query = "SELECT g FROM Grupo g ORDER BY g.nombre DESC"
+    ),
+    //Busca libros y sus atributos a partir del titulo
+    @NamedQuery(
+        name = "listarGrupoPorNombre", query = "SELECT g FROM Grupo g WHERE g.nombre LIKE :nombre"
+    )
+})
+
 @Entity
 @Table(name = "grupo", schema = "bibliotecadb")
 @XmlRootElement
@@ -161,7 +174,7 @@ public class Grupo implements Serializable {
         this.profesor = profesor;
     }
 
-    @OneToMany(mappedBy = "grupo", fetch=FetchType.EAGER, cascade = ALL)
+    @OneToMany(mappedBy = "grupo", fetch=FetchType.EAGER, cascade = (CascadeType.ALL))
     private Collection<GrupoLibro> grupoLibros;
 
     @ManyToMany(mappedBy = "grupos", fetch=FetchType.EAGER)

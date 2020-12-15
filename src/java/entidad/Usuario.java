@@ -21,6 +21,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,28 +33,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     //Sign Up + Sign In + Perfil.
     @NamedQuery(
-        name = "buscarUsuarioPorLogin",
-        query = "SELECT u FROM Usuario u WHERE u.login=:login"
-    ),
+            name = "buscarUsuarioPorLogin",
+            query = "SELECT u FROM Usuario u WHERE u.login=:login"
+    )
+    ,
     //Sign Up + Recuperación de contraseña.
     @NamedQuery(
-        name = "buscarUsuarioPorEmail",
-        query = "SELECT u FROM Usuario u WHERE u.email=:email"
-    ),
-    //Sign In.
+            name = "buscarUsuarioPorEmail",
+            query = "SELECT u FROM Usuario u WHERE u.email=:email"
+    )
+    ,
+    //Para comprobar que Sign In es correcto.
     @NamedQuery(
-        name = "buscarLoginYContrasenia",
-        query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
-    ),
+            name = "buscarLoginYContrasenia",
+            query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
+    )
+    ,
     //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarTodosAlumnos",
-        query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
-    ),
+            name = "consultarAlumnoPorNombre",
+            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
+    )
+    ,
     //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarAlumnoPorNombre",
-        query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullname"
+            name = "consultarTodosAlumnos",
+            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
     )
 })
 

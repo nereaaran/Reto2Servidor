@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
-
 @Entity
 @Table(name = "alumno_libro", schema = "bibliotecadb")
 @XmlRootElement
@@ -68,7 +67,6 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El alumno.
      */
-    
     @XmlTransient
     public Alumno getAlumno() {
         return alumno;
@@ -88,7 +86,6 @@ public class AlumnoLibro implements Serializable {
      *
      * @return El libro.
      */
-    
     public Libro getLibro() {
         return libro;
     }

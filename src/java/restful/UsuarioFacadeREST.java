@@ -38,7 +38,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     private static final Logger LOGGER = Logger.getLogger("restful.UsuarioFacadeREST");
 
     /**
-     * El Entity Manager se le pide al servidor de aplicaciones.
+     * El Entity Manager gestiona los datos que llegan a la base de datos.
      */
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;
@@ -60,7 +60,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML})
-    public void create(Usuario entity) throws EntityExistsException, IllegalArgumentException {
+    public void create(Usuario entity) {
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
             super.create(entity);
@@ -108,8 +108,8 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     }
 
     /**
-     * Método que busca un usuario cuando le llegue una petición de
-     * tipo GET por HTTP.
+     * Método que busca un usuario cuando le llegue una petición de tipo GET por
+     * HTTP.
      *
      * @param id el id que se usará para buscar a un usuario.
      * @return el id que encuentre.
@@ -161,6 +161,68 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por email");
             return super.buscarUsuarioPorEmail(email);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    /**
+     * Método que busca un usuario por su login y contraseña.
+     *
+     * @param login el login que se usará para buscar a un usuario.
+     * @param password la contraseña que se usará para buscar a un usuario.
+     * @return hace una llamada a la superclase UsuarioAbstractFacade.
+     */
+    @GET
+    @Path("loginYPassword/{login}/{password}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+        Collection<Usuario> ret = null;
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
+            ret = super.buscarLoginYContrasenia(login, password);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+
+        return ret;
+    }
+
+    /**
+     * Método que busca todos los alumnos.
+     *
+     * @return hace una llamada a la superclase UsuarioAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Usuario> consultarTodosAlumnos() {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando todos los alumnos");
+            return super.consultarTodosAlumnos();
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+
+    /**
+     * Método que busca un alumno por nombre.
+     *
+     * @param fullName el nombre completo que se usará para buscar a un alumno.
+     * @return hace una llamada a la superclase UsuarioAbstractFacade.
+     */
+    @GET
+    @Path("fullName/{fullName}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Usuario> consultarAlumnoPorNombre(@PathParam("fullName") String fullName) {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando alumno por nombre");
+            return super.consultarAlumnoPorNombre(fullName);
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e);

@@ -8,9 +8,11 @@ package entidad;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -30,6 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Alumno extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     /**
      * DNI del alumno.
      */
@@ -37,21 +40,20 @@ public class Alumno extends Usuario implements Serializable {
     /**
      * Fecha de nacimiento del alumno.
      */
-    //@Temporal(TemporalType.DATE)
     @Past
     private Date fechaNacimiento;
 
     /**
      * Relación 1:N de la entidad "Alumno" con "AlumnoLibro".
      */
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "alumno")
-    private Collection<AlumnoLibro> AlumnoLibro;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "alumno")
+    private Collection<AlumnoLibro> alumnoLibros;
 
     /**
      * Relación N:M de la entidad "Alumno" con "Grupo".
      */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "alumno_grupo", schema="bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "alumno_grupo", schema = "bibliotecadb", joinColumns = @JoinColumn(name = "idAlumno", referencedColumnName = "idUsuario"),
             inverseJoinColumns = @JoinColumn(name = "idGrupo", referencedColumnName = "idGrupo")) //Como la relación no tiene atributos, se pone @JoinTable.
     private Collection<Grupo> grupos;
 
@@ -96,17 +98,17 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los alumnos y sus libros de la colección.
      */
-    public Collection<AlumnoLibro> getAlumnoLibro() {
-        return AlumnoLibro;
+    public Collection<AlumnoLibro> getAlumnoLibros() {
+        return alumnoLibros;
     }
 
     /**
      * Método que obtiene la colección de libros por alumno.
      *
-     * @param AlumnoLibro los alumnos y sus libros que se van a guardar.
+     * @param alumnoLibros los alumnos y sus libros que se van a guardar.
      */
-    public void setAlumnoLibro(Collection<AlumnoLibro> AlumnoLibro) {
-        this.AlumnoLibro = AlumnoLibro;
+    public void setAlumnoLibros(Collection<AlumnoLibro> alumnoLibros) {
+        this.alumnoLibros = alumnoLibros;
     }
 
     /**
@@ -114,7 +116,6 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
-    @XmlTransient
     public Collection<Grupo> getGrupos() {
         return grupos;
     }
@@ -126,5 +127,63 @@ public class Alumno extends Usuario implements Serializable {
      */
     public void setGrupos(Collection<Grupo> grupos) {
         this.grupos = grupos;
+    }
+
+    /**
+     * Método que compara el código hash de dos objetos.
+     *
+     * @return el código hash del objeto.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.dni);
+        hash = 97 * hash + Objects.hashCode(this.fechaNacimiento);
+        hash = 97 * hash + Objects.hashCode(this.alumnoLibros);
+        hash = 97 * hash + Objects.hashCode(this.grupos);
+        return hash;
+    }
+
+    /**
+     * Método que compara si un objeto es igual al objeto "Alumno".
+     *
+     * @param obj cualquier tipo de objeto.
+     * @return un "false" si los objetos noson iguales y un "true" si lo son.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Alumno other = (Alumno) obj;
+        if (!Objects.equals(this.dni, other.dni)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNacimiento, other.fechaNacimiento)) {
+            return false;
+        }
+        if (!Objects.equals(this.alumnoLibros, other.alumnoLibros)) {
+            return false;
+        }
+        if (!Objects.equals(this.grupos, other.grupos)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Método que devuelve un String con los atributos del alumno.
+     *
+     * @return un String con los atributos de la entidad.
+     */
+    @Override
+    public String toString() {
+        return "Alumno{" + "dni=" + dni + ", fechaNacimiento=" + fechaNacimiento + ", AlumnoLibro=" + alumnoLibros + ", grupos=" + grupos + '}';
     }
 }

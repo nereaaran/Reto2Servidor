@@ -6,7 +6,6 @@
 package restful;
 
 import entidad.Libro;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,11 +21,11 @@ import javax.ws.rs.core.MediaType;
 
 /**
  *
- * @author Cristina Milea
+ * @author Nerea Aranguren
  */
 @Stateless
 @Path("entidad.libro")
-public class LibroFacadeREST extends AbstractFacade<Libro> {
+public class LibroFacadeREST extends LibroAbstractFacade {
 
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;

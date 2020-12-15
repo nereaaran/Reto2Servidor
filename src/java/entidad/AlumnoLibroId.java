@@ -6,6 +6,7 @@
 package entidad;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
@@ -13,12 +14,11 @@ import javax.persistence.Embeddable;
  *
  * @author Nerea Aranguren
  */
-
 @Embeddable
 public class AlumnoLibroId implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     private Integer idUsuario;
     private Integer idLibro;
 
@@ -58,4 +58,53 @@ public class AlumnoLibroId implements Serializable {
         this.idLibro = idLibro;
     }
 
+    /**
+     * Método que compara el código hash de dos objetos.
+     *
+     * @return el código hash del objeto.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.idUsuario);
+        hash = 71 * hash + Objects.hashCode(this.idLibro);
+        return hash;
+    }
+
+    /**
+     * Método que compara si un objeto es igual al objeto "AlumnoLibroId".
+     *
+     * @param obj cualquier tipo de objeto.
+     * @return un "false" si los objetos noson iguales y un "true" si lo son.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AlumnoLibroId other = (AlumnoLibroId) obj;
+        if (!Objects.equals(this.idUsuario, other.idUsuario)) {
+            return false;
+        }
+        if (!Objects.equals(this.idLibro, other.idLibro)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Método que devuelve un String con los atributos del AlumnoLibroId.
+     *
+     * @return un String con los atributos de la entidad.
+     */
+    @Override
+    public String toString() {
+        return "AlumnoLibroId{" + "idUsuario=" + idUsuario + ", idLibro=" + idLibro + '}';
+    }
 }

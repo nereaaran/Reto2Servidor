@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 
 /**
@@ -48,7 +49,8 @@ public class GrupoLibro implements Serializable {
     public void setIdGrupoLibro(GrupoLibroId idGrupoLibro) {
         this.idGrupoLibro = idGrupoLibro;
     }
-
+    
+    @XmlTransient
     public Grupo getGrupo() {
         return grupo;
     }
@@ -80,8 +82,14 @@ public class GrupoLibro implements Serializable {
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
-    
-    
 
-    
+    /**
+     * Método que devuelve un String con los atributos del grupo.
+     *
+     * @return un String con los atributos de la entidad.
+     */
+    @Override
+    public String toString() {
+        return "GrupoLibro{" + "idGrupoLibro=" + idGrupoLibro + ", grupo=" + grupo + ", libro=" + libro + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + '}';
+    }
 }

@@ -7,6 +7,7 @@ package entidad;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -30,10 +31,31 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @NamedQueries({
     @NamedQuery(
-            name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE tipoUsuario=:ALUMNO"
+        name = "consultarUsuariosPorLogin", query = "SELECT u FROM Usuario u WHERE u.login=:login"
     ),
     @NamedQuery(
-            name = "consultarProfesor", query = "SELECT u FROM Usuario u WHERE u.fullName=:fullName"
+        name = "consultarUsuariosPorEmail", query = "SELECT u FROM Usuario u WHERE u.email=:email"
+    ),
+    @NamedQuery(
+        name = "comprobarContrasenias", query = "SELECT u FROM Usuario u WHERE u.password=:password"
+    ),
+    @NamedQuery(
+        name = "consultarTodosBibliotecarios", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO'"
+    ),
+    @NamedQuery(
+        name = "consultarTodosProfesores", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR'"
+    ),
+    @NamedQuery(
+        name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
+    ),    
+    @NamedQuery(
+        name = "consultarBibliotecarioPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO' AND u.fullName LIKE :fullName"
+    ),
+    @NamedQuery(
+        name = "consultarProfesorPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR' AND u.fullName LIKE :fullName"
+    ),
+    @NamedQuery(
+        name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
     )
 })
 
@@ -291,38 +313,78 @@ public class Usuario implements Serializable {
      */
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (idUsuario != null ? idUsuario.hashCode() : 0);
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.idUsuario);
+        hash = 23 * hash + Objects.hashCode(this.login);
+        hash = 23 * hash + Objects.hashCode(this.email);
+        hash = 23 * hash + Objects.hashCode(this.fullName);
+        hash = 23 * hash + Objects.hashCode(this.status);
+        hash = 23 * hash + Objects.hashCode(this.privilege);
+        hash = 23 * hash + Objects.hashCode(this.tipoUsuario);
+        hash = 23 * hash + Objects.hashCode(this.password);
+        hash = 23 * hash + Objects.hashCode(this.lastAccess);
+        hash = 23 * hash + Objects.hashCode(this.lastPasswordChange);
         return hash;
     }
 
     /**
      * Método que compara si un objeto es igual al objeto "Usuario".
      *
-     * @param object cualquier tipo de objeto.
+     * @param obj cualquier tipo de objeto.
      * @return un "false" si los objetos noson iguales y un "true" si lo son.
      */
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuario)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Usuario other = (Usuario) object;
-        if ((this.idUsuario == null && other.idUsuario != null) || (this.idUsuario != null && !this.idUsuario.equals(other.idUsuario))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Usuario other = (Usuario) obj;
+        if (!Objects.equals(this.login, other.login)) {
+            return false;
+        }
+        if (!Objects.equals(this.email, other.email)) {
+            return false;
+        }
+        if (!Objects.equals(this.fullName, other.fullName)) {
+            return false;
+        }
+        if (!Objects.equals(this.password, other.password)) {
+            return false;
+        }
+        if (!Objects.equals(this.idUsuario, other.idUsuario)) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        if (this.privilege != other.privilege) {
+            return false;
+        }
+        if (this.tipoUsuario != other.tipoUsuario) {
+            return false;
+        }
+        if (!Objects.equals(this.lastAccess, other.lastAccess)) {
+            return false;
+        }
+        if (!Objects.equals(this.lastPasswordChange, other.lastPasswordChange)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Método que devuelve un String con el id del usuario.
+     * Método que devuelve un String con los atributos del usuario.
      *
-     * @return el String con el id del usuario.
+     * @return un String con los atributos de la entidad.
      */
     @Override
     public String toString() {
-        return "entidad.Usuario[ idUsuario=" + idUsuario + " ]";
+        return "Usuario{" + "idUsuario=" + idUsuario + ", login=" + login + ", email=" + email + ", fullName=" + fullName + ", status=" + status + ", privilege=" + privilege + ", tipoUsuario=" + tipoUsuario + ", password=" + password + ", lastAccess=" + lastAccess + ", lastPasswordChange=" + lastPasswordChange + '}';
     }
-
 }

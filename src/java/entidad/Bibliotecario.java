@@ -7,6 +7,7 @@ package entidad;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -49,5 +50,51 @@ public class Bibliotecario extends Usuario implements Serializable {
      */
     public void setLibro(Collection<Libro> libros) {
         this.libros = libros;
+    }
+
+    /**
+     * Método que compara el código hash de dos objetos.
+     *
+     * @return el código hash del objeto.
+     */
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + Objects.hashCode(this.libros);
+        return hash;
+    }
+
+    /**
+     * Método que compara si un objeto es igual al objeto "Bibliotecario".
+     *
+     * @param obj cualquier tipo de objeto.
+     * @return un "false" si los objetos noson iguales y un "true" si lo son.
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Bibliotecario other = (Bibliotecario) obj;
+        if (!Objects.equals(this.libros, other.libros)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Método que devuelve un String con los atributos del bibliotecario.
+     *
+     * @return un String con los atributos de la entidad.
+     */
+    @Override
+    public String toString() {
+        return "Bibliotecario{" + "libros=" + libros + '}';
     }
 }

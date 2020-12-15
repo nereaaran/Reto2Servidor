@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,6 +28,23 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
+
+//Coleccion de queries para realizar operaciones en la base de datos.
+@NamedQueries({
+    //Busca todos los libros y sus atributos ordenados en descendente
+    @NamedQuery(
+        name = "obtenerTodosLosLibros", query = "SELECT l FROM Libro l ORDER BY l.titulo DESC"
+    ),
+    //Busca libros y sus atributos a partir del titulo
+    @NamedQuery(
+        name = "obtenerLibrosPorTitulo", query = "SELECT l FROM Libro l WHERE l.titulo LIKE :titulo"
+    ),
+    //Busca libros y algunos de sus atributos a partir del autor
+    @NamedQuery(
+        name = "obtenerLibrosPorAutor", query = "SELECT l FROM Libro l WHERE l.autor LIKE :autor"
+    )
+})
+
 @Entity
 @Table(name = "libro", schema = "bibliotecadb")
 @XmlRootElement
@@ -57,7 +76,7 @@ public class Libro implements Serializable {
      * ISBN del libro.
      */
     @NotNull
-    private Integer isbn;
+    private Long isbn;
     /**
      * Genero literario del libro.
      */
@@ -87,7 +106,7 @@ public class Libro implements Serializable {
      * Relacion 1:N de la entidad Libro con alumnoLibro.
      */
     @OneToMany(mappedBy = "libro", fetch = FetchType.EAGER, cascade = (CascadeType.ALL))
-    private Collection<AlumnoLibro> alumnoLibro;
+    private Collection<AlumnoLibro> alumnoLibros;
 
     /**
      * Relacion 1:N de la entidad Libro con LibroGrupo.
@@ -178,7 +197,7 @@ public class Libro implements Serializable {
      *
      * @return El isbn del libro.
      */
-    public Integer getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
@@ -187,7 +206,7 @@ public class Libro implements Serializable {
      *
      * @param isbn El isbn del libro.
      */
-    public void setIsbn(Integer isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 
@@ -287,17 +306,17 @@ public class Libro implements Serializable {
      * @return Coleccion de alumnoLibro.
      */
     @XmlTransient
-    public Collection<AlumnoLibro> getAlumnoLibro() {
-        return alumnoLibro;
+    public Collection<AlumnoLibro> getAlumnoLibros() {
+        return alumnoLibros;
     }
 
     /**
      * Establece una coleccion de alumnoLibro.
      *
-     * @param alumnoLibro una coleccion de alumnoLibro.
+     * @param alumnoLibros una coleccion de alumnoLibro.
      */
-    public void setAlumnoLibro(Collection<AlumnoLibro> alumnoLibro) {
-        this.alumnoLibro = alumnoLibro;
+    public void setAlumnoLibros(Collection<AlumnoLibro> alumnoLibros) {
+        this.alumnoLibros = alumnoLibros;
     }
 
     /**
@@ -355,7 +374,7 @@ public class Libro implements Serializable {
      * @param obj El objeto a comparar.
      * @return True si los objetos son iguales.
      */
-    @Override   
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -397,7 +416,7 @@ public class Libro implements Serializable {
         if (!Objects.equals(this.cantidadDisponible, other.cantidadDisponible)) {
             return false;
         }
-        if (!Objects.equals(this.alumnoLibro, other.alumnoLibro)) {
+        if (!Objects.equals(this.alumnoLibros, other.alumnoLibros)) {
             return false;
         }
         if (!Objects.equals(this.grupoLibro, other.grupoLibro)) {
@@ -416,7 +435,7 @@ public class Libro implements Serializable {
      */
     @Override
     public String toString() {
-        return "Libro{" + "idLibro=" + idLibro + ", titulo=" + titulo + ", autor=" + autor + ", editorial=" + editorial + ", isbn=" + isbn + ", genero=" + genero + ", cantidadTotal=" + cantidadTotal + ", cantidadDisponible=" + cantidadDisponible + ", descargable=" + descargable + ", linkDescarga=" + linkDescarga + ", alumnoLibro=" + alumnoLibro + ", grupoLibro=" + grupoLibro + ", bibliotecario=" + bibliotecario + '}';
+        return "Libro{" + "idLibro=" + idLibro + ", titulo=" + titulo + ", autor=" + autor + ", editorial=" + editorial + ", isbn=" + isbn + ", genero=" + genero + ", cantidadTotal=" + cantidadTotal + ", cantidadDisponible=" + cantidadDisponible + ", descargable=" + descargable + ", linkDescarga=" + linkDescarga + ", alumnoLibro=" + alumnoLibros + ", grupoLibro=" + grupoLibro + ", bibliotecario=" + bibliotecario + '}';
     }
 
 }

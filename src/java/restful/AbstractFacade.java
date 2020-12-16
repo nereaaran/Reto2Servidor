@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
  * las llamadas a lo de encriptacion.
  *
  * @author Cristina Milea
+ * @param <T>
  */
 public abstract class AbstractFacade<T> {
 
@@ -66,7 +67,7 @@ public abstract class AbstractFacade<T> {
     }
 
     /**
-     * Método que ejecuta la sentencia SELECT de SQL.
+ odo     * Método que ejecuta la sentencia SELECT de SQL.
      *
      * @param id el id por el que va a buscar en la base de datos.
      * @return lo que encuentra.
@@ -74,4 +75,5 @@ public abstract class AbstractFacade<T> {
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
     }
+    
 }

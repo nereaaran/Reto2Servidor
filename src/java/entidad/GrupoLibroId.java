@@ -10,8 +10,7 @@ import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
- * Clase de PK de GrupoLibro
- *
+ * Clase de id de la entidad GrupoLibro
  * @author Jonathan Viñan
  */
 @Embeddable
@@ -21,26 +20,36 @@ public class GrupoLibroId implements Serializable {
 
     private Integer idGrupo;
     private Integer idLibro;
-
+    /**
+     * Obtinen el idGrupo.
+     * @return El ifGrupo.
+     */
     public Integer getIdGrupo() {
         return idGrupo;
     }
-
+    /**
+     * Establece el idGrupo
+     * @param idGrupo
+     */
     public void setIdGrupo(Integer idGrupo) {
         this.idGrupo = idGrupo;
     }
-
+    /**
+     * Obtinene el idLibro
+     * @return EL idLibro
+     */
     public Integer getIdLibro() {
         return idLibro;
     }
-
+    /**
+     * Establece el idLibro
+     * @param idLibro
+     */
     public void setIdLibro(Integer idLibro) {
         this.idLibro = idLibro;
     }
-
     /**
      * Método que compara el código hash de dos objetos.
-     *
      * @return el código hash del objeto.
      */
     @Override
@@ -48,10 +57,8 @@ public class GrupoLibroId implements Serializable {
         int hash = 7;
         return hash;
     }
-
     /**
      * Método que compara si un objeto es igual al objeto "GrupoLibroId".
-     *
      * @param obj cualquier tipo de objeto.
      * @return un "false" si los objetos noson iguales y un "true" si lo son.
      */
@@ -75,7 +82,6 @@ public class GrupoLibroId implements Serializable {
         }
         return true;
     }
-
     /**
      * Método que devuelve un String con los atributos del GrupoLibroId.
      *

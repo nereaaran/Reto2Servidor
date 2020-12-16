@@ -8,24 +8,16 @@ package entidad;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Clase Profesor
- *
- * @author Jonathan
+ * Clase Profesor con sus respectivos atributos
+ * @author Jonathan Viñan
  */
 @Entity(name = "profesor")
 @DiscriminatorValue("PROFESOR") //Valor que diferenciará al profesor en la tabla de usuarios.
@@ -33,46 +25,46 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Profesor extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
-     * Numero de telefono del profesor
+     * Numero de telefono del profesor.
      */
     private Integer telefono;
-
     /**
-     * Muestroa el telefono
-     *
-     * @return telefono
+     * Obtiene el telefono.
+     * @return telefono.
      */
     public Integer getTelefono() {
         return telefono;
     }
-
     /**
-     * Guarda el dato telefono
-     *
+     * Establece el telefono
      * @param telefono que almacenamos
      */
     public void setTelefono(Integer telefono) {
         this.telefono = telefono;
     }
-
-    //Relacion
+    /**
+     * Relacion 1:N con la entidad Grupo.
+     */
     @OneToMany(cascade = ALL, mappedBy = "profesor")
     private Collection<Grupo> grupos;
-
+    /**
+     * Obtiene la coleccion del Grupo.
+     * @return coleccion Grupo.
+     */
     @XmlTransient
     public Collection<Grupo> getGrupos() {
         return grupos;
     }
-
+    /**
+     * Establece la coleccion grupo.
+     * @param grupos.
+     */
     public void setGrupos(Collection<Grupo> grupos) {
         this.grupos = grupos;
     }
-
     /**
      * Método que compara el código hash de dos objetos.
-     *
      * @return el código hash del objeto.
      */
     @Override
@@ -82,7 +74,6 @@ public class Profesor extends Usuario implements Serializable {
         hash = 83 * hash + Objects.hashCode(this.grupos);
         return hash;
     }
-
     /**
      * Método que compara si un objeto es igual al objeto "Profesor".
      *
@@ -109,7 +100,6 @@ public class Profesor extends Usuario implements Serializable {
         }
         return true;
     }
-
     /**
      * Método que devuelve un String con los atributos del profesor.
      *

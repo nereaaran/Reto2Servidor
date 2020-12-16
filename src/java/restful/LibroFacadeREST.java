@@ -129,16 +129,11 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         }
     }
     
-    
-   
-    
-        
     /**
      * Método que busca todos los libros.
      * @return Llamada a la superclase LibroAbstractFacade.
      */
     @GET
-    //@Path("")
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Libro> buscarTodosLosLibros(){
@@ -150,6 +145,52 @@ public class LibroFacadeREST extends LibroAbstractFacade {
             throw new InternalServerErrorException(e);
         }
     }
+    
+    /**
+     * Metodo quebusca libros a partir de un título.
+     * @param titulo El título que se quiere buscar.
+     * @return Una colección de libros que contienen el título.
+     */
+    @GET
+    @Path("titulo/{titulo}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Libro> buscarLibrosPorTitulo(@PathParam("titulo") String titulo){
+        try{
+            LOGGER.info("LibroFacadeREST: Buscando libro por titulo");
+            return super.buscarLibrosPorTitulo(titulo);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+    
+    
+    
+    /**
+     * Metodo quebusca libros a partir de un autor.
+     * @param autor El autor que se quiere buscar.
+     * @return Una colección de libros que contienen el autor.
+     */
+    @GET
+    @Path("autor/{autor}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Libro> buscarLibrosPorAutor(@PathParam("autor") String autor){
+        try{
+            LOGGER.info("LibroFacadeREST: Buscando libro por autor");
+            return super.buscarLibrosPorAutor(autor);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+    }
+    
+    
+    
+    
+    
+    
     
     
  

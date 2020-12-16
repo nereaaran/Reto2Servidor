@@ -37,11 +37,11 @@ import javax.xml.bind.annotation.XmlTransient;
     ),
     //Busca libros y sus atributos a partir del titulo
     @NamedQuery(
-        name = "buscarLibrosPorTitulo", query = "SELECT l FROM Libro l WHERE l.titulo LIKE :titulo"
+        name = "buscarLibrosPorTitulo", query = "SELECT l FROM Libro l WHERE l.titulo LIKE CONCAT('%',:titulo,'%')"
     ),
     //Busca libros y algunos de sus atributos a partir del autor
     @NamedQuery(
-        name = "buscarLibrosPorAutor", query = "SELECT l FROM Libro l WHERE l.autor LIKE :autor"
+        name = "buscarLibrosPorAutor", query = "SELECT l FROM Libro l WHERE l.autor LIKE CONCAT('%',:autor,'%')"
     )
 })
 

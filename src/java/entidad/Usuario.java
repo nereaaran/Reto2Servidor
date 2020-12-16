@@ -6,7 +6,7 @@
 package entidad;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -21,6 +21,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -115,13 +117,15 @@ public class Usuario implements Serializable {
      * Fecha del último acceso del usuario.
      */
     @NotNull
-    private Timestamp lastAccess;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
     @NotNull
-    private Timestamp lastPasswordChange;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastPasswordChange;
 
     /**
      * Método que establece el id del usuario.
@@ -272,7 +276,7 @@ public class Usuario implements Serializable {
      *
      * @return el último acceso que se va a mostrar.
      */
-    public Timestamp getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
@@ -281,7 +285,7 @@ public class Usuario implements Serializable {
      *
      * @param lastAccess el último acceso que se va a guardar.
      */
-    public void setLastAccess(Timestamp lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
@@ -290,7 +294,7 @@ public class Usuario implements Serializable {
      *
      * @return la fecha del último cambio de contraseña que se va a mostrar.
      */
-    public Timestamp getLastPasswordChange() {
+    public Date getLastPasswordChange() {
         return lastPasswordChange;
     }
 
@@ -300,7 +304,7 @@ public class Usuario implements Serializable {
      * @param lastPasswordChange la fecha del último cambio de contraseña que se
      * va a guardar.
      */
-    public void setLastPasswordChange(Timestamp lastPasswordChange) {
+    public void setLastPasswordChange(Date lastPasswordChange) {
         this.lastPasswordChange = lastPasswordChange;
     }
 

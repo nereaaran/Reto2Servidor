@@ -58,7 +58,7 @@ public class AlumnoLibro implements Serializable {
      *
      * @param idAlumnoLibro El idAlumnoLibro de AlumnoLibro.
      */
-    public void setIdAumnoLibro(AlumnoLibroId idAlumnoLibro) {
+    public void setIdAlumnoLibro(AlumnoLibroId idAlumnoLibro) {
         this.idAlumnoLibro = idAlumnoLibro;
     }
 

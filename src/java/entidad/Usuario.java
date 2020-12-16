@@ -6,6 +6,7 @@
 package entidad;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -32,32 +33,30 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Cristina Milea
  */
 @NamedQueries({
+    //Sign Up + Sign In + Perfil.
     @NamedQuery(
-        name = "consultarUsuariosPorLogin", query = "SELECT u FROM Usuario u WHERE u.login=:login"
+            name = "buscarUsuarioPorLogin",
+            query = "SELECT u FROM Usuario u WHERE u.login=:login"
     ),
+    //Sign Up + Recuperación de contraseña.
     @NamedQuery(
-        name = "consultarUsuariosPorEmail", query = "SELECT u FROM Usuario u WHERE u.email=:email"
+            name = "buscarUsuarioPorEmail",
+            query = "SELECT u FROM Usuario u WHERE u.email=:email"
     ),
+    //Para comprobar que Sign In es correcto.
     @NamedQuery(
-        name = "comprobarContrasenias", query = "SELECT u FROM Usuario u WHERE u.password=:password"
+            name = "buscarLoginYContrasenia",
+            query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
     ),
+    //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarTodosBibliotecarios", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO'"
+            name = "consultarAlumnoPorNombre",
+            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE CONCAT('%', :fullName, '%')"
     ),
+    //Lo hará el profesor.
     @NamedQuery(
-        name = "consultarTodosProfesores", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR'"
-    ),
-    @NamedQuery(
-        name = "consultarTodosAlumnos", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
-    ),    
-    @NamedQuery(
-        name = "consultarBibliotecarioPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'BIBLIOTECARIO' AND u.fullName LIKE :fullName"
-    ),
-    @NamedQuery(
-        name = "consultarProfesorPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'PROFESOR' AND u.fullName LIKE :fullName"
-    ),
-    @NamedQuery(
-        name = "consultarAlumnoPorNombre", query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
+            name = "consultarTodosAlumnos",
+            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
     )
 })
 
@@ -272,6 +271,7 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
     /**
      * Método que establece el último acceso del usuario.
      *
@@ -280,7 +280,7 @@ public class Usuario implements Serializable {
     public Date getLastAccess() {
         return lastAccess;
     }
-    
+
     /**
      * Método que obtiene el último acceso del usuario.
      *
@@ -298,7 +298,7 @@ public class Usuario implements Serializable {
     public Date getLastPasswordChange() {
         return lastPasswordChange;
     }
-    
+
     /**
      * Método que obtiene el último cambio de contraseña del usuario.
      *

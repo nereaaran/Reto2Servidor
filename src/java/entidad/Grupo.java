@@ -25,111 +25,166 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author Jonathan
+ * Clase entidad de Grupo con sus respectivos atributos.
+ * @author Jonathan Viñan
  * 
  */
-
+@Entity
+@Table(name = "grupo", schema = "bibliotecadb")
 //Queries para realizar opreciones en la base de datos
 @NamedQueries({
-    //Busca todos los libros y sus atributos ordenados en descendente
+    //Busca todos los Grupo y sus atributos 
     @NamedQuery(
-        name = "listarGrupos", query = "SELECT g FROM Grupo g ORDER BY g.nombre DESC"
+        name = "listarGrupos", query = "SELECT g FROM Grupo g"
     ),
-    //Busca libros y sus atributos a partir del titulo
+    //Busca Grupos y sus atributos a partir del nombre
     @NamedQuery(
         name = "listarGrupoPorNombre", query = "SELECT g FROM Grupo g WHERE g.nombre LIKE :nombre"
     )
 })
-
-@Entity
-@Table(name = "grupo", schema = "bibliotecadb")
 @XmlRootElement
 public class Grupo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    /**
+     * Id para el grupo
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idGrupo;
+    /**
+     * Nombre del grupo
+     */
     @NotNull
     private String nombre;
+    /**
+     * Una descripcion al grupo
+     */
     @NotNull
     private String descripcion;
+    /**
+     * La cantidad de alumnos que estan en el grupo
+     */
     @NotNull
     private Integer numAlumno;
-
     /**
-     *
-     * @return idGrupo
+     * Establece numAlumno del grupo
+     * @param numAlumno
+     */
+    public void setNumAlumno(Integer numAlumno) {
+        this.numAlumno = numAlumno;
+    }  
+    /**
+     * Relacion 1:N de la entidad Grupo con la entidad GrupoLibro
+     */
+    @OneToMany(mappedBy = "grupo", fetch=FetchType.EAGER,cascade = (CascadeType.ALL))
+    private Collection<GrupoLibro> grupoLibros;
+    /**
+     * Relacion N:M con la entidad Alumno
+     */
+    @ManyToMany(mappedBy = "grupos", fetch=FetchType.EAGER)
+    private Collection<Alumno> alumnos;   
+    /**
+     * Relacion N:1 de la entidad Profesor
+     */
+    @ManyToOne
+    private Profesor profesor;
+    /**
+     * Obtine el id del Grupo
+     * @return El valor del id del Grupo
      */
     public Integer getIdGrupo() {
         return idGrupo;
     }
-
     /**
-     * Se muestra el nombre del grupo
-     *
+     * Establece el id para el Grupo
      * @param idGrupo
      */
     public void setIdGrupo(Integer idGrupo) {
         this.idGrupo = idGrupo;
     }
-
     /**
-     * Se devuelve eñ nombre del grupo
-     *
+     * Obtine el nombre del Grupo
      * @return nombre
      */
     public String getNombre() {
         return nombre;
     }
-
     /**
-     * Se muestra el nombre del grupo
-     *
+     * Establece el nombre del grupo
      * @param nombre
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
     /**
-     * Se devuelve la dscripcion
-     *
+     * Obtiene la dscripcion del Grupo
      * @return description
      */
     public String getDescripcion() {
         return descripcion;
     }
-
     /**
-     * Se muestra el valor la descripcion
-     *
+     * Establece la descripcion del grupo
      * @param descripcion
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
     /**
-     * De vuelve la cantidad
-     *
+     * Obtine la numAlumno del Grupo
      * @return numAlumno
      */
     public Integer getNumAlumno() {
         return numAlumno;
     }
-
     /**
-     * Se muestra numAlumno del grupo
-     *
-     * @param numAlumno
+     * Obtiene el Profesor.
+     * @return El profesor.
      */
-    public void setNumAlumno(Integer numAlumno) {
-        this.numAlumno = numAlumno;
+    public Profesor getProfesor() {
+        return profesor;
     }
-
+    /**
+     * Establece el Profesor.
+     * @param profesor El profesor.
+     */
+    public void setProfesor(Profesor profesor) {
+        this.profesor = profesor;
+    }
+    /**
+     * Obtiene la coleccion de grupoLibro.
+     * @return Coleccion de grupoLibro.
+     */
+    public Collection<GrupoLibro> getGrupoLibros() {
+        return grupoLibros;
+    }
+    /**
+     * Establece una coleecion de grupoLibro
+     * @param grupoLibros una coleccion de grupoLibro.
+     */
+    public void setGrupoLibros(Collection<GrupoLibro> grupoLibros) {
+        this.grupoLibros = grupoLibros;
+    }
+    /**
+     * Obtiene una colecion de alumno
+     * @return Coleccion de alumno
+     */
+    @XmlTransient
+    public Collection<Alumno> getAlumnos() {
+        return alumnos;
+    }
+    /**
+     * Establece una coleccion de alumno
+     * @param alumnos
+     */
+    public void setAlumnos(Collection<Alumno> alumnos) {
+        this.alumnos = alumnos;
+    }
+    /**
+     * Implemantacion del metodo hasCode para la entidad.
+     * @return Valor integer dej hasCode del objeto.
+     */
     @Override
     public int hashCode() {
         int hash = 3;
@@ -139,8 +194,12 @@ public class Grupo implements Serializable {
         hash = 37 * hash + this.numAlumno;
         return hash;
     }
-
-    @Override
+    /**
+     * Metodo qur comprueba el idGrupo de dos entidades de grupo por igualdad
+     * @param obj Objeto para comprobar
+     * @return True si todos los objetos son iguales
+     */
+     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -152,51 +211,36 @@ public class Grupo implements Serializable {
             return false;
         }
         final Grupo other = (Grupo) obj;
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.descripcion, other.descripcion)) {
+            return false;
+        }
         if (!Objects.equals(this.idGrupo, other.idGrupo)) {
+            return false;
+        }
+        if (!Objects.equals(this.numAlumno, other.numAlumno)) {
+            return false;
+        }
+        if (!Objects.equals(this.profesor, other.profesor)) {
+            return false;
+        }
+        if (!Objects.equals(this.grupoLibros, other.grupoLibros)) {
+            return false;
+        }
+        if (!Objects.equals(this.alumnos, other.alumnos)) {
             return false;
         }
         return true;
     }
-
+     /**
+     * Meetodo que devuelve un string con los datos del Grupo.
+     * @return un string del objeto Grupo.
+     */
     @Override
     public String toString() {
-        return "Grupo{" + "idGrupo=" + idGrupo + ", nombre=" + nombre + ", descripcion=" + descripcion + ", numAlumno=" + numAlumno + '}';
+        return "Grupo{" + "idGrupo=" + idGrupo + ", nombre=" + nombre 
+            + ", descripcion=" + descripcion + ", numAlumno=" + numAlumno + '}';
     }
-
-    @ManyToOne
-    private Profesor profesor;
-
-    public Profesor getProfesor() {
-        return profesor;
-    }
-
-    public void setProfesor(Profesor profesor) {
-        this.profesor = profesor;
-    }
-
-    @OneToMany(mappedBy = "grupo", fetch=FetchType.EAGER, cascade = (CascadeType.ALL))
-    private Collection<GrupoLibro> grupoLibros;
-
-    @ManyToMany(mappedBy = "grupos", fetch=FetchType.EAGER)
-    private Collection<Alumno> alumnos;
-
-    //@XmlTransient ///////////////////////////////////////////////////
-    public Collection<GrupoLibro> getGrupoLibros() {
-        return grupoLibros;
-    }
-
-    public void setGrupoLibros(Collection<GrupoLibro> grupoLibros) {
-        this.grupoLibros = grupoLibros;
-    }
-
-    @XmlTransient
-    public Collection<Alumno> getAlumnos() {
-        return alumnos;
-    }
-
-    public void setAlumnos(Collection<Alumno> alumnos) {
-        this.alumnos = alumnos;
-    }
-
-    
 }

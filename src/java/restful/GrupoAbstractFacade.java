@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.InternalServerErrorException;
 
 /**
- *
+ * Clase que maneja las queries de la entidad "Grupo".
  * @author Jonathan viñan
  */
 public abstract class GrupoAbstractFacade extends AbstractFacade<Grupo>{
@@ -33,15 +33,15 @@ public abstract class GrupoAbstractFacade extends AbstractFacade<Grupo>{
      * @return Una coleccion de grupod.
      */
     public Collection<Grupo> listarGrupos(){
+        
         try {
-            LOGGER.info("listarGrupo: Listando todos los grupos");
+             LOGGER.info("listarGrupo: Listando todos los grupos");
             return getEntityManager()
                     .createNamedQuery("listarGrupos")
-                    .getResultList();
-        } catch (Exception e) {
+                    .getResultList();} catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e);
-        }
+        }          
     }
     /**
      * Método que ejecuta la query "listarGrupoPorNombre".
@@ -49,16 +49,16 @@ public abstract class GrupoAbstractFacade extends AbstractFacade<Grupo>{
      * @return 
      */
     public Collection<Grupo> listarGrupoPorNombre(String nombre){
-        try {
+        
+          try {
              LOGGER.info("listaGrupoPorNombre: Listando todos los grupos por el nombre");
              return getEntityManager()
-                .createNamedQuery("listaGrupoPorNombre")
+                .createNamedQuery("listarGrupoPorNombre")
                 .setParameter("nombre", nombre)
-                .getResultList();
-        } catch (Exception e) {
-             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e); 
-        }
-    }
-    
+                .getResultList();  
+          } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }           
+    }    
 }

@@ -136,12 +136,13 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     /**
      * Método que devuelve una variable tipo Grupo cuando llega una petición de
      * tipo GET por HTTP
+     * @param nombre
      * @return la lista de grupos
      */
     @GET
+    @Path("grupo/{nombre}")
     @Produces({MediaType.APPLICATION_XML})
-    @Override
-    public Collection<Grupo> listarGrupoPorNombre(@PathParam ("nombre") String nombre){
+    public Collection<Grupo> find(@PathParam ("nombre") String nombre){
         try {
             LOGGER.info("listarGrupoPorNombre: Listando los grupos por el nombre");
             return super.listarGrupoPorNombre(nombre);
@@ -151,9 +152,15 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
         }
     }
 
+    /**
+     * Método que devuelve los Grupo cuando llega una petición de
+     * tipo GET por HTTP
+     * @return 
+     */
     @GET
+    @Path("grupos")
     @Produces({MediaType.APPLICATION_XML})
-    private Collection<Grupo> ListarTodosLosGrupos() {
+    public Collection<Grupo> find() {
         try {
             LOGGER.info("listarTodosLosGrupo: Listando los grupos");
             return super.listarGrupos();

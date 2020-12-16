@@ -23,7 +23,6 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Nerea Aranguren
  */
-
 @Entity
 @Table(name = "alumno_libro", schema = "bibliotecadb")
 @XmlRootElement

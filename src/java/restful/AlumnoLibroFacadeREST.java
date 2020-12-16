@@ -7,13 +7,14 @@ package restful;
 
 import entidad.AlumnoLibro;
 import entidad.AlumnoLibroId;
-import java.util.List;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -23,13 +24,24 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.PathSegment;
 
 /**
+ * Clase que contiene y ejecuta las operaciones CRUD de la entidad
+ * 2AlumnoLibro".
  *
- * @author 2dam
+ * @author Nerea Aranguren
  */
 @Stateless
-@Path("entidad.alumnolibro")
+@Path("alumnolibro")
 public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
 
+    /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("restful.AlumnoLibroFacadeREST");
+
+    /**
+     * Variable de Entity Manager que gestiona los datos que llegan a la BBDD.
+     *
+     */
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;
 
@@ -54,42 +66,99 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
         return key;
     }
 
+    /**
+     * Constructor que usa el constructor de la superclase.
+     */
     public AlumnoLibroFacadeREST() {
         super(AlumnoLibro.class);
     }
 
+    /**
+     * Método que crea un AlumnoLibro cuando le llega una peticion de tipo POST
+     * por HTTP.
+     *
+     * @param entity La entidad "AlumnoLibro".
+     */
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public void create(AlumnoLibro entity) {
-        super.create(entity);
+        try {
+            LOGGER.info("AlumnoLibroFacadeREST: Creando alumnolibro");
+            super.create(entity);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
     }
 
+    /**
+     * Método que modifica un AlumnoLibro cuando le llega un petición de tipo
+     * PUT por HTTP.
+     *
+     * @param entity La entidad "AlumnoLibro".
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(AlumnoLibro entity) {
-        super.edit(entity);
+        try {
+            LOGGER.info("AlumnoLibroFacadeREST: Editando alumnolibro");
+            super.edit(entity);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
     }
 
+    /**
+     * Método que elimina un AlumnoLibro cuando le llega un petición de tipo
+     * DELETE por HTTP.
+     *
+     * @param id El id que se usa para buscar un "AlumnoLibro".
+     */
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") PathSegment id) {
-        entidad.AlumnoLibroId key = getPrimaryKey(id);
-        super.remove(super.find(key));
+        try {
+            LOGGER.info("AlumnoLibroFacadeREST: Borrando alumnolibro");
+            entidad.AlumnoLibroId key = getPrimaryKey(id);
+            super.remove(super.find(key));
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
     }
 
+    /**
+     * Método que devuelve una variable tipo AlumnoLibro cuando llega una
+     * petición de tipo GET por HTTP.
+     *
+     * @param id El id del AlumnoLibro que se busca.
+     * @return El AlumnoLibro correspondiente a la id.
+     */
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public AlumnoLibro find(@PathParam("id") PathSegment id) {
-        entidad.AlumnoLibroId key = getPrimaryKey(id);
-        return super.find(key);
+        try {
+            LOGGER.info("AlumnoLibroFacadeREST: Buscando alumnolibro");
+            entidad.AlumnoLibroId key = getPrimaryKey(id);
+            return super.find(key);
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
     }
 
+    /**
+     * Método que establece el Entity Manager.
+     *
+     * @return El Entity MAnager.
+     */
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

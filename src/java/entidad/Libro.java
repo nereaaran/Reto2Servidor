@@ -134,7 +134,7 @@ public class Libro implements Serializable {
      *
      * @param idLibro El valor del id del libro.
      */
-    public void setId(Integer idLibro) {
+    public void setIdLibro(Integer idLibro) {
         this.idLibro = idLibro;
     }
 

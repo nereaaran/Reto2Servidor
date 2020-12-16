@@ -14,7 +14,6 @@ import javax.persistence.EntityManager;
  * las llamadas a lo de encriptacion.
  *
  * @author Cristina Milea
- * @param <T>
  */
 public abstract class AbstractFacade<T> {
 

@@ -9,7 +9,6 @@ import entidad.Usuario;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
-import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;

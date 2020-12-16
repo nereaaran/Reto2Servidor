@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos.
+ * @param <T> parámetro de una clase genérica.
  * TODO: Hay que añadir control de exceptions y queries y aqui habra que hacer
  * las llamadas a lo de encriptacion.
  *

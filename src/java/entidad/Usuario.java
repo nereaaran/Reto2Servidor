@@ -35,26 +35,22 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
             name = "buscarUsuarioPorLogin",
             query = "SELECT u FROM Usuario u WHERE u.login=:login"
-    )
-    ,
+    ),
     //Sign Up + Recuperación de contraseña.
     @NamedQuery(
             name = "buscarUsuarioPorEmail",
             query = "SELECT u FROM Usuario u WHERE u.email=:email"
-    )
-    ,
+    ),
     //Para comprobar que Sign In es correcto.
     @NamedQuery(
             name = "buscarLoginYContrasenia",
             query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
-    )
-    ,
+    ),
     //Lo hará el profesor.
     @NamedQuery(
             name = "consultarAlumnoPorNombre",
-            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE :fullName"
-    )
-    ,
+            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE CONCAT('%', :fullName, '%')"
+    ),
     //Lo hará el profesor.
     @NamedQuery(
             name = "consultarTodosAlumnos",

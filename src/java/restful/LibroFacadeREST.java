@@ -128,16 +128,17 @@ public class LibroFacadeREST extends LibroAbstractFacade {
             throw new InternalServerErrorException(e);
         }
     }
-    
+
     /**
      * Método que busca todos los libros.
+     *
      * @return Llamada a la superclase LibroAbstractFacade.
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Libro> buscarTodosLosLibros(){
-        try{
+    public Collection<Libro> buscarTodosLosLibros() {
+        try {
             LOGGER.info("LibroFacadeREST: Buscando todos los libros");
             return super.buscarTodosLosLibros();
         } catch (Exception e) {
@@ -145,9 +146,10 @@ public class LibroFacadeREST extends LibroAbstractFacade {
             throw new InternalServerErrorException(e);
         }
     }
-    
+
     /**
      * Metodo quebusca libros a partir de un título.
+     *
      * @param titulo El título que se quiere buscar.
      * @return Una colección de libros que contienen el título.
      */
@@ -155,8 +157,8 @@ public class LibroFacadeREST extends LibroAbstractFacade {
     @Path("titulo/{titulo}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Libro> buscarLibrosPorTitulo(@PathParam("titulo") String titulo){
-        try{
+    public Collection<Libro> buscarLibrosPorTitulo(@PathParam("titulo") String titulo) {
+        try {
             LOGGER.info("LibroFacadeREST: Buscando libro por titulo");
             return super.buscarLibrosPorTitulo(titulo);
         } catch (Exception e) {
@@ -164,11 +166,10 @@ public class LibroFacadeREST extends LibroAbstractFacade {
             throw new InternalServerErrorException(e);
         }
     }
-    
-    
-    
+
     /**
      * Metodo quebusca libros a partir de un autor.
+     *
      * @param autor El autor que se quiere buscar.
      * @return Una colección de libros que contienen el autor.
      */
@@ -176,8 +177,8 @@ public class LibroFacadeREST extends LibroAbstractFacade {
     @Path("autor/{autor}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Libro> buscarLibrosPorAutor(@PathParam("autor") String autor){
-        try{
+    public Collection<Libro> buscarLibrosPorAutor(@PathParam("autor") String autor) {
+        try {
             LOGGER.info("LibroFacadeREST: Buscando libro por autor");
             return super.buscarLibrosPorAutor(autor);
         } catch (Exception e) {
@@ -185,17 +186,6 @@ public class LibroFacadeREST extends LibroAbstractFacade {
             throw new InternalServerErrorException(e);
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
- 
-    
-    
 
     /**
      * Método que establece el Entity Manager.

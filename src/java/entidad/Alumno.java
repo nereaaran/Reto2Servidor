@@ -115,7 +115,6 @@ public class Alumno extends Usuario implements Serializable {
      *
      * @return los grupos de la colección.
      */
-    
     public Collection<Grupo> getGrupos() {
         return grupos;
     }

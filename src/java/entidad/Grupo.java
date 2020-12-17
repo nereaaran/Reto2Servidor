@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     ),
     //Busca Grupos y sus atributos a partir del nombre
     @NamedQuery(
-        name = "listarGrupoPorNombre", query = "SELECT g FROM Grupo g WHERE g.nombre LIKE :nombre"
+        name = "listarGrupoPorNombre", query = "SELECT g FROM Grupo g WHERE g.nombre LIKE CONCAT('%', :nombre, '%')"
     )
 })
 @XmlRootElement

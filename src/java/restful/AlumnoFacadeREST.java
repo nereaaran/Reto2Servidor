@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author Cristina Milea
  */
 @Stateless
-@Path("entidad.alumno")
+@Path("alumno")
 public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
 
     /**

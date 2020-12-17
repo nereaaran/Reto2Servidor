@@ -28,7 +28,7 @@ import javax.ws.rs.core.PathSegment;
  * @author Jonathan Viñan
  */
 @Stateless
-@Path("entidad.grupolibro")
+@Path("grupolibro")
 public class GrupoLibroFacadeREST extends AbstractFacade<GrupoLibro> {
 
     /**

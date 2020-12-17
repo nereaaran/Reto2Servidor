@@ -5,13 +5,16 @@
  */
 package restful;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
+import javax.ws.rs.InternalServerErrorException;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos.
- * @param <T> parámetro de una clase genérica.
- * TODO: Hay que añadir control de exceptions y queries y aqui habra que hacer
- * las llamadas a lo de encriptacion.
+ *
+ * @param <T> parámetro de una clase genérica. TODO: Hay que añadir control de
+ * exceptions y queries y aqui habra que hacer las llamadas a lo de
+ * encriptacion.
  *
  * @author Cristina Milea
  * @param <T>
@@ -45,7 +48,11 @@ public abstract class AbstractFacade<T> {
      * @param entity cualquier entidad.
      */
     public void create(T entity) {
-        getEntityManager().persist(entity);
+        try {
+            getEntityManager().persist(entity);
+        } catch (EntityExistsException | IllegalArgumentException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     /**
@@ -54,7 +61,11 @@ public abstract class AbstractFacade<T> {
      * @param entity cualquier entidad.
      */
     public void edit(T entity) {
-        getEntityManager().merge(entity);
+        try {
+            getEntityManager().merge(entity);
+        } catch (IllegalArgumentException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     /**
@@ -63,7 +74,11 @@ public abstract class AbstractFacade<T> {
      * @param entity cualquier entidad.
      */
     public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
+        try {
+            getEntityManager().remove(getEntityManager().merge(entity));
+        } catch (IllegalArgumentException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
 
     /**
@@ -73,7 +88,11 @@ public abstract class AbstractFacade<T> {
      * @return lo que encuentra.
      */
     public T find(Object id) {
-        return getEntityManager().find(entityClass, id);
+        try {
+            return getEntityManager().find(entityClass, id);
+        } catch (IllegalArgumentException e) {
+            throw new InternalServerErrorException(e);
+        }
     }
     
 }

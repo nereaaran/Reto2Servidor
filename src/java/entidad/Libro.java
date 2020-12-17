@@ -31,25 +31,17 @@ import javax.xml.bind.annotation.XmlTransient;
 
 //Coleccion de queries para realizar operaciones en la base de datos.
 @NamedQueries({
-    //Selecciona todos los libros y sus atributos ordenados en descendente para bibliotecario
+    //Busca todos los libros y sus atributos ordenados en descendente
     @NamedQuery(
-        name = "consultarTodosLibrosBibliotecario", query = "SELECT l FROM Libro l ORDER BY l.titulo DESC"
+        name = "buscarTodosLosLibros", query = "SELECT l FROM Libro l ORDER BY l.titulo ASC"
     ),
-    //Selecciona todos los libros y algunos de sus atributos ordenados en descendente para alumno y/o profesor
+    //Busca libros y sus atributos a partir del titulo
     @NamedQuery(
-        name = "consultarTodosLibrosAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l ORDER BY l.titulo DESC"
+        name = "buscarLibrosPorTitulo", query = "SELECT l FROM Libro l WHERE l.titulo LIKE CONCAT('%',:titulo,'%')"
     ),
-    //Selecciona libros y sus atributos a partir del titulo para bibliotecario
+    //Busca libros y algunos de sus atributos a partir del autor
     @NamedQuery(
-        name = "consultarLibroPorTituloBibliotecario", query = "SELECT l FROM Libro l WHERE l.titulo LIKE :titulo"
-    ),
-    //Selecciona libros y algunos de sus atributos a partir del titulo para alumno y/o profesor
-    @NamedQuery(
-        name = "consultarLibroPorTituloAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.titulo LIKE :titulo"
-    ),
-    //Selecciona libros y algunos de sus atributos a partir del autor para alumno y/o profesor
-    @NamedQuery(
-        name = "consultarLibroPorAutorAlumnoProfesor", query = "SELECT l.titulo, l.autor, l.editorial, l.isbn, l.genero, l.cantidadDisponible, l.descargable FROM Libro l WHERE l.autor LIKE :autor"
+        name = "buscarLibrosPorAutor", query = "SELECT l FROM Libro l WHERE l.autor LIKE CONCAT('%',:autor,'%')"
     )
 })
 

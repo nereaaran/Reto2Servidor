@@ -17,7 +17,6 @@ import javax.ws.rs.InternalServerErrorException;
  * encriptacion.
  *
  * @author Cristina Milea
- * @param <T>
  */
 public abstract class AbstractFacade<T> {
 

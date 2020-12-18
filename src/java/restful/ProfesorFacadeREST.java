@@ -6,7 +6,6 @@
 package restful;
 
 import entidad.Profesor;
-import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,7 +26,7 @@ import javax.ws.rs.core.MediaType;
  * @author Cristina Milea
  */
 @Stateless
-@Path("entidad.profesor")
+@Path("profesor")
 public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
     
     /**

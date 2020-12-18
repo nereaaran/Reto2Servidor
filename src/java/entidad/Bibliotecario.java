@@ -34,7 +34,7 @@ public class Bibliotecario extends Usuario implements Serializable {
     private Collection<Libro> libros;
 
     /**
-     * Método que establece la colección de libros.
+     * Método que obtiene la colección de libros.
      *
      * @return los libros de la colección.
      */
@@ -44,7 +44,7 @@ public class Bibliotecario extends Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene la colección de libros.
+     * Método que establece la colección de libros.
      *
      * @param libros los libros que se van a guardar.
      */

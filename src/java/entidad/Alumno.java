@@ -57,7 +57,7 @@ public class Alumno extends Usuario implements Serializable {
     private Collection<Grupo> grupos;
 
     /**
-     * Método que establece el DNI del alumno.
+     * Método que obtiene el DNI del alumno.
      *
      * @return el DNI que va a mostrar.
      */
@@ -66,7 +66,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el DNI del alumno.
+     * Método que establece el DNI del alumno.
      *
      * @param dni el DNI que se va a guardar.
      */
@@ -75,7 +75,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que establece la fecha de nacimiento del alumno.
+     * Método que obtiene la fecha de nacimiento del alumno.
      *
      * @return la fecha de nacimiento que va a mostrar.
      */
@@ -84,7 +84,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene la fecha de nacimiento del alumno.
+     * Método que establece la fecha de nacimiento del alumno.
      *
      * @param fechaNacimiento la fecha de nacimineto que se va a guardar.
      */
@@ -93,7 +93,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que establece la colección de libros por alumno.
+     * Método que obtiene la colección de libros por alumno.
      *
      * @return los alumnos y sus libros de la colección.
      */
@@ -102,7 +102,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene la colección de libros por alumno.
+     * Método que establece la colección de libros por alumno.
      *
      * @param alumnoLibros los alumnos y sus libros que se van a guardar.
      */
@@ -111,7 +111,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que establece la colección de grupos.
+     * Método que obtiene la colección de grupos.
      *
      * @return los grupos de la colección.
      */
@@ -120,7 +120,7 @@ public class Alumno extends Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene la colección de grupos.
+     * Método que establece la colección de grupos.
      *
      * @param grupos los grupos que se van a guardar.
      */

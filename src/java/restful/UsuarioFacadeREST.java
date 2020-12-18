@@ -159,7 +159,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     public Collection<Usuario> buscarUsuarioPorEmail(@PathParam("email") String email) {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por email");
-            return super.buscarUsuarioPorEmail(email);
+            return super.buscarUsuarioPorEmail(email);           
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e);
@@ -178,16 +178,13 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
-        Collection<Usuario> ret = null;
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
-            ret = super.buscarLoginYContrasenia(login, password);
+            return super.buscarLoginYContrasenia(login, password);
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e);
         }
-
-        return ret;
     }
 
     /**

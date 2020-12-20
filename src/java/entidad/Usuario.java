@@ -128,7 +128,7 @@ public class Usuario implements Serializable {
     private Date lastPasswordChange;
 
     /**
-     * Método que establece el id del usuario.
+     * Método que obtiene el id del usuario.
      *
      * @return el id que se va a mostrar.
      */
@@ -137,7 +137,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el id del usuario.
+     * Método que establece el id del usuario.
      *
      * @param idUsuario el id que se va a guardar.
      */
@@ -146,7 +146,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el login del usuario.
+     * Método que obtiene el login del usuario.
      *
      * @return el login que se va a mostrar.
      */
@@ -155,7 +155,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el login del usuario.
+     * Método que establece el login del usuario.
      *
      * @param login el login que se va a guardar.
      */
@@ -164,7 +164,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el email del usuario.
+     * Método que obtiene el email del usuario.
      *
      * @return el email que se va a mostrar.
      */
@@ -173,7 +173,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el email del usuario.
+     * Método que establece el email del usuario.
      *
      * @param email el email que se va a guardar.
      */
@@ -182,7 +182,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el nombre completo del usuario.
+     * Método que obtiene el nombre completo del usuario.
      *
      * @return el nombre completo que se va a mostrar.
      */
@@ -191,7 +191,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el nombre completo del usuario.
+     * Método que establece el nombre completo del usuario.
      *
      * @param fullName el nombre completo que se va a guardar.
      */
@@ -200,7 +200,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el estado del usuario.
+     * Método que obtiene el estado del usuario.
      *
      * @return el estado que se va a mostrar.
      */
@@ -209,7 +209,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el estado del usuario.
+     * Método que establece el estado del usuario.
      *
      * @param status el estado que se va a guardar.
      */
@@ -218,7 +218,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el privilegio del usuario.
+     * Método que obtiene el privilegio del usuario.
      *
      * @return el privilegio que se va a mostrar.
      */
@@ -227,7 +227,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el privilegio del usuario.
+     * Método que establece el privilegio del usuario.
      *
      * @param privilege el privilegio que se va a guardar.
      */
@@ -236,7 +236,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el tipo de usuario.
+     * Método que obtiene el tipo de usuario.
      *
      * @return el tipo de usuario que se va a mostrar.
      */
@@ -245,7 +245,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el tipo de usuario.
+     * Método que establece el tipo de usuario.
      *
      * @param tipoUsuario el tipo de usuario que se va a guardar.
      */
@@ -254,7 +254,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece la contraseña del usuario.
+     * Método que obtiene la contraseña del usuario.
      *
      * @return la contraseña que se va a mostrar.
      */
@@ -263,7 +263,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene la contraseña del usuario.
+     * Método que establece la contraseña del usuario.
      *
      * @param password la contraseña que se va a guardar.
      */
@@ -272,7 +272,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el último acceso del usuario.
+     * Método que obtiene el último acceso del usuario.
      *
      * @return el último acceso que se va a mostrar.
      */
@@ -281,7 +281,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el último acceso del usuario.
+     * Método que establece el último acceso del usuario.
      *
      * @param lastAccess el último acceso que se va a guardar.
      */
@@ -290,7 +290,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que establece el último cambio de contraseña del usuario.
+     * Método que obtiene el último cambio de contraseña del usuario.
      *
      * @return la fecha del último cambio de contraseña que se va a mostrar.
      */
@@ -299,7 +299,7 @@ public class Usuario implements Serializable {
     }
 
     /**
-     * Método que obtiene el último cambio de contraseña del usuario.
+     * Método que establece el último cambio de contraseña del usuario.
      *
      * @param lastPasswordChange la fecha del último cambio de contraseña que se
      * va a guardar.

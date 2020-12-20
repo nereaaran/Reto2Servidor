@@ -25,7 +25,7 @@ import javax.ws.rs.core.PathSegment;
 
 /**
  * Clase que contiene y ejecuta las operaciones CRUD de la entidad
- * 2AlumnoLibro".
+ * "AlumnoLibro".
  *
  * @author Nerea Aranguren
  */

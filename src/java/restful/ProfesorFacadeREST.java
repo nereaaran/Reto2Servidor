@@ -22,8 +22,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
- * @author Cristina Milea
+ * Clase que ejecuta las operaciones CRUD en la entidad "Profesor".
+ * @author Jonathan Viñan
  */
 @Stateless
 @Path("profesor")

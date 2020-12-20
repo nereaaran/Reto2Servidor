@@ -19,6 +19,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import restful.UsuarioFacadeREST;
 
 /**
  * Clase que se encarga de enviar un mail de cambio de contraseña.
@@ -69,11 +70,11 @@ public class Mail {
     /**
      * Método que se encarga de enviar el mail.
      *
-     * @param receptor el mail del receptor.
+     * @param mailReceptor el mail del receptor.
      * @throws MessagingException una excepción si ocurre algún error con el
      * envío del mensaje.
      */
-    public void enviarMail(String receptor) throws MessagingException {
+    public void enviarMail(String mailReceptor) throws MessagingException {
         //Propiedades mínimas y obligatorias del mail.
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
@@ -97,7 +98,7 @@ public class Mail {
         //Establece el emisor.
         message.setFrom(new InternetAddress(MAIL));
         //Establece el receptor.
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receptor));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailReceptor));
         //Establece el asunto del mail.
         message.setSubject(RB.getString("ASUNTO"));
 
@@ -122,7 +123,7 @@ public class Mail {
      * @param args los argumentos que va a recibir.
      */
     public static void main(String[] args) {
-        try {
+        try {            
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
             mail.enviarMail("kristina.s.milea@gmail.com");

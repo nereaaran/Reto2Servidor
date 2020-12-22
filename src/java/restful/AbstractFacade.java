@@ -5,9 +5,8 @@
  */
 package restful;
 
-import javax.persistence.EntityExistsException;
+import excepcion.*;
 import javax.persistence.EntityManager;
-import javax.ws.rs.InternalServerErrorException;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos.
@@ -45,12 +44,13 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia INSERT de SQL.
      *
      * @param entity cualquier entidad.
+     * @throws excepcion.CreateException excepción al crear una entidad.
      */
-    public void create(T entity) {
+    public void create(T entity) throws CreateException {
         try {
             getEntityManager().persist(entity);
-        } catch (EntityExistsException | IllegalArgumentException e) {
-            throw new InternalServerErrorException(e);
+        } catch (Exception e) {
+            throw new CreateException(e.getMessage());
         }
     }
 
@@ -58,12 +58,13 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia UPDATE de SQL.
      *
      * @param entity cualquier entidad.
+     * @throws excepcion.UpdateException excepción al editar una entidad.
      */
-    public void edit(T entity) {
+    public void edit(T entity) throws UpdateException {
         try {
             getEntityManager().merge(entity);
-        } catch (IllegalArgumentException e) {
-            throw new InternalServerErrorException(e);
+        } catch (Exception e) {
+            throw new UpdateException(e.getMessage());
         }
     }
 
@@ -71,27 +72,29 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia DELETE de SQL.
      *
      * @param entity cualquier entidad.
+     * @throws excepcion.DeleteException excepción al borrar una entidad.
      */
-    public void remove(T entity) {
+    public void remove(T entity) throws DeleteException {
         try {
             getEntityManager().remove(getEntityManager().merge(entity));
-        } catch (IllegalArgumentException e) {
-            throw new InternalServerErrorException(e);
+        } catch (Exception e) {
+            throw new DeleteException(e.getMessage());
         }
     }
 
     /**
- odo     * Método que ejecuta la sentencia SELECT de SQL.
+     * odo * Método que ejecuta la sentencia SELECT de SQL.
      *
      * @param id el id por el que va a buscar en la base de datos.
      * @return lo que encuentra.
+     * @throws excepcion.ReadException excepción al buscar una entidad.
      */
-    public T find(Object id) {
+    public T find(Object id) throws ReadException {
         try {
             return getEntityManager().find(entityClass, id);
-        } catch (IllegalArgumentException e) {
-            throw new InternalServerErrorException(e);
+        } catch (Exception e) {
+            throw new ReadException(e.getMessage());
         }
     }
-    
+
 }

@@ -6,6 +6,7 @@
 package mail;
 
 import java.util.Properties;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.mail.Authenticator;
@@ -31,7 +32,7 @@ public class Mail {
      * * Atributo estático y constante que guarda los loggers de la clase.
      */
     private static final Logger LOGGER = Logger.getLogger("mail.Mail");
-    
+
     /**
      * Atributo que lee los datos del archivo de propiedades.
      */
@@ -64,6 +65,21 @@ public class Mail {
         this.PASS = RB.getString("PASS");
         this.SMTP_HOST = RB.getString("SMTP_HOST");
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
+    }
+
+    public String generarContrasenia() {
+        int leftLimit = 48; //Número '0'
+        int rightLimit = 122; //Letra 'Z'
+        int tamanioMax = 10;
+        Random random = new Random();
+
+        String nuevaContrasenia = random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)) //(0-9) || (A-Z) && (a-z)
+                .limit(tamanioMax)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        return nuevaContrasenia;
     }
 
     /**
@@ -105,8 +121,9 @@ public class Mail {
         Multipart multipart = new MimeMultipart();
 
         //La parte principal del mail.
+        String nuevaContrasenia=generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setContent(RB.getString("TEXTO"), "text/html");
+        mimeBodyPart.setContent(RB.getString("TEXTO") + nuevaContrasenia + RB.getString("HTML"), "text/html");
         multipart.addBodyPart(mimeBodyPart);
 
         //Junta todas las partes.
@@ -122,7 +139,7 @@ public class Mail {
      * @param args los argumentos que va a recibir.
      */
     public static void main(String[] args) {
-        try {            
+        try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
             mail.enviarMail("kristina.s.milea@gmail.com");

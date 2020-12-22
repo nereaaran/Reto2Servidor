@@ -9,7 +9,6 @@ import entidad.Usuario;
 import excepcion.ReadException;
 import java.util.Collection;
 import java.util.logging.Logger;
-import javax.ws.rs.InternalServerErrorException;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos de

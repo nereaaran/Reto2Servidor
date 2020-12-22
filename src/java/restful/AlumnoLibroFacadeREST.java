@@ -7,6 +7,7 @@ package restful;
 
 import entidad.AlumnoLibro;
 import entidad.AlumnoLibroId;
+import excepcion.*;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -40,7 +41,6 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
 
     /**
      * Variable de Entity Manager que gestiona los datos que llegan a la BBDD.
-     *
      */
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;
@@ -86,9 +86,9 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
         try {
             LOGGER.info("AlumnoLibroFacadeREST: Creando alumnolibro");
             super.create(entity);
-        } catch (Exception e) {
+        } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -105,9 +105,9 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
         try {
             LOGGER.info("AlumnoLibroFacadeREST: Editando alumnolibro");
             super.edit(entity);
-        } catch (Exception e) {
+        } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -124,9 +124,9 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
             LOGGER.info("AlumnoLibroFacadeREST: Borrando alumnolibro");
             entidad.AlumnoLibroId key = getPrimaryKey(id);
             super.remove(super.find(key));
-        } catch (Exception e) {
+        } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -145,9 +145,9 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
             LOGGER.info("AlumnoLibroFacadeREST: Buscando alumnolibro");
             entidad.AlumnoLibroId key = getPrimaryKey(id);
             return super.find(key);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

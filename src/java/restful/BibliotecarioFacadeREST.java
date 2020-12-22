@@ -35,7 +35,7 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
      * Atributo estático y constante que guarda los loggers de la clase.
      */
     private static final Logger LOGGER = Logger.getLogger("restful.BibliotecarioFacadeREST");
-    
+
     /**
      * El Entity Manager gestiona los datos que llegan a la base de datos.
      */
@@ -64,7 +64,7 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
             super.create(entity);
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
             super.edit(entity);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -101,7 +101,7 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
             super.remove(super.find(id));
         } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -121,7 +121,7 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
             return super.find(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

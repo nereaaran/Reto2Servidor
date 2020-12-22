@@ -61,7 +61,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
             super.create(entity);
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -80,7 +80,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
             super.edit(entity);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -98,7 +98,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
             super.remove(super.find(id));
         } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
             return super.find(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@
 package restful;
 
 import entidad.Grupo;
+import excepcion.*;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -24,12 +25,13 @@ import javax.ws.rs.core.MediaType;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Grupo".
+ *
  * @author Jonathan Viñan
  */
 @Stateless
 @Path("grupo")
 public class GrupoFacadeREST extends GrupoAbstractFacade {
-    
+
     /**
      * Atributo estático y constante de los loggers de esta clase.
      */
@@ -43,6 +45,7 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
      */
     @PersistenceContext(unitName = "Reto2ServidorPU")
     private EntityManager em;
+
     /**
      * Constructor que usa el constructor de la superclase
      * (GrupoAbstractFacade).
@@ -50,7 +53,8 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     public GrupoFacadeREST() {
         super(Grupo.class);
     }
-     /**
+
+    /**
      * Metodo que crea un grupo cuando mediante la peticion de tipo POST por
      * HTTP.
      *
@@ -63,11 +67,12 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
         try {
             LOGGER.info("GrupoFacadeREST: Creando grupo");
             super.create(entity);
-        } catch (Exception e) {
+        } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);  
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
+
     /**
      * Método que modifica un grupo cuando mediante la petición de tipo PUT por
      * HTTP.
@@ -78,17 +83,17 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Grupo entity) {
-       try {
+        try {
             LOGGER.info("GrupoFacadeREST: editando grupo");
-            super.edit(entity); 
-        } catch (Exception e) {
+            super.edit(entity);
+        } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);  
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
-     /**
-     * Método que elimina un grupo mediante la petición de tipo DELETE
-     * por HTTP.
+
+    /**
+     * Método que elimina un grupo mediante la petición de tipo DELETE por HTTP.
      *
      * @param id El id que se usa para buscar un grupo.
      */
@@ -97,16 +102,17 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     public void remove(@PathParam("id") Integer id) {
         try {
             LOGGER.info("GrupoFacadeREST: Eliminando grupo");
-            super.remove(super.find(id)); 
-        } catch (Exception e) {
+            super.remove(super.find(id));
+        } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);  
+            throw new InternalServerErrorException(e.getMessage());
         }
-        
+
     }
+
     /**
-     * Método que devuelve una variable tipo libro por una petición de
-     * tipo GET por HTTP.
+     * Método que devuelve una variable tipo libro por una petición de tipo GET
+     * por HTTP.
      *
      * @param id El id del grupo que se busca.
      * @return El grupo correspondiente a la id.
@@ -117,42 +123,44 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     public Grupo find(@PathParam("id") Integer id) {
         try {
             LOGGER.info("GrupoFacadeREST: Buscando grupo por id");
-            return super.find(id); 
-        } catch (Exception e) {
+            return super.find(id);
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);  
+            throw new InternalServerErrorException(e.getMessage());
         }
-        
+
     }
 
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
     /**
      * Método que devuelve una variable tipo Grupo cuando llega una petición de
      * tipo GET por HTTP
+     *
      * @param nombre
      * @return la lista de grupos
      */
     @GET
     @Path("grupo/{nombre}")
     @Produces({MediaType.APPLICATION_XML})
-    public Collection<Grupo> find(@PathParam ("nombre") String nombre){
+    public Collection<Grupo> find(@PathParam("nombre") String nombre) {
         try {
             LOGGER.info("listarGrupoPorNombre: Listando los grupos por el nombre");
             return super.listarGrupoPorNombre(nombre);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     /**
-     * Método que devuelve los Grupo cuando llega una petición de
-     * tipo GET por HTTP
-     * @return 
+     * Método que devuelve los Grupo cuando llega una petición de tipo GET por
+     * HTTP
+     *
+     * @return
      */
     @GET
     @Path("grupos")
@@ -161,10 +169,10 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
         try {
             LOGGER.info("listarTodosLosGrupo: Listando los grupos");
             return super.listarGrupos();
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
-    
+
 }

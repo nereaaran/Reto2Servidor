@@ -66,7 +66,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             super.create(entity);
         } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -85,7 +85,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             super.edit(entity);
         } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -103,7 +103,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             super.remove(super.find(id));
         } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             return super.find(id);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -143,7 +143,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             return super.buscarUsuarioPorLogin(login);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -160,10 +160,10 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     public Collection<Usuario> buscarUsuarioPorEmail(@PathParam("email") String email) {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por email");
-            return super.buscarUsuarioPorEmail(email);           
+            return super.buscarUsuarioPorEmail(email);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -184,7 +184,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             return super.buscarLoginYContrasenia(login, password);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -202,7 +202,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             return super.consultarTodosAlumnos();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -222,7 +222,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             return super.consultarAlumnoPorNombre(fullName);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

@@ -8,12 +8,19 @@ package seguridad;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.logging.Logger;
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 /**
  * Clase que contiene los metodos para cifrado y descifrado asimetrico que se
@@ -26,53 +33,68 @@ import javax.crypto.Cipher;
  */
 public class CifradoAsimetrico {
 
-    /////////////////ESTE METODO VA EN EL LADO CLIENTE
     /**
-     * Metodo que cifra la contraseña del usuario con la clave publica.
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("seguridad.CifradoAsimetrico");
+
+    /**
+     * Ruta absoluta del proyecto.
+     */
+    private static final String filePath = new File("").getAbsolutePath();
+
+    /////////////////ESTE METODO VA EN EL LADO CLIENTE//////////////////////////////////////////////////////////////////////////////
+    /**
+     * Metodo que cifra la contraseña del usuario con una clave publica.
      *
-     * @param texto La contraseña del usuario.
+     * @param contraseña La contraseña del usuario.
      * @return La contraseña cifrada.
      */
-    public byte[] cifrarConClavePublica(String texto) {
+    public String cifrarConClavePublica(String contraseña) {
         byte[] encodedMessage = null;
         try {
-            // Cargamos la clave pública
-            byte fileKey[] = fileReader("D:\\DAM\\PSP\\CifradoEjercicios\\src\\archivos\\EjemploRSA_Public.key");////////////////////////
+            LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
+
+            // Carga la clave pública.
+            byte fileKey[] = fileReader(filePath + "/src/java/seguridad/ComicSansPublic.key");
             System.out.println("Tamaño -> " + fileKey.length + " bytes");
 
-            // Obtenemos una instancia de KeyFactory, algoritmo RSA
+            // Obtiene una instancia de KeyFactory, algoritmo RSA.
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            // Creamos un nuevo X509EncodedKeySpec del fileKey
+            // Crea un nuevo X509EncodedKeySpec del fileKey.
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(fileKey);
-            // Generamos la public key con el keyFactory
+            // Genera la public key con el keyFactory.
             PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
 
-            // Obtenemos una instancia del Cipher "RSA/ECB/PKCS1Padding"
+            // Obtiene una instancia del Cipher "RSA/ECB/PKCS1Padding".
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            // Iniciamos el cipher (ENCRYPT_MODE)
+            // Inicia el cipher (ENCRYPT_MODE)
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 
-            // El método doFinal nos cifra el mensaje
-            encodedMessage = cipher.doFinal(texto.getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
+            // El método doFinal cifra el mensaje
+            encodedMessage = cipher.doFinal(contraseña.getBytes());
+        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+            LOGGER.severe(e.getMessage());
         }
-        return encodedMessage;
+        return new String(encodedMessage);
     }
 
     /**
      * Metodo que mediante una clave privada (generada por la clase
-     * "GeneradorClaves") descifra un texto que ha sido cifrado mediante una
-     * clave publlica.
+     * "GeneradorClaves") descifra la contraseña del usuario que llega cifrada
+     * mediante una clave publlica.
      *
-     * @param mensaje El texto cifrado.
+     * @param contraseña El texto cifrado.
      * @return El mensaje descifrado.
      */
-    public byte[] descifrarConClavePrivada(byte[] mensaje) {
+    public String descifrarConClavePrivada(String contraseña) {
         byte[] decodedMessage = null;
         try {
+
+            LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
+
             // Cargamos la clave privada
-            byte fileKey[] = fileReader("D:\\DAM\\PSP\\CifradoEjercicios\\src\\archivos\\EjemploRSA_Private.key");/////////////////////////
+            byte fileKey[] = fileReader(filePath + "/src/java/seguridad/ComicSansPrivate.key");
             System.out.println("Tamaño -> " + fileKey.length + " bytes");
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
@@ -87,11 +109,11 @@ public class CifradoAsimetrico {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
             // El método doFinal nos descifra el mensaje
-            decodedMessage = cipher.doFinal(mensaje);
-        } catch (Exception e) {
-            e.printStackTrace();
+            decodedMessage = cipher.doFinal(contraseña.getBytes());
+        } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
+            LOGGER.severe(e.getMessage());
         }
-        return decodedMessage;
+        return new String(decodedMessage);
     }
 
     /**
@@ -104,9 +126,11 @@ public class CifradoAsimetrico {
         byte ret[] = null;
         File file = new File(path);
         try {
+            LOGGER.info("CifradoAsimetrico: Leyendo archivo");
+
             ret = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         }
         return ret;
     }

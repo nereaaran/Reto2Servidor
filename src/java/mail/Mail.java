@@ -83,13 +83,13 @@ public class Mail {
     }
 
     /**
-     * Método que se encarga de enviar el mail.
+     * Método que se encarga de configurar el mail.
      *
      * @param mailReceptor el mail del receptor.
      * @throws MessagingException una excepción si ocurre algún error con el
      * envío del mensaje.
      */
-    public void enviarMail(String mailReceptor) throws MessagingException {
+    public void configurarMail(String mailReceptor) throws MessagingException {
         //Propiedades mínimas y obligatorias del mail.
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
@@ -132,17 +132,15 @@ public class Mail {
         //Envia el mail.
         Transport.send(message);
     }
-
+    
     /**
-     * Método main que crea un servicio de mail nuevo.
-     *
-     * @param args los argumentos que va a recibir.
+     * Método que se encarga de enviar el mail.
      */
-    public static void main(String[] args) {
+    public void enviarMail () {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            mail.enviarMail("kristina.s.milea@gmail.com");
+            mail.configurarMail("kristina.s.milea@gmail.com");
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }

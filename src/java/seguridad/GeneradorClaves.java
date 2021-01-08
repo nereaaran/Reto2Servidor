@@ -42,7 +42,7 @@ public class GeneradorClaves {
      * Metodo que genera las claves publica y privada y las guarda en un
      * fichero.
      */
-    public void generarClavePrivada() {
+    public void generarClavePrivadaYPublica() {
 
         KeyPairGenerator generator;
         try {
@@ -57,13 +57,13 @@ public class GeneradorClaves {
 
             // Clave Publica
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            FileOutputStream fileOutputStream = new FileOutputStream(filePath + "/src/java/seguridad/ComicSansPublic.key");
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath + "/src/java/archivos/ComicSansAsimetricPublic.key");
             fileOutputStream.write(x509EncodedKeySpec.getEncoded());
             fileOutputStream.close();
 
             // Clave Privada
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            fileOutputStream = new FileOutputStream(filePath + "/src/java/seguridad/ComicSansPrivate.key");
+            fileOutputStream = new FileOutputStream(filePath + "/src/java/archivos/ComicSansAsimetricPrivate.key");
             fileOutputStream.write(pKCS8EncodedKeySpec.getEncoded());
             fileOutputStream.close();
         } catch (IOException | NoSuchAlgorithmException e) {
@@ -77,18 +77,20 @@ public class GeneradorClaves {
      * @param args Array de strings
      */
     public static void main(String[] args) {
-        GeneradorClaves generadorClaves = new GeneradorClaves();
-        generadorClaves.generarClavePrivada();
+        // Genera la clave privada y publica
+        /*GeneradorClaves generadorClaves = new GeneradorClaves();
+        generadorClaves.generarClavePrivadaYPublica();*/
 
         
         //Prueba de generador de claves
         CifradoAsimetrico cifradoAsimetrico = new CifradoAsimetrico();
-        String mensajeCifradoBytes = cifradoAsimetrico.cifrarConClavePublica("Mensaje super secreto");
-        System.out.println("Cifrado! -> " + mensajeCifradoBytes);
-        System.out.println("Tama�o -> " + mensajeCifradoBytes.getBytes().length + " bytes");
+        String mensajeCifrado = new String(cifradoAsimetrico.cifrarConClavePublica("super"));
+        System.out.println("Cifrado! -> " + mensajeCifrado);
+        System.out.println("Tama�o -> " + mensajeCifrado.getBytes().length + " bytes");
         System.out.println("-----------");
-        String mensajeDescifradoBytes = cifradoAsimetrico.descifrarConClavePrivada(mensajeCifradoBytes);
-        System.out.println("Descifrado! -> " + mensajeDescifradoBytes);
+        
+        String mensajeDescifrado = cifradoAsimetrico.descifrarConClavePrivada(mensajeCifrado.getBytes());
+        System.out.println("Descifrado! -> " + mensajeDescifrado);
         System.out.println("-----------");
          
     }

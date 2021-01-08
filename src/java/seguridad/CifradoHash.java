@@ -7,6 +7,7 @@ package seguridad;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
 /**
  * Clase que contiene el metodo de cifrado hash con el algoritmo SHA-512 que se
@@ -17,15 +18,23 @@ import java.security.NoSuchAlgorithmException;
 public class CifradoHash {
 
     /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("seguridad.CifradoHash");
+
+    /**
      * Metodo que mediante el MessageDigest cifra la contraseña del usuario.
      *
-     * @param texto La contraseña del usuario.
+     * @param contraseña La contraseña del usuario.
      * @return La contraseña hasheada en hexadecimal.
      */
     public String cifrarTextoEnHash(String contraseña) {
         MessageDigest messageDigest;
         String contraseñaHasheada = null;
         try {
+
+            LOGGER.info("CifradoHash: Cifrando clave");
+
             messageDigest = MessageDigest.getInstance("SHA-512");
             byte dataBytes[] = contraseña.getBytes();
             messageDigest.update(dataBytes);
@@ -34,9 +43,8 @@ public class CifradoHash {
             contraseñaHasheada = Hexadecimal(resumen);
 
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
         }
-
         return contraseñaHasheada;
     }
 
@@ -47,6 +55,8 @@ public class CifradoHash {
      * @return La contraseña hexadecimal.
      */
     static String Hexadecimal(byte[] resumen) {
+        LOGGER.info("CifradoHash: Convirtiendo hash a cadena hexadecimal");
+        
         String HEX = "";
         for (int i = 0; i < resumen.length; i++) {
             String h = Integer.toHexString(resumen[i] & 0xFF);

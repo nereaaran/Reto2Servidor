@@ -7,6 +7,7 @@ package seguridad;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -16,6 +17,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -50,14 +52,14 @@ public class CifradoAsimetrico {
      * @param contraseña La contraseña del usuario.
      * @return La contraseña cifrada.
      */
-    public String cifrarConClavePublica(String contraseña) {
+    public byte[] cifrarConClavePublica(String contraseña) {
         byte[] encodedMessage = null;
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
             // Carga la clave pública.
-            byte fileKey[] = fileReader(filePath + "/src/java/seguridad/ComicSansPublic.key");
-            System.out.println("Tamaño -> " + fileKey.length + " bytes");
+            byte fileKey[] = fileReader(filePath + "/src/java/archivos/ComicSansAsimetricPublic.key");
+            System.out.println("Tamaño -> " + fileKey.length + " bytes");///////////////////////////////////////////quitar
 
             // Obtiene una instancia de KeyFactory, algoritmo RSA.
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -76,7 +78,7 @@ public class CifradoAsimetrico {
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
-        return new String(encodedMessage);
+        return encodedMessage;
     }
 
     /**
@@ -87,15 +89,14 @@ public class CifradoAsimetrico {
      * @param contraseña El texto cifrado.
      * @return El mensaje descifrado.
      */
-    public String descifrarConClavePrivada(String contraseña) {
+    public String descifrarConClavePrivada(byte[] contraseña) {
         byte[] decodedMessage = null;
         try {
-
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
             // Cargamos la clave privada
-            byte fileKey[] = fileReader(filePath + "/src/java/seguridad/ComicSansPrivate.key");
-            System.out.println("Tamaño -> " + fileKey.length + " bytes");
+            byte fileKey[] = fileReader(filePath + "/src/java/archivos/ComicSansAsimetricPrivate.key");
+            System.out.println("Tamaño00000 -> " + fileKey.length + " bytes");//////////////////////////////quitar
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -109,11 +110,13 @@ public class CifradoAsimetrico {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
             // El método doFinal nos descifra el mensaje
-            decodedMessage = cipher.doFinal(contraseña.getBytes());
+            decodedMessage = cipher.doFinal(contraseña);
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
-        return new String(decodedMessage);
+        
+        return new String (decodedMessage);
+        
     }
 
     /**

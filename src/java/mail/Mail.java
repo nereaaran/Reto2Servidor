@@ -29,7 +29,7 @@ import javax.mail.internet.MimeMultipart;
 public class Mail {
 
     /**
-     * * Atributo estático y constante que guarda los loggers de la clase.
+     * Atributo estático y constante que guarda los loggers de la clase.
      */
     private static final Logger LOGGER = Logger.getLogger("mail.Mail");
 

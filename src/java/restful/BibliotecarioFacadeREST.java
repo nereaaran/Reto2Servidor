@@ -6,12 +6,15 @@
 package restful;
 
 import entidad.Bibliotecario;
+import excepcion.*;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -27,6 +30,11 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("bibliotecario")
 public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
+
+    /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("restful.BibliotecarioFacadeREST");
 
     /**
      * El Entity Manager gestiona los datos que llegan a la base de datos.
@@ -51,7 +59,13 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Bibliotecario entity) {
-        super.create(entity);
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Creando bibliotecario");
+            super.create(entity);
+        } catch (CreateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -64,7 +78,13 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Bibliotecario entity) {
-        super.edit(entity);
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Editando bibliotecario");
+            super.edit(entity);
+        } catch (UpdateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -76,7 +96,13 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Borrando bibliotecario");
+            super.remove(super.find(id));
+        } catch (ReadException | DeleteException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -90,7 +116,13 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Bibliotecario find(@PathParam("id") Integer id) {
-        return super.find(id);
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Buscando bibliotecario");
+            return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**

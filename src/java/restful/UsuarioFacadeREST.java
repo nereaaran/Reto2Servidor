@@ -6,6 +6,7 @@
 package restful;
 
 import entidad.Usuario;
+import excepcion.*;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -63,9 +64,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
             super.create(entity);
-        } catch (Exception e) {
+        } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -82,9 +83,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");
             super.edit(entity);
-        } catch (Exception e) {
+        } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -100,9 +101,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Borrando usuario");
             super.remove(super.find(id));
-        } catch (Exception e) {
+        } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -120,9 +121,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario");
             return super.find(id);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -140,9 +141,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login");
             return super.buscarUsuarioPorLogin(login);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -160,9 +161,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por email");
             return super.buscarUsuarioPorEmail(email);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -178,16 +179,13 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
-        Collection<Usuario> ret = null;
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
-            ret = super.buscarLoginYContrasenia(login, password);
-        } catch (Exception e) {
+            return super.buscarLoginYContrasenia(login, password);
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
-
-        return ret;
     }
 
     /**
@@ -202,9 +200,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando todos los alumnos");
             return super.consultarTodosAlumnos();
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -222,9 +220,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando alumno por nombre");
             return super.consultarAlumnoPorNombre(fullName);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

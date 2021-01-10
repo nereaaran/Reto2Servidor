@@ -20,6 +20,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import seguridad.CifradoSimetrico;
 
 /**
  * Clase que se encarga de enviar un mail de cambio de contraseña.
@@ -61,8 +62,9 @@ public class Mail {
      * propiedades.
      */
     public Mail() {
-        this.MAIL = RB.getString("MAIL");
-        this.PASS = RB.getString("PASS");
+        CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
+        this.MAIL = cifradoSimetrico.descifrarEmailConClavePrivada();
+        this.PASS = cifradoSimetrico.descifrarContraseñaConClavePrivada();
         this.SMTP_HOST = RB.getString("SMTP_HOST");
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
     }
@@ -121,7 +123,7 @@ public class Mail {
         Multipart multipart = new MimeMultipart();
 
         //La parte principal del mail.
-        String nuevaContrasenia=generarContrasenia();
+        String nuevaContrasenia = generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setContent(RB.getString("TEXTO") + nuevaContrasenia + RB.getString("HTML"), "text/html");
         multipart.addBodyPart(mimeBodyPart);
@@ -132,15 +134,17 @@ public class Mail {
         //Envia el mail.
         Transport.send(message);
     }
-    
+
     /**
      * Método que se encarga de enviar el mail.
+     *
+     * @param destinatario A quien se le envia el email.
      */
-    public void enviarMail () {
+    public void enviarMail(String destinatario) {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            mail.configurarMail("kristina.s.milea@gmail.com");
+            mail.configurarMail(destinatario);
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }

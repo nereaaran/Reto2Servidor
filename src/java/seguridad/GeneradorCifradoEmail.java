@@ -5,6 +5,8 @@
  */
 package seguridad;
 
+import mail.Mail;
+
 /**
  *
  * @author 2dam
@@ -18,16 +20,20 @@ public class GeneradorCifradoEmail {
      *
      * @param args Array de strings
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) {/*
         // Cifra las credenciales de la cuenta de correo
         CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
-        cifradoSimetrico.cifrarTextoConClavePrivada("info.ComicSans@gmail.com", "abcd*1234");
+        //cifradoSimetrico.cifrarTextoConClavePrivada("info.ComicSans@gmail.com", "abcd*1234");
 
         // Descifra las credenciales de la cuenta de correo
         String textoDescifrado = cifradoSimetrico.descifrarEmailConClavePrivada();
         System.out.println("EMAIL Descifrado: " + textoDescifrado);
         System.out.println( "-----------");
         textoDescifrado = cifradoSimetrico.descifrarContraseñaConClavePrivada();
-        System.out.println("COntraseña Descifrada: " + textoDescifrado);
+        System.out.println("COntraseña Descifrada: " + textoDescifrado);*/
+        
+        //Mandar mail
+        Mail mail = new Mail();
+        mail.enviarMail("kristina.s.milea@gmail.com");
     }
 }

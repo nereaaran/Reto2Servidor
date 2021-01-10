@@ -30,9 +30,7 @@ public class CifradoHash {
      */
     public String cifrarTextoEnHash(String contraseña) {
         MessageDigest messageDigest;
-        String contraseñaHasheada = null;
         try {
-
             LOGGER.info("CifradoHash: Cifrando clave");
 
             messageDigest = MessageDigest.getInstance("SHA-512");
@@ -40,31 +38,11 @@ public class CifradoHash {
             messageDigest.update(dataBytes);
             byte resumen[] = messageDigest.digest();
 
-            contraseñaHasheada = Hexadecimal(resumen);
+            contraseña = new String(resumen);
 
         } catch (NoSuchAlgorithmException e) {
             LOGGER.severe(e.getMessage());
         }
-        return contraseñaHasheada;
-    }
-
-    /**
-     * Metodo que convierte el hash digerido en ua cadena hexadecimal.
-     *
-     * @param resumen La contraseña digerida.
-     * @return La contraseña hexadecimal.
-     */
-    static String Hexadecimal(byte[] resumen) {
-        LOGGER.info("CifradoHash: Convirtiendo hash a cadena hexadecimal");
-        
-        String HEX = "";
-        for (int i = 0; i < resumen.length; i++) {
-            String h = Integer.toHexString(resumen[i] & 0xFF);
-            if (h.length() == 1) {
-                HEX += "0";
-            }
-            HEX += h;
-        }
-        return HEX.toUpperCase();
+        return contraseña;
     }
 }

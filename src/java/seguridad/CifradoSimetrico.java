@@ -53,8 +53,8 @@ public class CifradoSimetrico {
     private static byte[] salt = "esta es la salt!".getBytes();
 
     /**
-     * Metodo que cifra mediante una clave y un salt y guarda el resultado en un
-     * fichero.
+     * Metodo que cifra las credenciales del correo mediante una clave y un salt
+     * y guarda el resultado en un fichero.
      *
      * @param email El email que se quiere cifrar.
      * @param contraseña La contraseña que se quiere cifrar.
@@ -95,9 +95,8 @@ public class CifradoSimetrico {
     }
 
     /**
-     * Metodo que descifra el email mediante una clave privada.
+     * Metodo que obtiene y descifra el email mediante una clave privada.
      *
-     * @param clave La clave privada.
      * @return El texto descifrado.
      */
     public String descifrarEmailConClavePrivada() {
@@ -129,6 +128,11 @@ public class CifradoSimetrico {
         return emailDescifrado;
     }
 
+    /**
+     * Metodo que obtiene y descifra la contraseña mediante una clave privada.
+     *
+     * @return El texto descifrado.
+     */
     public String descifrarContraseñaConClavePrivada() {
         String contraseñaDescifrada = null;
         String clave = obtenerClavePrivada();
@@ -164,21 +168,21 @@ public class CifradoSimetrico {
      * @return La clave.
      */
     private String obtenerClavePrivada() {
-        LOGGER.info( "CifradoSimetrico: obteniendo clave privada");
-        
+        LOGGER.info("CifradoSimetrico: obteniendo clave privada");
+
         ResourceBundle RB = ResourceBundle.getBundle("archivos.Private");
         String clave = RB.getString("CLAVE");
-        return clave ;
+        return clave;
     }
 
-/**
- * Metodo qie concatena dos arrays.
- *
- * @param array1 Primer array.
- * @param array2 Segundo array.
- * @return La concatenacion de los dos arrays
- */
-private byte[] concatenarArrays(byte[] array1, byte[] array2) {
+    /**
+     * Metodo qie concatena dos arrays.
+     *
+     * @param array1 Primer array.
+     * @param array2 Segundo array.
+     * @return La concatenacion de los dos arrays
+     */
+    private byte[] concatenarArrays(byte[] array1, byte[] array2) {
         LOGGER.info("CifradoSimetrico: Concatenando dos arrays");
 
         byte[] concatenacion = new byte[array1.length + array2.length];

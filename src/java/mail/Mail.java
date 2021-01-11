@@ -121,7 +121,7 @@ public class Mail {
         Multipart multipart = new MimeMultipart();
 
         //La parte principal del mail.
-        String nuevaContrasenia = generarContrasenia();
+        String nuevaContrasenia=generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
         mimeBodyPart.setContent(RB.getString("TEXTO") + nuevaContrasenia + RB.getString("HTML"), "text/html");
         multipart.addBodyPart(mimeBodyPart);
@@ -132,17 +132,15 @@ public class Mail {
         //Envia el mail.
         Transport.send(message);
     }
-
+    
     /**
      * Método que se encarga de enviar el mail.
-     *
-     * @param destinatario A quien se le envia el email.
      */
-    public void enviarMail(String destinatario) {
+    public void enviarMail () {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            mail.configurarMail(destinatario);
+            mail.configurarMail("kristina.s.milea@gmail.com");
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }

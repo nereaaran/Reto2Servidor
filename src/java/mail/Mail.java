@@ -116,8 +116,6 @@ public class Mail {
         message.setFrom(new InternetAddress(MAIL));
         //Establece el receptor.
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailReceptor));
-        //Establece el asunto del mail.
-        message.setSubject(RB.getString("ASUNTO"));
 
         //El mail puede tener varias partes.
         Multipart multipart = new MimeMultipart();
@@ -125,7 +123,16 @@ public class Mail {
         //La parte principal del mail.
         String nuevaContrasenia = generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        mimeBodyPart.setContent(RB.getString("TEXTO") + nuevaContrasenia + RB.getString("HTML"), "text/html");
+        
+        //if RECUPERACION
+            //Establece el asunto del mail.
+            message.setSubject(RB.getString("ASUNTO_RECUPERACION"));
+            mimeBodyPart.setContent(RB.getString("TEXTO_RECUPERACION") + nuevaContrasenia + RB.getString("HTML"), "text/html");
+        //else CAMBIO
+            //Establece el asunto del mail.
+            //message.setSubject(RB.getString("ASUNTO_CAMBIO"));
+            //mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
+        
         multipart.addBodyPart(mimeBodyPart);
 
         //Junta todas las partes.

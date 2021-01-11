@@ -20,7 +20,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import seguridad.CifradoSimetrico;
 
 /**
  * Clase que se encarga de enviar un mail de cambio de contraseña.
@@ -30,7 +29,7 @@ import seguridad.CifradoSimetrico;
 public class Mail {
 
     /**
-     * * Atributo estático y constante que guarda los loggers de la clase.
+     * Atributo estático y constante que guarda los loggers de la clase.
      */
     private static final Logger LOGGER = Logger.getLogger("mail.Mail");
 
@@ -62,9 +61,8 @@ public class Mail {
      * propiedades.
      */
     public Mail() {
-        CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
-        this.MAIL = cifradoSimetrico.descifrarEmailConClavePrivada();
-        this.PASS = cifradoSimetrico.descifrarContraseñaConClavePrivada();
+        this.MAIL = RB.getString("MAIL");
+        this.PASS = RB.getString("PASS");
         this.SMTP_HOST = RB.getString("SMTP_HOST");
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
     }
@@ -116,6 +114,8 @@ public class Mail {
         message.setFrom(new InternetAddress(MAIL));
         //Establece el receptor.
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailReceptor));
+        //Establece el asunto del mail.
+        message.setSubject(RB.getString("ASUNTO"));
 
         //El mail puede tener varias partes.
         Multipart multipart = new MimeMultipart();
@@ -123,16 +123,7 @@ public class Mail {
         //La parte principal del mail.
         String nuevaContrasenia = generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        
-        //if RECUPERACION
-            //Establece el asunto del mail.
-            message.setSubject(RB.getString("ASUNTO_RECUPERACION"));
-            mimeBodyPart.setContent(RB.getString("TEXTO_RECUPERACION") + nuevaContrasenia + RB.getString("HTML"), "text/html");
-        //else CAMBIO
-            //Establece el asunto del mail.
-            //message.setSubject(RB.getString("ASUNTO_CAMBIO"));
-            //mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
-        
+        mimeBodyPart.setContent(RB.getString("TEXTO") + nuevaContrasenia + RB.getString("HTML"), "text/html");
         multipart.addBodyPart(mimeBodyPart);
 
         //Junta todas las partes.

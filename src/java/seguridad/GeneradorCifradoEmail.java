@@ -8,8 +8,10 @@ package seguridad;
 import mail.Mail;
 
 /**
+ * Clase que se usa para cifrar las credenciales del email y comprobar que se
+ * cifran y descifran bien.
  *
- * @author 2dam
+ * @author Nerea Aranguren
  */
 public class GeneradorCifradoEmail {
 
@@ -20,7 +22,7 @@ public class GeneradorCifradoEmail {
      *
      * @param args Array de strings
      */
-    public static void main(String[] args) {/*
+    public static void main(String[] args) {
         // Cifra las credenciales de la cuenta de correo
         CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
         //cifradoSimetrico.cifrarTextoConClavePrivada("info.ComicSans@gmail.com", "abcd*1234");
@@ -30,10 +32,10 @@ public class GeneradorCifradoEmail {
         System.out.println("EMAIL Descifrado: " + textoDescifrado);
         System.out.println( "-----------");
         textoDescifrado = cifradoSimetrico.descifrarContraseñaConClavePrivada();
-        System.out.println("COntraseña Descifrada: " + textoDescifrado);*/
-        
+        System.out.println("COntraseña Descifrada: " + textoDescifrado);
+
         //Mandar mail
         Mail mail = new Mail();
-        mail.enviarMail("kristina.s.milea@gmail.com");
+        mail.enviarMail("naranguren3@gmail.com");
     }
 }

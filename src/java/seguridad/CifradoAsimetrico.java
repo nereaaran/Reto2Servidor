@@ -7,8 +7,6 @@ package seguridad;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -18,7 +16,6 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -46,18 +43,16 @@ public class CifradoAsimetrico {
      */
     private static final String filePath = new File("").getAbsolutePath();
 
-    /////////////////ESTE METODO VA EN EL LADO CLIENTE//////////////////////////////////////////////////////////////////////////////
     /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
      *
      * @param contraseña La contraseña del usuario.
-     * @return La contraseña cifrada.
+     * @return Un string con la contraseña cifrada en hexadecimal.
      */
-    public byte[] cifrarConClavePublica(String contraseña) {
-        //Charset charset = StandardCharsets.UTF_16;
+    public String cifrarConClavePublica(String contraseña) {
         byte[] encodedMessage = null;
         //byte[] contraseñaBytes = contraseña.getBytes(charset);
-        
+
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
@@ -81,9 +76,7 @@ public class CifradoAsimetrico {
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
-        
-        
-        return encodedMessage;
+        return byteToHexadecimal(encodedMessage);
     }
 
     /**
@@ -91,12 +84,11 @@ public class CifradoAsimetrico {
      * "GeneradorClaves") descifra la contraseña del usuario que llega cifrada
      * mediante una clave publlica.
      *
-     * @param contraseña El texto cifrado.
-     * @return El mensaje descifrado.
+     * @param contraseñaHexadecimal La contraseña cifrada en hexadecimal.
+     * @return Un string de la contraseña descifrada.
      */
-    public byte[] descifrarConClavePrivada(byte[] contraseña) {
+    public String descifrarConClavePrivada(String contraseñaHexadecimal) {
         byte[] decodedMessage = null;
-        
         try {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
@@ -115,12 +107,49 @@ public class CifradoAsimetrico {
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
 
             // El método doFinal nos descifra el mensaje
-            decodedMessage = cipher.doFinal(contraseña);
+            decodedMessage = cipher.doFinal(HexadecimalToByte(contraseñaHexadecimal));
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
-        return decodedMessage;
-        
+        return new String(decodedMessage);
+    }
+
+    /**
+     * Metodo que convierte un array de bytes en un string hexadecimal.
+     *
+     * @param bytes Array de bytes que llega.
+     * @return Un String con valor hexadecimal.
+     */
+    private String byteToHexadecimal(byte[] bytes) {
+        LOGGER.info("CifradoAsimetrico: Convirtiendo bytes a hexadecimal");
+
+        String HEX = "";
+        for (int i = 0; i < bytes.length; i++) {
+            String h = Integer.toHexString(bytes[i] & 0xFF);
+            if (h.length() == 1) {
+                HEX += "0";
+            }
+            HEX += h;
+        }
+        return HEX.toUpperCase();
+    }
+
+    /**
+     * Metodo que convierte un string con valor hexadecimal a un array de bytes.
+     *
+     * @param hexadecimal El string con valor hexadecimal.
+     * @return El array de bytes.
+     */
+    private byte[] HexadecimalToByte(String hexadecimal) {
+        LOGGER.info("CifradoAsimetrico: Convirtiendo hexadecimal a bytes");
+
+        int length = hexadecimal.length();
+        byte[] data = new byte[length / 2];
+        for (int i = 0; i < length; i += 2) {
+            data[i / 2] = (byte) ((Character.digit(hexadecimal.charAt(i), 16) << 4)
+                    + Character.digit(hexadecimal.charAt(i + 1), 16));
+        }
+        return data;
     }
 
     /**

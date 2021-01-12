@@ -6,6 +6,7 @@
 package restful;
 
 import entidad.Libro;
+import excepcion.*;
 import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -66,9 +67,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Creando libro");
             super.create(entity);
-        } catch (Exception e) {
+        } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -85,9 +86,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Editando libro");
             super.edit(entity);
-        } catch (Exception e) {
+        } catch (UpdateException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -103,9 +104,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Borrando libro");
             super.remove(super.find(id));
-        } catch (Exception e) {
+        } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -123,9 +124,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Buscando libro");
             return super.find(id);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -141,9 +142,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Buscando todos los libros");
             return super.buscarTodosLosLibros();
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -161,9 +162,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Buscando libro por titulo");
             return super.buscarLibrosPorTitulo(titulo);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 
@@ -181,9 +182,9 @@ public class LibroFacadeREST extends LibroAbstractFacade {
         try {
             LOGGER.info("LibroFacadeREST: Buscando libro por autor");
             return super.buscarLibrosPorAutor(autor);
-        } catch (Exception e) {
+        } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e);
+            throw new InternalServerErrorException(e.getMessage());
         }
     }
 

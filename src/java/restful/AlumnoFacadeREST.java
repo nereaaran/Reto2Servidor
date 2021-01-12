@@ -6,12 +6,15 @@
 package restful;
 
 import entidad.Alumno;
+import excepcion.*;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -27,6 +30,8 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("alumno")
 public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
+
+    private static final Logger LOGGER = Logger.getLogger("restful.AlumnoFacadeREST");
 
     /**
      * El Entity Manager gestiona los datos que llegan a la base de datos.
@@ -51,7 +56,13 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Alumno entity) {
-        super.create(entity);
+        try {
+            LOGGER.info("AlumnoFacadeREST: Creando alumno");
+            super.create(entity);
+        } catch (CreateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -64,7 +75,13 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Alumno entity) {
-        super.edit(entity);
+        try {
+            LOGGER.info("AlumnoFacadeREST: Editando alumno");
+            super.edit(entity);
+        } catch (UpdateException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -76,7 +93,13 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
-        super.remove(super.find(id));
+        try {
+            LOGGER.info("AlumnoFacadeREST: Borrando alumno");
+            super.remove(super.find(id));
+        } catch (ReadException | DeleteException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**
@@ -90,7 +113,13 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_XML})
     public Alumno find(@PathParam("id") Integer id) {
-        return super.find(id);
+        try {
+            LOGGER.info("AlumnoFacadeREST: Buscando alumno");
+            return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     /**

@@ -6,7 +6,7 @@
 package entidad;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -40,6 +42,7 @@ public class Alumno extends Usuario implements Serializable {
      * Fecha de nacimiento del alumno.
      */
     @Past
+    @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
 
     /**

@@ -42,7 +42,7 @@ public class GeneradorClaves {
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
      */
-    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.PathClavesCifradoAsimetrico");
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
 
     /**
      * Metodo que genera las claves publica y privada y las guarda en un
@@ -63,13 +63,13 @@ public class GeneradorClaves {
 
             // Clave Publica
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            FileOutputStream fileOutputStream = new FileOutputStream(filePath + RB.getString("KEY_PUBLIC"));
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
             fileOutputStream.write(x509EncodedKeySpec.getEncoded());
             fileOutputStream.close();
 
             // Clave Privada
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            fileOutputStream = new FileOutputStream(filePath +  RB.getString("KEY_PRIVATE"));
+            fileOutputStream = new FileOutputStream(filePath +  RB.getString("ASIMETRIC_KEY_PRIVATE"));
             fileOutputStream.write(pKCS8EncodedKeySpec.getEncoded());
             fileOutputStream.close();
         } catch (IOException | NoSuchAlgorithmException e) {
@@ -84,8 +84,8 @@ public class GeneradorClaves {
      */
     public static void main(String[] args) {
         // Genera la clave privada y publica
-        //GeneradorClaves generadorClaves = new GeneradorClaves();
-        //generadorClaves.generarClavePrivadaYPublica();
+        GeneradorClaves generadorClaves = new GeneradorClaves();
+        generadorClaves.generarClavePrivadaYPublica();
 
         //Prueba de generador de cifrado
         CifradoAsimetrico cifradoAsimetrico = new CifradoAsimetrico();

@@ -15,6 +15,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 
 /**
@@ -39,6 +40,11 @@ public class GeneradorClaves {
     private static final String filePath = new File("").getAbsolutePath();
 
     /**
+     * Atributo que lee las rutas de las claves del archivo de propiedades.
+     */
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.PathClavesCifradoAsimetrico");
+
+    /**
      * Metodo que genera las claves publica y privada y las guarda en un
      * fichero.
      */
@@ -57,13 +63,13 @@ public class GeneradorClaves {
 
             // Clave Publica
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(publicKey.getEncoded());
-            FileOutputStream fileOutputStream = new FileOutputStream(filePath + "/src/java/archivos/ComicSansAsimetricPublic.key");
+            FileOutputStream fileOutputStream = new FileOutputStream(filePath + RB.getString("KEY_PUBLIC"));
             fileOutputStream.write(x509EncodedKeySpec.getEncoded());
             fileOutputStream.close();
 
             // Clave Privada
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(privateKey.getEncoded());
-            fileOutputStream = new FileOutputStream(filePath + "/src/java/archivos/ComicSansAsimetricPrivate.key");
+            fileOutputStream = new FileOutputStream(filePath +  RB.getString("KEY_PRIVATE"));
             fileOutputStream.write(pKCS8EncodedKeySpec.getEncoded());
             fileOutputStream.close();
         } catch (IOException | NoSuchAlgorithmException e) {

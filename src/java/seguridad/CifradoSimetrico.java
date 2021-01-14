@@ -48,6 +48,11 @@ public class CifradoSimetrico {
     private static final String filePath = new File("").getAbsolutePath();
 
     /**
+     * Atributo que lee las rutas de las credenciales del archivo de
+     * propiedades.
+     */
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
+    /**
      * Variable que guarda el salt.
      */
     private static byte[] salt = "esta es la salt!".getBytes();
@@ -86,8 +91,8 @@ public class CifradoSimetrico {
             byte[] combinedContraseña = concatenarArrays(iv, encodedContraseña);
 
             // Escribe los textos cifrados en distintos archivos.
-            fileWriter(filePath + "/src/java/archivos/EmailCifrado.dat", combinedEmail);
-            fileWriter(filePath + "/src/java/archivos/ContrasenaCifrada.dat", combinedContraseña);
+            fileWriter(filePath + RB.getString("EMAIL_EMAIL"), combinedEmail);
+            fileWriter(filePath + RB.getString("EMAIL_CONTRASENA"), combinedContraseña);
 
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
@@ -104,7 +109,7 @@ public class CifradoSimetrico {
         String clave = obtenerClavePrivada();
 
         // Fichero leído
-        byte[] fileContent = fileReader(filePath + "/src/java/archivos/EmailCifrado.dat");
+        byte[] fileContent = fileReader(filePath + RB.getString("EMAIL_EMAIL"));
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {
@@ -138,7 +143,7 @@ public class CifradoSimetrico {
         String clave = obtenerClavePrivada();
 
         // Fichero leído
-        byte[] fileContent = fileReader(filePath + "/src/java/archivos/ContrasenaCifrada.dat");
+        byte[] fileContent = fileReader(filePath + RB.getString("EMAIL_CONTRASENA"));
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {

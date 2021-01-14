@@ -16,6 +16,7 @@ import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -44,20 +45,25 @@ public class CifradoAsimetrico {
     private static final String filePath = new File("").getAbsolutePath();
 
     /**
+     * Atributo que lee las rutas de las claves del archivo de propiedades.
+     */
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
+
+    /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
      *
+     * 
      * @param contraseña La contraseña del usuario.
      * @return Un string con la contraseña cifrada en hexadecimal.
      */
     public String cifrarConClavePublica(String contraseña) {
         byte[] encodedMessage = null;
-        //byte[] contraseñaBytes = contraseña.getBytes(charset);
 
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            // Carga la clave pública.
-            byte fileKey[] = fileReader(filePath + "/src/java/archivos/ComicSansAsimetricPublic.key");
+            // Carga la clave pública  a traves del path absoluto y el path guardado en el archivo de propiedades.
+            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
 
             // Obtiene una instancia de KeyFactory, algoritmo RSA.
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -92,8 +98,8 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
-            // Cargamos la clave privada
-            byte fileKey[] = fileReader(filePath + "/src/java/archivos/ComicSansAsimetricPrivate.key");
+            // Carga la clave privada a traves del path absoluto y el path guardado en el archivo de propiedades.
+            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PRIVATE"));
 
             // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");

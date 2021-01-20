@@ -6,6 +6,7 @@
 package restful;
 
 import excepcion.*;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 /**
@@ -19,6 +20,11 @@ import javax.persistence.EntityManager;
  */
 public abstract class AbstractFacade<T> {
 
+    /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
+    private static final Logger LOGGER = Logger.getLogger("restful.AbstractFacade");
+    
     /**
      * Atributo que define cualquiera de las entidades.
      */
@@ -44,10 +50,11 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia INSERT de SQL.
      *
      * @param entity cualquier entidad.
-     * @throws excepcion.CreateException excepción al crear una entidad.
+     * @throws excepcion.CreateException excepción al crear un dato nuevo en una entidad.
      */
     public void create(T entity) throws CreateException {
         try {
+            LOGGER.info("AbstractFacade: Creando un nuevo dato");
             getEntityManager().persist(entity);
         } catch (Exception e) {
             throw new CreateException(e.getMessage());
@@ -58,10 +65,11 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia UPDATE de SQL.
      *
      * @param entity cualquier entidad.
-     * @throws excepcion.UpdateException excepción al editar una entidad.
+     * @throws excepcion.UpdateException excepción al editar un dato de la entidad.
      */
     public void edit(T entity) throws UpdateException {
         try {
+            LOGGER.info("AbstractFacade: Editando un dato de la entidad");
             getEntityManager().merge(entity);
         } catch (Exception e) {
             throw new UpdateException(e.getMessage());
@@ -72,10 +80,11 @@ public abstract class AbstractFacade<T> {
      * Método que ejecuta la sentencia DELETE de SQL.
      *
      * @param entity cualquier entidad.
-     * @throws excepcion.DeleteException excepción al borrar una entidad.
+     * @throws excepcion.DeleteException excepción al borrar un dato de la entidad.
      */
     public void remove(T entity) throws DeleteException {
         try {
+            LOGGER.info("AbstractFacade: Borrando un dato de la entidad");
             getEntityManager().remove(getEntityManager().merge(entity));
         } catch (Exception e) {
             throw new DeleteException(e.getMessage());
@@ -87,10 +96,11 @@ public abstract class AbstractFacade<T> {
      *
      * @param id el id por el que va a buscar en la base de datos.
      * @return lo que encuentra.
-     * @throws excepcion.ReadException excepción al buscar una entidad.
+     * @throws excepcion.ReadException excepción al buscar datos de la entidad.
      */
     public T find(Object id) throws ReadException {
         try {
+            LOGGER.info("AbstractFacade: Buscando datos");
             return getEntityManager().find(entityClass, id);
         } catch (Exception e) {
             throw new ReadException(e.getMessage());

@@ -6,7 +6,6 @@
 package restful;
 
 import entidad.Usuario;
-import excepcion.*;
 import excepcion.ReadException;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -40,16 +39,10 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
      * @return una colección de usuarios.
      * @throws excepcion.ReadException excepción al buscar un usuario.
      */
-    public void buscarUsuarioPorLogin(String login) throws ReadException, LoginExisteException, EmailExisteException {
+    public Collection<Usuario> buscarUsuarioPorLogin(String login) throws ReadException {
         try {
             LOGGER.info("UsuarioAbstractFacade: Buscando usuario por login");
-            
-            if(getEntityManager().createNamedQuery("buscarUsuarioPorLogin").setParameter("login", login).getResultList().size()!=0) {
-                
-                throw new LoginExisteException();
-            }
-            
-            //return getEntityManager().createNamedQuery("buscarUsuarioPorLogin").setParameter("login", login).getResultList();
+            return getEntityManager().createNamedQuery("buscarUsuarioPorLogin").setParameter("login", login).getResultList();
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new ReadException(e.getMessage());

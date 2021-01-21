@@ -8,7 +8,6 @@ package restful;
 import entidad.Usuario;
 import excepcion.*;
 import java.util.Collection;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -57,25 +56,17 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      * HTTP.
      *
      * @param entity la entidad "Usuario".
-     * @throws excepcion.LoginExisteException excepción cuando existe un login.
-     * @throws excepcion.EmailExisteException excepción cuando existe un email.
      */
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML})
+    @Override
     public void create(Usuario entity) {
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
-            super.buscarUsuarioPorLogin(entity.getLogin());
-            super.buscarUsuarioPorEmail(entity.getEmail());
             super.create(entity);
-        } catch (CreateException | ReadException e) {
+        } catch (CreateException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
-        } catch (LoginExisteException ex) {
-            Logger.getLogger(UsuarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (EmailExisteException ex) {
-            Logger.getLogger(UsuarioFacadeREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,7 +78,6 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
-    @Override
     public void edit(Usuario entity) {
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");
@@ -142,7 +132,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      * @param login el login que se usará para buscar a un usuario.
      * @return hace una llamada a la superclase UsuarioAbstractFacade.
      */
-    /*@GET
+    @GET
     @Path("login/{login}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
@@ -154,7 +144,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         }
-    }*/
+    }
 
     /**
      * Método que busca un usuario por su email.

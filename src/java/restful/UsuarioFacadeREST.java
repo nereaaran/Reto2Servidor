@@ -78,6 +78,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
+    @Override
     public void edit(Usuario entity) {
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");

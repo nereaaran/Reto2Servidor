@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Alumno".
@@ -56,6 +57,9 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Alumno entity) {
+        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
         try {
             LOGGER.info("AlumnoFacadeREST: Creando alumno");
             super.create(entity);
@@ -75,6 +79,9 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Alumno entity) {
+        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
         try {
             LOGGER.info("AlumnoFacadeREST: Editando alumno");
             super.edit(entity);

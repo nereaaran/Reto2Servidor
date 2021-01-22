@@ -22,6 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Usuario".
@@ -61,6 +62,10 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void create(Usuario entity) {
+        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
             super.create(entity);
@@ -80,6 +85,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Usuario entity) {
+        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");
             super.edit(entity);
@@ -179,6 +187,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        password = cifrarHash.cifrarTextoEnHash(password);
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
             return super.buscarLoginYContrasenia(login, password);

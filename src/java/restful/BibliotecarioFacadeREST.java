@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Bibliotecario".
@@ -59,6 +60,9 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Bibliotecario entity) {
+        LOGGER.info("BibliotecarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
         try {
             LOGGER.info("BibliotecarioFacadeREST: Creando bibliotecario");
             super.create(entity);
@@ -78,6 +82,9 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Bibliotecario entity) {
+        LOGGER.info("BibliotecarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
         try {
             LOGGER.info("BibliotecarioFacadeREST: Editando bibliotecario");
             super.edit(entity);

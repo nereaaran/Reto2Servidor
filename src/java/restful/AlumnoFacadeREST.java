@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoAsimetrico;
 import seguridad.CifradoHash;
 
 /**
@@ -57,9 +58,9 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Alumno entity) {
-        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("AlumnoFacadeREST: Creando alumno");
             super.create(entity);
@@ -79,9 +80,9 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Alumno entity) {
-        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("AlumnoFacadeREST: Editando alumno");
             super.edit(entity);
@@ -139,4 +140,27 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
         return em;
     }
 
+    /**
+     * Cifra la contraseña para guardarla en la base de datos.
+     *
+     * @param contrasena La contraseña del usuario.
+     * @return La contraseña cifrada.
+     */
+    private String cifrarContrasena(String contrasena) {
+        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        return cifrarHash.cifrarTextoEnHash(contrasena);
+    }
+
+    /**
+     * Descifra la contraseña que le ha llegado del cliente.
+     *
+     * @param contrasena La contraseña cifrada del usuario.
+     * @return La contraseña descifrada.
+     */
+    private String descifrarContrasena(String contrasena) {
+        LOGGER.info("AlumnoFacadeREST: Descifrando contraseña");
+        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
+        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
+    }
 }

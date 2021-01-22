@@ -22,6 +22,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoAsimetrico;
 import seguridad.CifradoHash;
 
 /**
@@ -62,9 +63,8 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void create(Usuario entity) {
-        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
 
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
@@ -85,9 +85,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Usuario entity) {
-        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");
             super.edit(entity);
@@ -187,9 +187,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
-        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        password = cifrarHash.cifrarTextoEnHash(password);
+        password = descifrarContrasena(password);
+        password = cifrarContrasena(password);
+
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
             return super.buscarLoginYContrasenia(login, password);
@@ -245,5 +245,29 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    /**
+     * Cifra la contraseña para guardarla en la base de datos.
+     *
+     * @param contrasena La contraseña del usuario.
+     * @return La contraseña cifrada.
+     */
+    private String cifrarContrasena(String contrasena) {
+        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        return cifrarHash.cifrarTextoEnHash(contrasena);
+    }
+
+    /**
+     * Descifra la contraseña que le ha llegado del cliente.
+     *
+     * @param contrasena La contraseña cifrada del usuario.
+     * @return La contraseña descifrada.
+     */
+    private String descifrarContrasena(String contrasena) {
+        LOGGER.info("UsuarioFacadeREST: Descifrando contraseña");
+        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
+        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
     }
 }

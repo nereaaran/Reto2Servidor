@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoAsimetrico;
 import seguridad.CifradoHash;
 
 /**
@@ -57,9 +58,9 @@ public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Profesor entity) {
-        LOGGER.info("ProfesorFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("ProfesorFacadeREST: Creando profesor");
             super.create(entity);
@@ -79,9 +80,8 @@ public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Profesor entity) {
-        LOGGER.info("ProfesorFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        entity.setPassword(cifrarHash.cifrarTextoEnHash(entity.getPassword()));
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
         try {
             LOGGER.info("ProfesorFacadeREST: Editando profesor");
             super.edit(entity);
@@ -137,5 +137,29 @@ public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    /**
+     * Cifra la contraseña para guardarla en la base de datos.
+     *
+     * @param contrasena La contraseña del usuario.
+     * @return La contraseña cifrada.
+     */
+    private String cifrarContrasena(String contrasena) {
+        LOGGER.info("ProfesorFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        return cifrarHash.cifrarTextoEnHash(contrasena);
+    }
+
+    /**
+     * Descifra la contraseña que le ha llegado del cliente.
+     *
+     * @param contrasena La contraseña cifrada del usuario.
+     * @return La contraseña descifrada.
+     */
+    private String descifrarContrasena(String contrasena) {
+        LOGGER.info("ProfesorFacadeREST: Descifrando contraseña");
+        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
+        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
     }
 }

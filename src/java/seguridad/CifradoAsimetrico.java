@@ -42,8 +42,9 @@ public class CifradoAsimetrico {
     /**
      * Ruta absoluta del proyecto.
      */
-    private static final String filePath = new File("").getAbsolutePath();
-
+    //private static final String filePath = new File("").getAbsolutePath();
+    private static final String filePath = CifradoAsimetrico.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
      */
@@ -169,7 +170,9 @@ public class CifradoAsimetrico {
         File file = new File(path);
         try {
             LOGGER.info("CifradoAsimetrico: Leyendo archivo");
-
+            
+            System.out.println(path);
+            
             ret = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());

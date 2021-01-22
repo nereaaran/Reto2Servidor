@@ -33,16 +33,16 @@ public abstract class AlumnoAbstractFacade extends AbstractFacade<Alumno> {
     }
 
     /**
-     * Método que ejecuta la query "consultarAlumnoPorNombre".
+     * Método que ejecuta la query "buscarAlumnoPorNombre".
      *
      * @param fullName el nombre completo que se quiere buscar.
      * @return una colección de alumnos.
      * @throws excepcion.ReadException excepción al buscar un alumno.
      */
-    public Collection<Alumno> consultarAlumnoPorNombre(String fullName) throws ReadException {
+    public Collection<Alumno> buscarAlumnoPorNombre(String fullName) throws ReadException {
         try {
             LOGGER.info("AlumnoAbstractFacade: Buscando alumno por nombre");
-            return getEntityManager().createNamedQuery("consultarAlumnoPorNombre").setParameter("fullName", fullName).getResultList();
+            return getEntityManager().createNamedQuery("buscarAlumnoPorNombre").setParameter("fullName", fullName).getResultList();
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new ReadException(e.getMessage());
@@ -50,15 +50,15 @@ public abstract class AlumnoAbstractFacade extends AbstractFacade<Alumno> {
     }
 
     /**
-     * Método que ejecuta la query "consultarTodosAlumnos".
+     * Método que ejecuta la query "buscarTodosLosAlumnos".
      *
      * @return una colección de todos los alumnos.
      * @throws excepcion.ReadException excepción al buscar un alumno.
      */
-    public Collection<Alumno> consultarTodosAlumnos() throws ReadException {
+    public Collection<Alumno> buscarTodosLosAlumnos() throws ReadException {
         try {
             LOGGER.info("AlumnoAbstractFacade: Buscando todos los alumnos");
-            return getEntityManager().createNamedQuery("consultarTodosAlumnos").getResultList();
+            return getEntityManager().createNamedQuery("buscarTodosLosAlumnos").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

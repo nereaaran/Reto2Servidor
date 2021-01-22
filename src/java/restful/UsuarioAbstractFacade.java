@@ -88,15 +88,15 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
     }
 
     /**
-     * Método que ejecuta la query "consultarTodosUsuarios".
+     * Método que ejecuta la query "buscarTodosLosUsuarios".
      *
      * @return una colección de todos los usuarios.
      * @throws excepcion.ReadException excepción al buscar un usuario.
      */
-    public Collection<Usuario> consultarTodosUsuarios() throws ReadException {
+    public Collection<Usuario> buscarTodosLosUsuarios() throws ReadException {
         try {
             LOGGER.info("UsuarioAbstractFacade: Buscando todos los usuarios");
-            return getEntityManager().createNamedQuery("consultarTodosUsuarios").getResultList();
+            return getEntityManager().createNamedQuery("buscarTodosLosUsuarios").getResultList();
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new ReadException(e.getMessage());

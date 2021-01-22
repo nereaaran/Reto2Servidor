@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @NamedQueries({
     @NamedQuery(
-            name = "consultarTodosBibliotecarios",
+            name = "buscarTodosLosBibliotecarios",
             query = "SELECT b FROM bibliotecario b"
     )
 })

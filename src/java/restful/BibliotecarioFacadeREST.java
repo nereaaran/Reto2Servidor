@@ -134,10 +134,10 @@ public class BibliotecarioFacadeREST extends BibliotecarioAbstractFacade {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Bibliotecario> consultarTodosBibliotecarios() {
+    public Collection<Bibliotecario> buscarTodosLosBibliotecarios() {
         try {
             LOGGER.info("BibliotecarioFacadeREST: Buscando todos los profesores");
-            return super.consultarTodosBibliotecarios();
+            return super.buscarTodosLosBibliotecarios();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

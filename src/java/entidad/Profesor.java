@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @NamedQueries({ //@author Cristina Milea
     @NamedQuery(
-            name = "consultarTodosProfesores",
+            name = "buscarTodosLosProfesores",
             query = "SELECT p FROM profesor p"
     )
 })

@@ -133,10 +133,10 @@ public class ProfesorFacadeREST extends ProfesorAbstractFacade {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Profesor> consultarTodosProfesores() {
+    public Collection<Profesor> buscarTodosLosProfesores() {
         try {
             LOGGER.info("ProfesorFacadeREST: Buscando todos los profesores");
-            return super.consultarTodosProfesores();
+            return super.buscarTodosLosProfesores();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

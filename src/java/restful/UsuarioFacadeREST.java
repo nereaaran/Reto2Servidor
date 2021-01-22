@@ -196,10 +196,10 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> consultarTodosUsuarios() {
+    public Collection<Usuario> buscarTodosLosUsuarios() {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando todos los usuarios");
-            return super.consultarTodosUsuarios();
+            return super.buscarTodosLosUsuarios();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

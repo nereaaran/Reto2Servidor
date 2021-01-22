@@ -38,10 +38,10 @@ public abstract class ProfesorAbstractFacade extends AbstractFacade<Profesor> {
      * @return una colección de todos los profesores.
      * @throws excepcion.ReadException excepción al buscar un profesor.
      */
-    public Collection<Profesor> consultarTodosProfesores() throws ReadException {
+    public Collection<Profesor> buscarTodosLosProfesores() throws ReadException {
         try {
             LOGGER.info("ProfesorAbstractFacade: Buscando todos los profesores");
-            return getEntityManager().createNamedQuery("consultarTodosProfesores").getResultList();
+            return getEntityManager().createNamedQuery("buscarTodosLosProfesores").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

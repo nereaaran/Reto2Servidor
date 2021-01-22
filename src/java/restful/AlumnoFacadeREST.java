@@ -136,10 +136,10 @@ public class AlumnoFacadeREST extends AlumnoAbstractFacade {
     @Path("fullName/{fullName}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Alumno> consultarAlumnoPorNombre(@PathParam("fullName") String fullName) {
+    public Collection<Alumno> buscarAlumnoPorNombre(@PathParam("fullName") String fullName) {
         try {
             LOGGER.info("AlumnoFacadeREST: Buscando alumno por nombre");
-            return super.consultarAlumnoPorNombre(fullName);
+            return super.buscarAlumnoPorNombre(fullName);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
@@ -154,10 +154,10 @@ public class AlumnoFacadeREST extends AlumnoAbstractFacade {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Alumno> consultarTodosAlumnos() {
+    public Collection<Alumno> buscarTodosLosAlumnos() {
         try {
             LOGGER.info("AlumnoFacadeREST: Buscando todos los alumnos");
-            return super.consultarTodosAlumnos();
+            return super.buscarTodosLosAlumnos();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

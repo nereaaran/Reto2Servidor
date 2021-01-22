@@ -32,13 +32,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     //Lo hará el profesor.
     @NamedQuery(
-            name = "consultarAlumnoPorNombre",
+            name = "buscarAlumnoPorNombre",
             query = "SELECT a FROM alumno a WHERE a.fullName LIKE CONCAT('%', :fullName, '%')"
     )
     ,
     @NamedQuery(
-            name = "consultarTodosAlumnos",
-            query = "SELECT a FROM alumno a WHERE a.tipoUsuario LIKE 'ALUMNO'"
+            name = "buscarTodosLosAlumnos",
+            query = "SELECT a FROM alumno a"
     )
 })
 

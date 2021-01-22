@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     )
     ,
     @NamedQuery(
-            name = "consultarTodosUsuarios",
+            name = "buscarTodosLosUsuarios",
             query = "SELECT u FROM Usuario u"
     )
 })

@@ -33,15 +33,15 @@ public abstract class BibliotecarioAbstractFacade extends AbstractFacade<Bibliot
     }
 
     /**
-     * Método que ejecuta la query "consultarTodosBibliotecarios".
+     * Método que ejecuta la query "buscarTodosLosBibliotecarios".
      *
      * @return una colección de todos los bibliotecarios.
      * @throws excepcion.ReadException excepción al buscar un bibliotecario.
      */
-    public Collection<Bibliotecario> consultarTodosBibliotecarios() throws ReadException {
+    public Collection<Bibliotecario> buscarTodosLosBibliotecarios() throws ReadException {
         try {
             LOGGER.info("BibliotecarioAbstractFacade: Buscando todos los bibliotecarios");
-            return getEntityManager().createNamedQuery("consultarTodosBibliotecarios").getResultList();
+            return getEntityManager().createNamedQuery("buscarTodosLosBibliotecarios").getResultList();
         } catch (Exception e) {
             throw new ReadException(e.getMessage());
         }

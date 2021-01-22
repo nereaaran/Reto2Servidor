@@ -36,26 +36,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(
             name = "buscarUsuarioPorLogin",
             query = "SELECT u FROM Usuario u WHERE u.login=:login"
-    ),
+    )
+    ,
     //Sign Up + Recuperación de contraseña.
     @NamedQuery(
             name = "buscarUsuarioPorEmail",
             query = "SELECT u FROM Usuario u WHERE u.email=:email"
-    ),
+    )
+    ,
     //Para comprobar que Sign In es correcto.
     @NamedQuery(
             name = "buscarLoginYContrasenia",
             query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
-    ),
-    //Lo hará el profesor.
+    )
+    ,
     @NamedQuery(
-            name = "consultarAlumnoPorNombre",
-            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO' AND u.fullName LIKE CONCAT('%', :fullName, '%')"
-    ),
-    //Lo hará el profesor.
-    @NamedQuery(
-            name = "consultarTodosAlumnos",
-            query = "SELECT u FROM Usuario u WHERE u.tipoUsuario LIKE 'ALUMNO'"
+            name = "consultarTodosUsuarios",
+            query = "SELECT u FROM Usuario u"
     )
 })
 
@@ -116,14 +113,14 @@ public class Usuario implements Serializable {
     /**
      * Fecha del último acceso del usuario.
      */
-    //@NotNull
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
-    //@NotNull
+    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordChange;
 

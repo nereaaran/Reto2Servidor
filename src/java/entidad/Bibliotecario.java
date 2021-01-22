@@ -11,6 +11,8 @@ import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -20,6 +22,13 @@ import javax.xml.bind.annotation.XmlTransient;
  *
  * @author Cristina Milea
  */
+@NamedQueries({
+    @NamedQuery(
+            name = "consultarTodosBibliotecarios",
+            query = "SELECT b FROM bibliotecario b"
+    )
+})
+
 @Entity(name = "bibliotecario")
 @DiscriminatorValue("BIBLIOTECARIO") //Valor que diferenciará al bibliotecario en la tabla de usuarios.
 @XmlRootElement

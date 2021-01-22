@@ -11,6 +11,8 @@ import java.util.Objects;
 import static javax.persistence.CascadeType.ALL;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -19,6 +21,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * Clase Profesor con sus respectivos atributos
  * @author Jonathan Viñan
  */
+@NamedQueries({ //@author Cristina Milea
+    @NamedQuery(
+            name = "consultarTodosProfesores",
+            query = "SELECT p FROM profesor p"
+    )
+})
+
 @Entity(name = "profesor")
 @DiscriminatorValue("PROFESOR") //Valor que diferenciará al profesor en la tabla de usuarios.
 @XmlRootElement

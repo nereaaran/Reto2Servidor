@@ -16,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Cristina Milea
  */
+@NamedQueries({
+    //Lo hará el profesor.
+    @NamedQuery(
+            name = "consultarAlumnoPorNombre",
+            query = "SELECT a FROM alumno a WHERE a.fullName LIKE CONCAT('%', :fullName, '%')"
+    )
+    ,
+    @NamedQuery(
+            name = "consultarTodosAlumnos",
+            query = "SELECT a FROM alumno a WHERE a.tipoUsuario LIKE 'ALUMNO'"
+    )
+})
+
 @Entity(name = "alumno")
 @DiscriminatorValue("ALUMNO") //Valor que diferenciará a los alumnos en la tabla de usuarios.
 @XmlRootElement

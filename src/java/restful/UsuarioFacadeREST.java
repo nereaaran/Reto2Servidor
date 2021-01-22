@@ -58,8 +58,8 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      * @param entity la entidad "Usuario".
      */
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML})
+    @Override
     public void create(Usuario entity) {
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");

@@ -116,14 +116,14 @@ public class Usuario implements Serializable {
     /**
      * Fecha del último acceso del usuario.
      */
-    @NotNull
+    //@NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastAccess;
     /**
      * Fecha de la última vez en la que se ha modificado la contraseña del
      * usuario.
      */
-    @NotNull
+    //@NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordChange;
 

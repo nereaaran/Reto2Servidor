@@ -74,10 +74,10 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
      * @return una colección de usuarios.
      * @throws excepcion.ReadException excepción al buscar un usuario.
      */
-    public Collection<Usuario> buscarLoginYContrasenia(String login, String password) throws ReadException {
+    public Collection<Usuario> buscarUsuarioPorLoginYContrasenia(String login, String password) throws ReadException {
         try {
             LOGGER.info("UsuarioAbstractFacade: Buscando usuario por login y contraseña");
-            return getEntityManager().createNamedQuery("buscarLoginYContrasenia")
+            return getEntityManager().createNamedQuery("buscarUsuarioPorLoginYContrasenia")
                     .setParameter("login", login)
                     .setParameter("password", password)
                     .getResultList();

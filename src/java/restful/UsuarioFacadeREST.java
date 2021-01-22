@@ -178,10 +178,10 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Path("loginYPassword/{login}/{password}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+    public Collection<Usuario> buscarUsuarioPorLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
-            return super.buscarLoginYContrasenia(login, password);
+            return super.buscarUsuarioPorLoginYContrasenia(login, password);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

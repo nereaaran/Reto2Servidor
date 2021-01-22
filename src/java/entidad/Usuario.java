@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     ,
     //Para comprobar que Sign In es correcto.
     @NamedQuery(
-            name = "buscarLoginYContrasenia",
+            name = "buscarUsuarioPorLoginYContrasenia",
             query = "SELECT u FROM Usuario u WHERE u.login=:login AND u.password=:password"
     )
     ,

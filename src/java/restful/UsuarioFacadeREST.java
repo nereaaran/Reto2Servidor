@@ -187,6 +187,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Produces({MediaType.APPLICATION_XML})
     @Override
     public Collection<Usuario> buscarUsuarioPorLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+        password = descifrarContrasena(password);
+        password = cifrarContrasena(password);
+        
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
             return super.buscarUsuarioPorLoginYContrasenia(login, password);

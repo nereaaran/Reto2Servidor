@@ -6,7 +6,6 @@
 package restful;
 
 import entidad.Profesor;
-import entidad.Profesor;
 import excepcion.*;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -84,6 +83,7 @@ public class ProfesorFacadeREST extends ProfesorAbstractFacade {
     public void edit(Profesor entity) {
         entity.setPassword(descifrarContrasena(entity.getPassword()));
         entity.setPassword(cifrarContrasena(entity.getPassword()));
+        
         try {
             LOGGER.info("ProfesorFacadeREST: Editando profesor");
             super.edit(entity);

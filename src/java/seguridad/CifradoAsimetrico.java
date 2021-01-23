@@ -42,9 +42,9 @@ public class CifradoAsimetrico {
     /**
      * Ruta absoluta del proyecto.
      */
-    //private static final String filePath = new File("").getAbsolutePath();
-    private static final String filePath = CifradoAsimetrico.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            
+    private static final String filePath = new File("").getAbsolutePath();
+    //private static final String filePath = CifradoAsimetrico.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
      */
@@ -53,7 +53,7 @@ public class CifradoAsimetrico {
     /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
      *
-     * 
+     *
      * @param contraseña La contraseña del usuario.
      * @return Un string con la contraseña cifrada en hexadecimal.
      */
@@ -63,23 +63,15 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            // Carga la clave pública  a traves del path absoluto y el path guardado en el archivo de propiedades.
             byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
 
-            // Obtiene una instancia de KeyFactory, algoritmo RSA.
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            // Crea un nuevo X509EncodedKeySpec del fileKey.
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(fileKey);
-            // Genera la public key con el keyFactory.
             PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
-
-            // Obtiene una instancia del Cipher "RSA/ECB/PKCS1Padding".
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            // Inicia el cipher (ENCRYPT_MODE)
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-            // El método doFinal cifra el mensaje
             encodedMessage = cipher.doFinal(contraseña.getBytes());
+
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -99,22 +91,15 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
-            // Carga la clave privada a traves del path absoluto y el path guardado en el archivo de propiedades.
             byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PRIVATE"));
 
-            // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            // Creamos un nuevo PKCS8EncodedKeySpec del fileKey
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
-            // Generamos la public key con el keyFactory
             PrivateKey privateKey = keyFactory.generatePrivate(pKCS8EncodedKeySpec);
-            // Obtenemos una instancia del Cipher "RSA/ECB/PKCS1Padding"
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            // Iniciamos el cipher (DECRYPT_MODE)
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-            // El método doFinal nos descifra el mensaje
             decodedMessage = cipher.doFinal(HexadecimalToByte(contraseñaHexadecimal));
+
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -170,9 +155,9 @@ public class CifradoAsimetrico {
         File file = new File(path);
         try {
             LOGGER.info("CifradoAsimetrico: Leyendo archivo");
-            
-            System.out.println(path);
-            
+
+            System.out.println(path);////////////////////////////////////////////////////
+
             ret = Files.readAllBytes(file.toPath());
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());

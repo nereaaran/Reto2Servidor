@@ -7,6 +7,7 @@ package restful;
 
 import entidad.Bibliotecario;
 import excepcion.*;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,8 +22,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import seguridad.CifradoAsimetrico;
-import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Bibliotecario".
@@ -31,7 +30,7 @@ import seguridad.CifradoHash;
  */
 @Stateless
 @Path("bibliotecario")
-public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
+public class BibliotecarioFacadeREST extends BibliotecarioAbstractFacade {
 
     /**
      * Atributo estático y constante que guarda los loggers de la clase.
@@ -61,9 +60,6 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Bibliotecario entity) {
-        entity.setPassword(descifrarContrasena(entity.getPassword()));
-        entity.setPassword(cifrarContrasena(entity.getPassword()));
-        
         try {
             LOGGER.info("BibliotecarioFacadeREST: Creando bibliotecario");
             super.create(entity);
@@ -83,9 +79,6 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Bibliotecario entity) {
-        entity.setPassword(descifrarContrasena(entity.getPassword()));
-        entity.setPassword(cifrarContrasena(entity.getPassword()));
-        
         try {
             LOGGER.info("BibliotecarioFacadeREST: Editando bibliotecario");
             super.edit(entity);
@@ -134,6 +127,24 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
     }
 
     /**
+     * Método que busca todos los bibliotecarios.
+     *
+     * @return hace una llamada a la superclase BibliotecarioAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Bibliotecario> buscarTodosLosBibliotecarios() {
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Buscando todos los profesores");
+            return super.buscarTodosLosBibliotecarios();
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
      * Método que establece el Entity Manager.
      *
      * @return el Entity Manager.
@@ -143,27 +154,4 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
         return em;
     }
 
-    /**
-     * Cifra la contraseña para guardarla en la base de datos.
-     *
-     * @param contrasena La contraseña del usuario.
-     * @return La contraseña cifrada.
-     */
-    private String cifrarContrasena(String contrasena) {
-        LOGGER.info("BibliotecarioFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        return cifrarHash.cifrarTextoEnHash(contrasena);
-    }
-
-    /**
-     * Descifra la contraseña que le ha llegado del cliente.
-     *
-     * @param contrasena La contraseña cifrada del usuario.
-     * @return La contraseña descifrada.
-     */
-    private String descifrarContrasena(String contrasena) {
-        LOGGER.info("BibliotecarioFacadeREST: Descifrando contraseña");
-        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
-        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
-    }
 }

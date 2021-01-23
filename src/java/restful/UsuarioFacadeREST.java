@@ -186,51 +186,28 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Path("loginYPassword/{login}/{password}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
-        password = descifrarContrasena(password);
-        password = cifrarContrasena(password);
-
+    public Collection<Usuario> buscarUsuarioPorLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
-            return super.buscarLoginYContrasenia(login, password);
+            return super.buscarUsuarioPorLoginYContrasenia(login, password);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         }
     }
-
+    
     /**
-     * Método que busca todos los alumnos.
+     * Método que busca todos los usuarios.
      *
      * @return hace una llamada a la superclase UsuarioAbstractFacade.
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> consultarTodosAlumnos() {
+    public Collection<Usuario> buscarTodosLosUsuarios() {
         try {
-            LOGGER.info("UsuarioFacadeREST: Buscando todos los alumnos");
-            return super.consultarTodosAlumnos();
-        } catch (ReadException e) {
-            LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
-    /**
-     * Método que busca un alumno por nombre.
-     *
-     * @param fullName el nombre completo que se usará para buscar a un alumno.
-     * @return hace una llamada a la superclase UsuarioAbstractFacade.
-     */
-    @GET
-    @Path("fullName/{fullName}")
-    @Produces({MediaType.APPLICATION_XML})
-    @Override
-    public Collection<Usuario> consultarAlumnoPorNombre(@PathParam("fullName") String fullName) {
-        try {
-            LOGGER.info("UsuarioFacadeREST: Buscando alumno por nombre");
-            return super.consultarAlumnoPorNombre(fullName);
+            LOGGER.info("UsuarioFacadeREST: Buscando todos los usuarios");
+            return super.buscarTodosLosUsuarios();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

@@ -7,6 +7,7 @@ package restful;
 
 import entidad.Alumno;
 import excepcion.*;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -21,8 +22,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import seguridad.CifradoAsimetrico;
-import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Alumno".
@@ -31,8 +30,11 @@ import seguridad.CifradoHash;
  */
 @Stateless
 @Path("alumno")
-public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
+public class AlumnoFacadeREST extends AlumnoAbstractFacade {
 
+    /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
     private static final Logger LOGGER = Logger.getLogger("restful.AlumnoFacadeREST");
 
     /**
@@ -42,7 +44,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     private EntityManager em;
 
     /**
-     * Constructor que llama al constructor de la superclase (AbstractFacade).
+     * Constructor que llama al constructor de la superclase (AlumnoAbstractFacade).
      */
     public AlumnoFacadeREST() {
         super(Alumno.class);
@@ -58,9 +60,6 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Override
     @Consumes({MediaType.APPLICATION_XML})
     public void create(Alumno entity) {
-        entity.setPassword(descifrarContrasena(entity.getPassword()));
-        entity.setPassword(cifrarContrasena(entity.getPassword()));
-
         try {
             LOGGER.info("AlumnoFacadeREST: Creando alumno");
             super.create(entity);
@@ -80,9 +79,6 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Alumno entity) {
-        entity.setPassword(descifrarContrasena(entity.getPassword()));
-        entity.setPassword(cifrarContrasena(entity.getPassword()));
-
         try {
             LOGGER.info("AlumnoFacadeREST: Editando alumno");
             super.edit(entity);
@@ -131,6 +127,44 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     }
 
     /**
+     * Método que busca un alumno por nombre.
+     *
+     * @param fullName el nombre completo que se usará para buscar a un alumno.
+     * @return hace una llamada a la superclase AlumnoAbstractFacade.
+     */
+    @GET
+    @Path("fullName/{fullName}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Alumno> buscarAlumnoPorNombre(@PathParam("fullName") String fullName) {
+        try {
+            LOGGER.info("AlumnoFacadeREST: Buscando alumno por nombre");
+            return super.buscarAlumnoPorNombre(fullName);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca todos los alumnos.
+     *
+     * @return hace una llamada a la superclase AlumnoAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Alumno> buscarTodosLosAlumnos() {
+        try {
+            LOGGER.info("AlumnoFacadeREST: Buscando todos los alumnos");
+            return super.buscarTodosLosAlumnos();
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
      * Método que establece el Entity Manager.
      *
      * @return el Entity Manager.
@@ -140,27 +174,4 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
         return em;
     }
 
-    /**
-     * Cifra la contraseña para guardarla en la base de datos.
-     *
-     * @param contrasena La contraseña del usuario.
-     * @return La contraseña cifrada.
-     */
-    private String cifrarContrasena(String contrasena) {
-        LOGGER.info("AlumnoFacadeREST: Cifrando contraseña");
-        CifradoHash cifrarHash = new CifradoHash();
-        return cifrarHash.cifrarTextoEnHash(contrasena);
-    }
-
-    /**
-     * Descifra la contraseña que le ha llegado del cliente.
-     *
-     * @param contrasena La contraseña cifrada del usuario.
-     * @return La contraseña descifrada.
-     */
-    private String descifrarContrasena(String contrasena) {
-        LOGGER.info("AlumnoFacadeREST: Descifrando contraseña");
-        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
-        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
-    }
 }

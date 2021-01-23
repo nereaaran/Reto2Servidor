@@ -6,7 +6,9 @@
 package restful;
 
 import entidad.Profesor;
+import entidad.Profesor;
 import excepcion.*;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,7 +33,7 @@ import seguridad.CifradoHash;
  */
 @Stateless
 @Path("profesor")
-public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
+public class ProfesorFacadeREST extends ProfesorAbstractFacade {
 
     /**
      * Atributo estático y constante que guarda los loggers de esta clase.
@@ -123,6 +125,25 @@ public class ProfesorFacadeREST extends AbstractFacade<Profesor> {
         try {
             LOGGER.info("ProfesorFacadeREST: Buscando profesor");
             return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    //@author Cristina Milea
+    /**
+     * Método que busca todos los profesores.
+     *
+     * @return hace una llamada a la superclase ProfesorAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Profesor> buscarTodosLosProfesores() {
+        try {
+            LOGGER.info("ProfesorFacadeREST: Buscando todos los profesores");
+            return super.buscarTodosLosProfesores();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

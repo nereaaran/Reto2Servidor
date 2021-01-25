@@ -9,6 +9,7 @@ import entidad.Usuario;
 import excepcion.ReadException;
 import java.util.Collection;
 import java.util.logging.Logger;
+import mail.Mail;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos de
@@ -60,6 +61,24 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
         try {
             LOGGER.info("UsuarioAbstractFacade: Buscando usuario por email");
             return getEntityManager().createNamedQuery("buscarUsuarioPorEmail").setParameter("email", email).getResultList();
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+    }
+    
+    /**
+     * Método que ejecuta la query "buscarUsuarioPorEmail".
+     *
+     * @param usuario la entidad Usuario.
+     * @throws excepcion.ReadException excepción al buscar un usuario.
+     */
+    public void buscarEmailParaEnviarMailContraseniaOlvidada(Collection <Usuario> usuario) throws ReadException {
+        try {
+            LOGGER.info("UsuarioAbstractFacade: Buscando usuario por email para enviar mail de contraseña olvidada");
+            
+            Mail.enviarMail(usuario);
+            
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new ReadException(e.getMessage());

@@ -5,6 +5,8 @@
  */
 package mail;
 
+import entidad.Usuario;
+import java.util.Collection;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -63,8 +65,8 @@ public class Mail {
      */
     public Mail() {
         CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
-        this.MAIL = cifradoSimetrico.descifrarEmailConClavePrivada();
-        this.PASS = cifradoSimetrico.descifrarContraseñaConClavePrivada();
+        this.MAIL = "info.ComicSans@gmail.com"; //cifradoSimetrico.descifrarEmailConClavePrivada();
+        this.PASS = "abcd*1234";//cifradoSimetrico.descifrarContraseñaConClavePrivada();
         this.SMTP_HOST = RB.getString("SMTP_HOST");
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
     }
@@ -88,10 +90,11 @@ public class Mail {
      * Método que se encarga de configurar el mail.
      *
      * @param mailReceptor el mail del receptor.
+     * @return la nueva contraseña.
      * @throws MessagingException una excepción si ocurre algún error con el
      * envío del mensaje.
      */
-    public void configurarMail(String mailReceptor) throws MessagingException {
+    public String configurarMail(String mailReceptor) throws MessagingException {
         //Propiedades mínimas y obligatorias del mail.
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
@@ -123,16 +126,16 @@ public class Mail {
         //La parte principal del mail.
         String nuevaContrasenia = generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
-        
+
         //if RECUPERACION
-            //Establece el asunto del mail.
-            message.setSubject(RB.getString("ASUNTO_RECUPERACION"));
-            mimeBodyPart.setContent(RB.getString("TEXTO_RECUPERACION") + nuevaContrasenia + RB.getString("HTML"), "text/html");
+        //Establece el asunto del mail.
+        message.setSubject(RB.getString("ASUNTO_RECUPERACION"));
+        mimeBodyPart.setContent(RB.getString("TEXTO_RECUPERACION") + nuevaContrasenia + RB.getString("HTML"), "text/html");
         //else CAMBIO
-            //Establece el asunto del mail.
-            //message.setSubject(RB.getString("ASUNTO_CAMBIO"));
-            //mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
-        
+        //Establece el asunto del mail.
+        //message.setSubject(RB.getString("ASUNTO_CAMBIO"));
+        //mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
+
         multipart.addBodyPart(mimeBodyPart);
 
         //Junta todas las partes.
@@ -140,18 +143,26 @@ public class Mail {
 
         //Envia el mail.
         Transport.send(message);
+        
+        return nuevaContrasenia;
     }
 
     /**
      * Método que se encarga de enviar el mail.
      *
-     * @param destinatario A quien se le envia el email.
+     * @param usuario A quien se le envia el email.
      */
-    public void enviarMail(String destinatario) {
+    public static void enviarMail(Collection<Usuario> usuario) {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            mail.configurarMail(destinatario);
+            for (Usuario u : usuario) {
+                u.getEmail();
+                
+                String nuevaContrasenia=mail.configurarMail(u.getEmail());
+                
+                u.setPassword(nuevaContrasenia);
+            }
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }

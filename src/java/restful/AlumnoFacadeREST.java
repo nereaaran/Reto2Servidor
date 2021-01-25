@@ -92,14 +92,14 @@ public class AlumnoFacadeREST extends AlumnoAbstractFacade {
      * Método que borra un alumno cuando le llegue una petición de tipo DELETE
      * por HTTP.
      *
-     * @param id el id que se usará para buscar a un alumno.
+     * @param login el login que se usará para buscar a un alumno.
      */
     @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Integer id) {
+    @Path("{login}")
+    public void remove(@PathParam("login") String login) {
         try {
             LOGGER.info("AlumnoFacadeREST: Borrando alumno");
-            super.remove(super.find(id));
+            super.remove(super.find(login));
         } catch (ReadException | DeleteException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

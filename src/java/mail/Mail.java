@@ -143,7 +143,7 @@ public class Mail {
 
         //Envia el mail.
         Transport.send(message);
-        
+
         return nuevaContrasenia;
     }
 
@@ -152,17 +152,16 @@ public class Mail {
      *
      * @param usuario A quien se le envia el email.
      */
-    public static void enviarMail(Collection<Usuario> usuario) {
+    public static void enviarMail(Usuario usuario) {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            for (Usuario u : usuario) {
-                u.getEmail();
-                
-                String nuevaContrasenia=mail.configurarMail(u.getEmail());
-                
-                u.setPassword(nuevaContrasenia);
-            }
+            usuario.getEmail();
+
+            String nuevaContrasenia = mail.configurarMail(usuario.getEmail());
+
+            usuario.setPassword(nuevaContrasenia);
+
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }

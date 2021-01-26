@@ -156,7 +156,6 @@ public class Mail {
         try {
             LOGGER.info("Mail: Enviando mail");
             Mail mail = new Mail();
-            usuario.getEmail();
 
             String nuevaContrasenia = mail.configurarMail(usuario.getEmail());
 

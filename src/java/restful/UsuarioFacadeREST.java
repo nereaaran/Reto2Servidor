@@ -176,6 +176,46 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     }
 
     /**
+     * Método que busca un usuario por su email para enviar el mail de
+     * recuperación de contraseña.
+     *
+     * @param usuario el usuario que se buscará.
+     */
+    @POST
+    @Path("enviarMailRecuperacion")
+    @Consumes({MediaType.APPLICATION_XML})
+    @Override
+    public void buscarUsuarioParaEnviarMailRecuperarContrasenia(Usuario usuario) {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando usuario por email para enviar mail de recuperación de contraseña");
+            super.buscarUsuarioParaEnviarMailRecuperarContrasenia(usuario);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca un usuario por su email para enviar el mail de cambio de
+     * contraseña.
+     *
+     * @param email el email que se buscará.
+     */
+    @POST
+    @Path("enviarMailCambio")
+    @Consumes({MediaType.APPLICATION_XML})
+    @Override
+    public void buscarEmailParaEnviarMailCambiarContrasenia(String email) {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando email para enviar mail de cambio de contraseña");
+            super.buscarEmailParaEnviarMailCambiarContrasenia(email);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
      * Método que busca un usuario por su login y contraseña.
      *
      * @param login el login que se usará para buscar a un usuario.
@@ -198,7 +238,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             throw new InternalServerErrorException(e.getMessage());
         }
     }
-    
+
     /**
      * Método que busca todos los usuarios.
      *

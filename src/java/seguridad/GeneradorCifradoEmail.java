@@ -35,7 +35,7 @@ public class GeneradorCifradoEmail {
         System.out.println("Contraseña Descifrada: " + textoDescifrado);
 
         //Mandar mail
-        Mail mail = new Mail();
-        mail.enviarMail("naranguren3@gmail.com");
+        /*Mail mail = new Mail();
+        mail.enviarMail("naranguren3@gmail.com");*/
     }
 }

@@ -176,10 +176,10 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Path("enviarMail")
     @Consumes({MediaType.APPLICATION_XML})
     @Override
-    public void buscarUsuarioParaEnviarMail(Usuario usuario) {
+    public void buscarUsuarioParaEnviarMailRecuperarContrasenia(Usuario usuario) {
         try {
-            LOGGER.info("UsuarioFacadeREST: Buscando usuario por email para enviar mail");
-            super.buscarUsuarioParaEnviarMail(usuario);
+            LOGGER.info("UsuarioFacadeREST: Buscando usuario por email para enviar mail de recuperación de contraseña");
+            super.buscarUsuarioParaEnviarMailRecuperarContrasenia(usuario);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

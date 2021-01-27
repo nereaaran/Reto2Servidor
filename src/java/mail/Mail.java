@@ -6,7 +6,6 @@
 package mail;
 
 import entidad.Usuario;
-import java.util.Collection;
 import java.util.Properties;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -71,6 +70,10 @@ public class Mail {
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
     }
 
+    /**
+     * Método que genera la nueva contraseña para el usuario.
+     * @return la nueva contraseña generada.
+     */
     public String generarContrasenia() {
         int leftLimit = 48; //Número '0'
         int rightLimit = 122; //Letra 'Z'
@@ -87,14 +90,15 @@ public class Mail {
     }
 
     /**
-     * Método que se encarga de configurar el mail.
+     * Método que se encarga de configurar el mail para recuperar la contraseña
+     * olvidada.
      *
      * @param mailReceptor el mail del receptor.
      * @return la nueva contraseña.
      * @throws MessagingException una excepción si ocurre algún error con el
      * envío del mensaje.
      */
-    public String configurarMail(String mailReceptor) throws MessagingException {
+    public String configurarMailRecuperarContrasenia(String mailReceptor) throws MessagingException {
         //Propiedades mínimas y obligatorias del mail.
         Properties properties = new Properties();
         properties.put("mail.smtp.auth", true);
@@ -127,14 +131,9 @@ public class Mail {
         String nuevaContrasenia = generarContrasenia();
         MimeBodyPart mimeBodyPart = new MimeBodyPart();
 
-        //if RECUPERACION
         //Establece el asunto del mail.
         message.setSubject(RB.getString("ASUNTO_RECUPERACION"));
         mimeBodyPart.setContent(RB.getString("TEXTO_RECUPERACION") + nuevaContrasenia + RB.getString("HTML"), "text/html");
-        //else CAMBIO
-        //Establece el asunto del mail.
-        //message.setSubject(RB.getString("ASUNTO_CAMBIO"));
-        //mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
 
         multipart.addBodyPart(mimeBodyPart);
 
@@ -148,16 +147,91 @@ public class Mail {
     }
 
     /**
-     * Método que se encarga de enviar el mail.
+     * Método que se encarga de configurar el mail para cambiar la contrasenia.
+     *
+     * @param mailReceptor el mail del receptor.
+     * @return la nueva contraseña.
+     * @throws MessagingException una excepción si ocurre algún error con el
+     * envío del mensaje.
+     */
+    public String configurarMailCambiarContrasenia(String mailReceptor) throws MessagingException {
+        //Propiedades mínimas y obligatorias del mail.
+        Properties properties = new Properties();
+        properties.put("mail.smtp.auth", true);
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.host", SMTP_HOST);
+        properties.put("mail.smtp.port", SMTP_PORT);
+        properties.put("mail.smtp.ssl.enable", "false");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.ssl.trust", SMTP_HOST);
+        properties.put("mail.imap.partialfetch", false);
+
+        Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(MAIL, PASS);
+            }
+        });
+
+        //Se crea un mensaje nuevo.
+        Message message = new MimeMessage(session);
+        //Establece el emisor.
+        message.setFrom(new InternetAddress(MAIL));
+        //Establece el receptor.
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailReceptor));
+
+        //El mail puede tener varias partes.
+        Multipart multipart = new MimeMultipart();
+
+        //La parte principal del mail.
+        String nuevaContrasenia = generarContrasenia();
+        MimeBodyPart mimeBodyPart = new MimeBodyPart();
+
+        //Establece el asunto del mail.
+        message.setSubject(RB.getString("ASUNTO_CAMBIO"));
+        mimeBodyPart.setContent(RB.getString("TEXTO_CAMBIO"), "text/html");
+
+        multipart.addBodyPart(mimeBodyPart);
+
+        //Junta todas las partes.
+        message.setContent(multipart);
+
+        //Envia el mail.
+        Transport.send(message);
+
+        return nuevaContrasenia;
+    }
+
+    /**
+     * Método que se encarga de enviar el mail de recuperación de contraseña.
      *
      * @param usuario A quien se le envia el email.
      */
-    public static void enviarMail(Usuario usuario) {
+    public static void enviarMailRecuperarContrasenia(Usuario usuario) {
         try {
-            LOGGER.info("Mail: Enviando mail");
+            LOGGER.info("Mail: Enviando mail de recuperación");
             Mail mail = new Mail();
 
-            String nuevaContrasenia = mail.configurarMail(usuario.getEmail());
+            String nuevaContrasenia = mail.configurarMailRecuperarContrasenia(usuario.getEmail());
+
+            usuario.setPassword(nuevaContrasenia);
+
+        } catch (MessagingException e) {
+            LOGGER.severe(e.getMessage());
+        }
+    }
+    
+    /**
+     * Método que se encarga de enviar el mail de cambio de contraseña.
+     *
+     * @param usuario A quien se le envia el email.
+     */
+    public static void enviarMailCambiarContrasenia(Usuario usuario) {
+        try {
+            LOGGER.info("Mail: Enviando mail de cambio de contraseña");
+            Mail mail = new Mail();
+
+            String nuevaContrasenia = mail.configurarMailCambiarContrasenia(usuario.getEmail());
 
             usuario.setPassword(nuevaContrasenia);
 

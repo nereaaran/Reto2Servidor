@@ -28,7 +28,7 @@ public abstract class AbstractFacade<T> {
     /**
      * Atributo que define cualquiera de las entidades.
      */
-    private Class<T> entityClass;
+    private final Class<T> entityClass;
 
     /**
      * Constructor que guarda cualquiera de las entidades.

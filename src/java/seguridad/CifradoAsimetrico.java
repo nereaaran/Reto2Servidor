@@ -7,6 +7,7 @@ package seguridad;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
@@ -42,13 +43,14 @@ public class CifradoAsimetrico {
     /**
      * Ruta absoluta del proyecto.
      */
-    private static final String filePath = new File("").getAbsolutePath();
-    //private static final String filePath = CifradoAsimetrico.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-
+    //private static final String filePath = new File("").getAbsolutePath();
+    
+    private final static String PUBLIC_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PUBLIC");
+    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
      */
-    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
+   // private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");/////////////////////
 
     /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
@@ -63,7 +65,8 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
+            //byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
+            byte fileKey[] = getFileKey(PUBLIC_KEY_PATH);
 
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(fileKey);
@@ -91,8 +94,8 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
-            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PRIVATE"));
-
+            byte fileKey[] = getFileKey(PRIVATE_KEY_PATH);
+            
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
             PrivateKey privateKey = keyFactory.generatePrivate(pKCS8EncodedKeySpec);
@@ -149,7 +152,7 @@ public class CifradoAsimetrico {
      *
      * @param path Path del fichero.
      * @return El texto del fichero.
-     */
+     *//*
     private byte[] fileReader(String path) {
         byte ret[] = null;
         File file = new File(path);
@@ -163,5 +166,36 @@ public class CifradoAsimetrico {
             LOGGER.severe(e.getMessage());
         }
         return ret;
+    }*/
+/*
+    public byte[] getFileKey(String path) {
+        byte[] publicKeyBytes = null;
+        try {
+            LOGGER.info("CifradoAsimetrico: Leyendo archivo");
+
+            InputStream inputStream = CifradoAsimetrico.class.getClassLoader().getResourceAsStream(path);
+            publicKeyBytes = new byte[inputStream.available()];
+            inputStream.read(publicKeyBytes);
+        } catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+        }
+        return publicKeyBytes;
+    }*/
+    
+    
+    public byte[] getFileKey(String keyFilePath) {
+        byte[] keyBytes = null;
+        try {
+            LOGGER.info("CifradoAsimetrico: Leyendo archivo");
+
+            InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream(keyFilePath);///////////FUNCIONA con el path en un archivo de propiedades y coger el properties file
+            //InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream("/archivos/ComicSansAsimetricPrivate.key");/////Funciona con fichero en carpeta archivos
+            //InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream("ComicSansAsimetricPrivate.key");///////////////// FUNCIONA con el fichero en la carpeta seguridad
+            keyBytes = new byte[inputStream.available()];
+            inputStream.read(keyBytes);
+        } catch (IOException ex) {
+            LOGGER.severe(ex.getMessage());
+        }
+        return keyBytes;
     }
 }

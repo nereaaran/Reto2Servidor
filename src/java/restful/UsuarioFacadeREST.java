@@ -172,7 +172,8 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      *
      * @param usuario el usuario que se buscará.
      */
-    /*@GET
+    @POST
+    @Path("enviarMail")
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void buscarEmailParaEnviarMailContraseniaOlvidada(Usuario usuario) {
@@ -183,7 +184,7 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
         }
-    }*/
+    }
 
     /**
      * Método que busca un usuario por su login y contraseña.

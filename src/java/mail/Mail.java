@@ -228,14 +228,14 @@ public class Mail {
     /**
      * Método que se encarga de enviar el mail de cambio de contraseña.
      *
-     * @param usuario A quien se le envia el email.
+     * @param email el email al que se le enviará el correo.
      */
-    public static void enviarMailCambiarContrasenia(Usuario usuario) {
+    public static void enviarMailCambiarContrasenia(String email) {
         try {
             LOGGER.info("Mail: Enviando mail de cambio de contraseña");
             Mail mail = new Mail();
 
-            mail.configurarMailCambiarContrasenia(usuario.getEmail());
+            mail.configurarMailCambiarContrasenia(email);
 
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());

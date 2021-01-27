@@ -95,18 +95,16 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
     /**
      * Método que ejecuta la query "buscarUsuarioPorEmail" para enviar un mail.
      *
-     * @param usuario la entidad Usuario.
+     * @param email el email del usuario.
      * @throws excepcion.ReadException excepción al buscar un usuario.
      */
-    public void buscarUsuarioParaEnviarMailCambiarContrasenia(Usuario usuario) throws ReadException {
+    public void buscarEmailParaEnviarMailCambiarContrasenia(String email) throws ReadException {
         try {
-            LOGGER.info("UsuarioAbstractFacade: Buscando usuario por email para enviar mail de cambio de contraseña");
+            LOGGER.info("UsuarioAbstractFacade: Buscando email para enviar mail de cambio de contraseña");
 
-            Collection<Usuario> usuarioCol = getEntityManager().createNamedQuery("buscarUsuarioPorEmail").setParameter("email", usuario.getEmail()).getResultList();
+            getEntityManager().createNamedQuery("buscarUsuarioPorEmail").setParameter("email", email).getResultList();
 
-            if (!usuarioCol.isEmpty()) {
-                Mail.enviarMailRecuperarContrasenia(usuario);
-            }
+            Mail.enviarMailCambiarContrasenia(email);
         } catch (Exception e) {
             LOGGER.severe(e.getMessage());
             throw new ReadException(e.getMessage());

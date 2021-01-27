@@ -191,16 +191,16 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      * Método que busca un usuario por su email para enviar el mail de cambio de
      * contraseña.
      *
-     * @param usuario el usuario que se buscará.
+     * @param email el email que se buscará.
      */
     @POST
     @Path("enviarMailCambio")
     @Consumes({MediaType.APPLICATION_XML})
     @Override
-    public void buscarUsuarioParaEnviarMailCambiarContrasenia(Usuario usuario) {
+    public void buscarEmailParaEnviarMailCambiarContrasenia(String email) {
         try {
-            LOGGER.info("UsuarioFacadeREST: Buscando usuario por email para enviar mail de cambio de contraseña");
-            super.buscarUsuarioParaEnviarMailCambiarContrasenia(usuario);
+            LOGGER.info("UsuarioFacadeREST: Buscando email para enviar mail de cambio de contraseña");
+            super.buscarEmailParaEnviarMailCambiarContrasenia(email);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

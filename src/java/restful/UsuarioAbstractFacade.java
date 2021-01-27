@@ -68,7 +68,7 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
     }
 
     /**
-     * Método que ejecuta la query "buscarUsuarioPorEmail".
+     * Método que ejecuta la query "buscarUsuarioPorEmail" para enviar un mail.
      *
      * @param usuario la entidad Usuario.
      * @throws excepcion.ReadException excepción al buscar un usuario.
@@ -78,7 +78,32 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
             LOGGER.info("UsuarioAbstractFacade: Buscando usuario por email para enviar mail de recuperación de contraseña");
 
             Collection<Usuario> usuarioCol = getEntityManager().createNamedQuery("buscarUsuarioPorEmail").setParameter("email", usuario.getEmail()).getResultList();
-            
+
+            if (!usuarioCol.isEmpty()) {
+                String nuevaContrasenia = Mail.enviarMailRecuperarContrasenia(usuario);
+
+                for (Usuario u : usuarioCol) {
+                    u.setPassword(nuevaContrasenia);
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que ejecuta la query "buscarUsuarioPorEmail" para enviar un mail.
+     *
+     * @param usuario la entidad Usuario.
+     * @throws excepcion.ReadException excepción al buscar un usuario.
+     */
+    public void buscarUsuarioParaEnviarMailCambiarContrasenia(Usuario usuario) throws ReadException {
+        try {
+            LOGGER.info("UsuarioAbstractFacade: Buscando usuario por email para enviar mail de cambio de contraseña");
+
+            Collection<Usuario> usuarioCol = getEntityManager().createNamedQuery("buscarUsuarioPorEmail").setParameter("email", usuario.getEmail()).getResultList();
+
             if (!usuarioCol.isEmpty()) {
                 Mail.enviarMailRecuperarContrasenia(usuario);
             }

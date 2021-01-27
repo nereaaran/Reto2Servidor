@@ -72,6 +72,7 @@ public class Mail {
 
     /**
      * Método que genera la nueva contraseña para el usuario.
+     *
      * @return la nueva contraseña generada.
      */
     public String generarContrasenia() {
@@ -206,21 +207,24 @@ public class Mail {
      * Método que se encarga de enviar el mail de recuperación de contraseña.
      *
      * @param usuario A quien se le envia el email.
+     * @return la nueva contraseña.
      */
-    public static void enviarMailRecuperarContrasenia(Usuario usuario) {
+    public static String enviarMailRecuperarContrasenia(Usuario usuario) {
+        String nuevaContrasenia = null;
+
         try {
             LOGGER.info("Mail: Enviando mail de recuperación");
             Mail mail = new Mail();
 
-            String nuevaContrasenia = mail.configurarMailRecuperarContrasenia(usuario.getEmail());
-
-            usuario.setPassword(nuevaContrasenia);
+            nuevaContrasenia = mail.configurarMailRecuperarContrasenia(usuario.getEmail());
 
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());
         }
+
+        return nuevaContrasenia;
     }
-    
+
     /**
      * Método que se encarga de enviar el mail de cambio de contraseña.
      *
@@ -231,9 +235,7 @@ public class Mail {
             LOGGER.info("Mail: Enviando mail de cambio de contraseña");
             Mail mail = new Mail();
 
-            String nuevaContrasenia = mail.configurarMailCambiarContrasenia(usuario.getEmail());
-
-            usuario.setPassword(nuevaContrasenia);
+            mail.configurarMailCambiarContrasenia(usuario.getEmail());
 
         } catch (MessagingException e) {
             LOGGER.severe(e.getMessage());

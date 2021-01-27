@@ -41,16 +41,15 @@ public class CifradoAsimetrico {
     private static final Logger LOGGER = Logger.getLogger("seguridad.CifradoAsimetrico");
 
     /**
-     * Ruta absoluta del proyecto.
+     * Atributo que guarda la ruta de la clave publica del archivo de
+     * propiedades.
      */
-    //private static final String filePath = new File("").getAbsolutePath();
-    
     private final static String PUBLIC_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PUBLIC");
-    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
     /**
-     * Atributo que lee las rutas de las claves del archivo de propiedades.
+     * Atributo que guarda la ruta de la clave privada del archivo de
+     * propiedades.
      */
-   // private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");/////////////////////
+    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
 
     /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
@@ -65,7 +64,7 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            //byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
+            //byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));/////////////////////////////////
             byte fileKey[] = getFileKey(PUBLIC_KEY_PATH);
 
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -95,7 +94,7 @@ public class CifradoAsimetrico {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
             byte fileKey[] = getFileKey(PRIVATE_KEY_PATH);
-            
+
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
             PrivateKey privateKey = keyFactory.generatePrivate(pKCS8EncodedKeySpec);
@@ -167,7 +166,7 @@ public class CifradoAsimetrico {
         }
         return ret;
     }*/
-/*
+ /*
     public byte[] getFileKey(String path) {
         byte[] publicKeyBytes = null;
         try {
@@ -181,8 +180,14 @@ public class CifradoAsimetrico {
         }
         return publicKeyBytes;
     }*/
-    
-    
+
+    /**
+     * Se encarga de leer el fichero con la clave y devolverla como un byte de
+     * arrays.
+     *
+     * @param keyFilePath El path de el archivo con la clave.
+     * @return La clave en array de bytes.
+     */
     public byte[] getFileKey(String keyFilePath) {
         byte[] keyBytes = null;
         try {

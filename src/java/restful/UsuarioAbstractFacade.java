@@ -10,6 +10,7 @@ import excepcion.ReadException;
 import java.util.Collection;
 import java.util.logging.Logger;
 import mail.Mail;
+import seguridad.CifradoHash;
 
 /**
  * Clase que realiza toda la gestión que tiene que ver con el acceso a datos de
@@ -81,6 +82,8 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
 
             if (!usuarioCol.isEmpty()) {
                 String nuevaContrasenia = Mail.enviarMailRecuperarContrasenia(usuario);
+                CifradoHash cifradoHash = new CifradoHash();
+                nuevaContrasenia = cifradoHash.cifrarTextoEnHash(nuevaContrasenia);
 
                 for (Usuario u : usuarioCol) {
                     u.setPassword(nuevaContrasenia);

@@ -38,11 +38,31 @@ public class CifradoHash {
             messageDigest.update(dataBytes);
             byte resumen[] = messageDigest.digest();
 
-            contraseña = new String(resumen);
+            contraseña = byteToHexadecimal(resumen);
 
         } catch (NoSuchAlgorithmException e) {
             LOGGER.severe(e.getMessage());
         }
         return contraseña;
+    }
+
+    /**
+     * Metodo que convierte un array de bytes en un string hexadecimal.
+     *
+     * @param bytes Array de bytes que llega.
+     * @return Un String con valor hexadecimal.
+     */
+    private String byteToHexadecimal(byte[] bytes) {
+        LOGGER.info("CifradoAsimetrico: Convirtiendo bytes a hexadecimal");
+
+        String HEX = "";
+        for (int i = 0; i < bytes.length; i++) {
+            String h = Integer.toHexString(bytes[i] & 0xFF);
+            if (h.length() == 1) {
+                HEX += "0";
+            }
+            HEX += h;
+        }
+        return HEX.toUpperCase();
     }
 }

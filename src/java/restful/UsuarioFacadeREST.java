@@ -22,6 +22,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import seguridad.CifradoAsimetrico;
+import seguridad.CifradoHash;
 
 /**
  * Clase que ejecuta las operaciones CRUD en la entidad "Usuario".
@@ -58,9 +60,12 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
      * @param entity la entidad "Usuario".
      */
     @POST
-    @Override
     @Consumes({MediaType.APPLICATION_XML})
+    @Override
     public void create(Usuario entity) {
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("UsuarioFacadeREST: Creando usuario");
             super.create(entity);
@@ -80,6 +85,9 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Consumes({MediaType.APPLICATION_XML})
     @Override
     public void edit(Usuario entity) {
+        entity.setPassword(descifrarContrasena(entity.getPassword()));
+        entity.setPassword(cifrarContrasena(entity.getPassword()));
+
         try {
             LOGGER.info("UsuarioFacadeREST: Editando usuario");
             super.edit(entity);
@@ -168,6 +176,46 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     }
 
     /**
+     * Método que busca un usuario por su email para enviar el mail de
+     * recuperación de contraseña.
+     *
+     * @param usuario el usuario que se buscará.
+     */
+    @POST
+    @Path("enviarMailRecuperacion")
+    @Consumes({MediaType.APPLICATION_XML})
+    @Override
+    public void buscarUsuarioParaEnviarMailRecuperarContrasenia(Usuario usuario) {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando usuario por email para enviar mail de recuperación de contraseña");
+            super.buscarUsuarioParaEnviarMailRecuperarContrasenia(usuario);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca un usuario por su email para enviar el mail de cambio de
+     * contraseña.
+     *
+     * @param email el email que se buscará.
+     */
+    @POST
+    @Path("enviarMailCambio")
+    @Consumes({MediaType.APPLICATION_XML})
+    @Override
+    public void buscarEmailParaEnviarMailCambiarContrasenia(String email) {
+        try {
+            LOGGER.info("UsuarioFacadeREST: Buscando email para enviar mail de cambio de contraseña");
+            super.buscarEmailParaEnviarMailCambiarContrasenia(email);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
      * Método que busca un usuario por su login y contraseña.
      *
      * @param login el login que se usará para buscar a un usuario.
@@ -178,10 +226,13 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Path("loginYPassword/{login}/{password}")
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> buscarLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+    public Collection<Usuario> buscarUsuarioPorLoginYContrasenia(@PathParam("login") String login, @PathParam("password") String password) {
+        password = descifrarContrasena(password);
+        password = cifrarContrasena(password);
+        
         try {
             LOGGER.info("UsuarioFacadeREST: Buscando usuario por login y contraseña");
-            return super.buscarLoginYContrasenia(login, password);
+            return super.buscarUsuarioPorLoginYContrasenia(login, password);
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
@@ -189,37 +240,17 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     }
 
     /**
-     * Método que busca todos los alumnos.
+     * Método que busca todos los usuarios.
      *
      * @return hace una llamada a la superclase UsuarioAbstractFacade.
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     @Override
-    public Collection<Usuario> consultarTodosAlumnos() {
+    public Collection<Usuario> buscarTodosLosUsuarios() {
         try {
-            LOGGER.info("UsuarioFacadeREST: Buscando todos los alumnos");
-            return super.consultarTodosAlumnos();
-        } catch (ReadException e) {
-            LOGGER.severe(e.getMessage());
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
-    /**
-     * Método que busca un alumno por nombre.
-     *
-     * @param fullName el nombre completo que se usará para buscar a un alumno.
-     * @return hace una llamada a la superclase UsuarioAbstractFacade.
-     */
-    @GET
-    @Path("fullName/{fullName}")
-    @Produces({MediaType.APPLICATION_XML})
-    @Override
-    public Collection<Usuario> consultarAlumnoPorNombre(@PathParam("fullName") String fullName) {
-        try {
-            LOGGER.info("UsuarioFacadeREST: Buscando alumno por nombre");
-            return super.consultarAlumnoPorNombre(fullName);
+            LOGGER.info("UsuarioFacadeREST: Buscando todos los usuarios");
+            return super.buscarTodosLosUsuarios();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());
@@ -234,5 +265,29 @@ public class UsuarioFacadeREST extends UsuarioAbstractFacade {
     @Override
     protected EntityManager getEntityManager() {
         return em;
+    }
+
+    /**
+     * Cifra la contraseña para guardarla en la base de datos.
+     *
+     * @param contrasena La contraseña del usuario.
+     * @return La contraseña cifrada.
+     */
+    private String cifrarContrasena(String contrasena) {
+        LOGGER.info("UsuarioFacadeREST: Cifrando contraseña");
+        CifradoHash cifrarHash = new CifradoHash();
+        return cifrarHash.cifrarTextoEnHash(contrasena);
+    }
+
+    /**
+     * Descifra la contraseña que le ha llegado del cliente.
+     *
+     * @param contrasena La contraseña cifrada del usuario.
+     * @return La contraseña descifrada.
+     */
+    private String descifrarContrasena(String contrasena) {
+        LOGGER.info("UsuarioFacadeREST: Descifrando contraseña");
+        CifradoAsimetrico descifrarAsimetrico = new CifradoAsimetrico();
+        return descifrarAsimetrico.descifrarConClavePrivada(contrasena);
     }
 }

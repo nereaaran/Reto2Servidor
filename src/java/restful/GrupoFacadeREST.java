@@ -173,5 +173,4 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
             throw new InternalServerErrorException(e.getMessage());
         }
     }
-
 }

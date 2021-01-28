@@ -63,6 +63,11 @@ public class CifradoSimetrico {
     private final static String CLAVE = ResourceBundle.getBundle("/archivos.Private").getString("CLAVE");
 
     /**
+     * Atributo que lee las rutas de las credenciales del archivo de
+     * propiedades.
+     */
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
+    /**
      * Variable que guarda el salt.
      */
     private static byte[] salt = "esta es la salt!".getBytes();
@@ -102,7 +107,6 @@ public class CifradoSimetrico {
             // Escribe los textos cifrados en distintos archivos.
             fileWriter(EMAIL_PATH, combinedEmail);
             fileWriter(CONTRASENA_PATH, combinedContraseña);
-
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -117,6 +121,7 @@ public class CifradoSimetrico {
         String emailDescifrado = null;
 
         byte[] fileContent = readFile(EMAIL_PATH);
+      
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {
@@ -149,6 +154,7 @@ public class CifradoSimetrico {
         String contraseñaDescifrada = null;
 
         byte[] fileContent = readFile(CONTRASENA_PATH);
+
         KeySpec keySpec = null;
         SecretKeyFactory secretKeyFactory = null;
         try {

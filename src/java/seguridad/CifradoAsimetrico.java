@@ -50,8 +50,12 @@ public class CifradoAsimetrico {
     private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
 
     /**
+     * Atributo que lee las rutas de las claves del archivo de propiedades.
+     */
+    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
+
+    /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
-     *
      *
      * @param contraseña La contraseña del usuario.
      * @return Un string con la contraseña cifrada en hexadecimal.

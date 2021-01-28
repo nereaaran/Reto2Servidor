@@ -83,9 +83,9 @@ public class GeneradorClaves {
      * @param args Array de strings
      */
     public static void main(String[] args) {
-//        // Genera la clave privada y publica
-//        GeneradorClaves generadorClaves = new GeneradorClaves();
-//        generadorClaves.generarClavePrivadaYPublica();
+//      Genera la clave privada y publica
+//      GeneradorClaves generadorClaves = new GeneradorClaves();
+//      generadorClaves.generarClavePrivadaYPublica();
 
         //Prueba de generador de cifrado
         CifradoAsimetrico cifradoAsimetrico = new CifradoAsimetrico();

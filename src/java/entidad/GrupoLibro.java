@@ -66,7 +66,7 @@ public class GrupoLibro implements Serializable {
     }
     /**
      * Establece el grupo
-     * @param grupo
+     * @param grupo los grupos.
      */
     public void setGrupo(Grupo grupo) {
         this.grupo = grupo;
@@ -81,7 +81,7 @@ public class GrupoLibro implements Serializable {
 
     /**
      * Obtine el libro
-     * @param libro
+     * @param libro los libros.
      */
     public void setLibro(Libro libro) {
         this.libro = libro;
@@ -97,7 +97,7 @@ public class GrupoLibro implements Serializable {
 
     /**
      * Obtiene la fecha inicio
-     * @param fechaInicio
+     * @param fechaInicio la fecha de inicio.
      */
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
@@ -111,7 +111,7 @@ public class GrupoLibro implements Serializable {
     }
     /**
      * Obtiene la fecha final
-     * @param fechaFin
+     * @param fechaFin la fecha fin.
      */
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;

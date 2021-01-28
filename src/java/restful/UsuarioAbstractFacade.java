@@ -28,7 +28,7 @@ public abstract class UsuarioAbstractFacade extends AbstractFacade<Usuario> {
     /**
      * Constructor que llama al constructor de la superclase (AbstractFacade).
      *
-     * @param entityClass
+     * @param entityClass cualquier entidad.
      */
     public UsuarioAbstractFacade(Class<Usuario> entityClass) {
         super(entityClass);

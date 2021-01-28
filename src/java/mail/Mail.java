@@ -64,8 +64,8 @@ public class Mail {
      */
     public Mail() {
         CifradoSimetrico cifradoSimetrico = new CifradoSimetrico();
-        this.MAIL = "info.ComicSans@gmail.com"; //cifradoSimetrico.descifrarEmailConClavePrivada();
-        this.PASS = "abcd*1234";//cifradoSimetrico.descifrarContraseñaConClavePrivada();
+        this.MAIL = cifradoSimetrico.descifrarEmailConClavePrivada();//"info.ComicSans@gmail.com"; 
+        this.PASS = cifradoSimetrico.descifrarContraseñaConClavePrivada();//"abcd*1234";
         this.SMTP_HOST = RB.getString("SMTP_HOST");
         this.SMTP_PORT = Integer.parseInt(RB.getString("SMTP_PORT"));
     }

@@ -5,9 +5,8 @@
  */
 package seguridad;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStream;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -40,9 +39,15 @@ public class CifradoAsimetrico {
     private static final Logger LOGGER = Logger.getLogger("seguridad.CifradoAsimetrico");
 
     /**
-     * Ruta absoluta del proyecto.
+     * Atributo que guarda la ruta de la clave publica del archivo de
+     * propiedades.
      */
-    private static final String filePath = new File("").getAbsolutePath();
+    private final static String PUBLIC_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PUBLIC");
+    /**
+     * Atributo que guarda la ruta de la clave privada del archivo de
+     * propiedades.
+     */
+    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
 
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
@@ -52,7 +57,6 @@ public class CifradoAsimetrico {
     /**
      * Metodo que cifra la contraseña del usuario con una clave publica.
      *
-     * 
      * @param contraseña La contraseña del usuario.
      * @return Un string con la contraseña cifrada en hexadecimal.
      */
@@ -62,23 +66,15 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            // Carga la clave pública  a traves del path absoluto y el path guardado en el archivo de propiedades.
-            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));
+            byte fileKey[] = getFileKey(PUBLIC_KEY_PATH);
 
-            // Obtiene una instancia de KeyFactory, algoritmo RSA.
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            // Crea un nuevo X509EncodedKeySpec del fileKey.
             X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(fileKey);
-            // Genera la public key con el keyFactory.
             PublicKey publicKey = keyFactory.generatePublic(x509EncodedKeySpec);
-
-            // Obtiene una instancia del Cipher "RSA/ECB/PKCS1Padding".
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            // Inicia el cipher (ENCRYPT_MODE)
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
-
-            // El método doFinal cifra el mensaje
             encodedMessage = cipher.doFinal(contraseña.getBytes());
+
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -98,22 +94,15 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Descifrando con clave privada");
 
-            // Carga la clave privada a traves del path absoluto y el path guardado en el archivo de propiedades.
-            byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PRIVATE"));
+            byte fileKey[] = getFileKey(PRIVATE_KEY_PATH);
 
-            // Obtenemos una instancia de KeyFactory, algoritmo RSA
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-            // Creamos un nuevo PKCS8EncodedKeySpec del fileKey
             PKCS8EncodedKeySpec pKCS8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
-            // Generamos la public key con el keyFactory
             PrivateKey privateKey = keyFactory.generatePrivate(pKCS8EncodedKeySpec);
-            // Obtenemos una instancia del Cipher "RSA/ECB/PKCS1Padding"
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            // Iniciamos el cipher (DECRYPT_MODE)
             cipher.init(Cipher.DECRYPT_MODE, privateKey);
-
-            // El método doFinal nos descifra el mensaje
             decodedMessage = cipher.doFinal(HexadecimalToByte(contraseñaHexadecimal));
+
         } catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | BadPaddingException | IllegalBlockSizeException | NoSuchPaddingException e) {
             LOGGER.severe(e.getMessage());
         }
@@ -159,21 +148,23 @@ public class CifradoAsimetrico {
     }
 
     /**
-     * Metodo que devuelve el contenido de un fichero.
+     * Se encarga de leer el fichero con la clave y devolverla como un byte de
+     * arrays.
      *
-     * @param path Path del fichero.
-     * @return El texto del fichero.
+     * @param keyFilePath El path de el archivo con la clave.
+     * @return La clave en array de bytes.
      */
-    private byte[] fileReader(String path) {
-        byte ret[] = null;
-        File file = new File(path);
+    public byte[] getFileKey(String keyFilePath) {
+        byte[] keyBytes = null;
         try {
             LOGGER.info("CifradoAsimetrico: Leyendo archivo");
 
-            ret = Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
+            InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream(keyFilePath);
+            keyBytes = new byte[inputStream.available()];
+            inputStream.read(keyBytes);
+        } catch (IOException ex) {
+            LOGGER.severe(ex.getMessage());
         }
-        return ret;
+        return keyBytes;
     }
 }

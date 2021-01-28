@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
- * CLase que define los servicios restful que va a usar nuestra aplicación.
+ * Clase que define los servicios restful que va a usar nuestra aplicación.
  *
  * @author Cristina Milea
  */

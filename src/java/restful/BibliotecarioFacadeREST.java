@@ -7,6 +7,7 @@ package restful;
 
 import entidad.Bibliotecario;
 import excepcion.*;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,7 +30,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("bibliotecario")
-public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
+public class BibliotecarioFacadeREST extends BibliotecarioAbstractFacade {
 
     /**
      * Atributo estático y constante que guarda los loggers de la clase.
@@ -119,6 +120,24 @@ public class BibliotecarioFacadeREST extends AbstractFacade<Bibliotecario> {
         try {
             LOGGER.info("BibliotecarioFacadeREST: Buscando bibliotecario");
             return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca todos los bibliotecarios.
+     *
+     * @return hace una llamada a la superclase BibliotecarioAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Bibliotecario> buscarTodosLosBibliotecarios() {
+        try {
+            LOGGER.info("BibliotecarioFacadeREST: Buscando todos los profesores");
+            return super.buscarTodosLosBibliotecarios();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

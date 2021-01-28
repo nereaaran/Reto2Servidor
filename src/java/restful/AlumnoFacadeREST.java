@@ -7,6 +7,7 @@ package restful;
 
 import entidad.Alumno;
 import excepcion.*;
+import java.util.Collection;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,8 +30,11 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 @Path("alumno")
-public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
+public class AlumnoFacadeREST extends AlumnoAbstractFacade {
 
+    /**
+     * Atributo estático y constante que guarda los loggers de la clase.
+     */
     private static final Logger LOGGER = Logger.getLogger("restful.AlumnoFacadeREST");
 
     /**
@@ -40,7 +44,7 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
     private EntityManager em;
 
     /**
-     * Constructor que llama al constructor de la superclase (AbstractFacade).
+     * Constructor que llama al constructor de la superclase (AlumnoAbstractFacade).
      */
     public AlumnoFacadeREST() {
         super(Alumno.class);
@@ -116,6 +120,44 @@ public class AlumnoFacadeREST extends AbstractFacade<Alumno> {
         try {
             LOGGER.info("AlumnoFacadeREST: Buscando alumno");
             return super.find(id);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca un alumno por nombre.
+     *
+     * @param fullName el nombre completo que se usará para buscar a un alumno.
+     * @return hace una llamada a la superclase AlumnoAbstractFacade.
+     */
+    @GET
+    @Path("fullName/{fullName}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Alumno> buscarAlumnoPorNombre(@PathParam("fullName") String fullName) {
+        try {
+            LOGGER.info("AlumnoFacadeREST: Buscando alumno por nombre");
+            return super.buscarAlumnoPorNombre(fullName);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
+     * Método que busca todos los alumnos.
+     *
+     * @return hace una llamada a la superclase AlumnoAbstractFacade.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Alumno> buscarTodosLosAlumnos() {
+        try {
+            LOGGER.info("AlumnoFacadeREST: Buscando todos los alumnos");
+            return super.buscarTodosLosAlumnos();
         } catch (ReadException e) {
             LOGGER.severe(e.getMessage());
             throw new InternalServerErrorException(e.getMessage());

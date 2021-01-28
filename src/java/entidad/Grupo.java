@@ -69,7 +69,7 @@ public class Grupo implements Serializable {
     private Integer numAlumno;
     /**
      * Establece numAlumno del grupo
-     * @param numAlumno
+     * @param numAlumno el numero de alumnos.
      */
     public void setNumAlumno(Integer numAlumno) {
         this.numAlumno = numAlumno;
@@ -98,7 +98,7 @@ public class Grupo implements Serializable {
     }
     /**
      * Establece el id para el Grupo
-     * @param idGrupo
+     * @param idGrupo el id del grupo.
      */
     public void setIdGrupo(Integer idGrupo) {
         this.idGrupo = idGrupo;
@@ -112,7 +112,7 @@ public class Grupo implements Serializable {
     }
     /**
      * Establece el nombre del grupo
-     * @param nombre
+     * @param nombre el nombre del grupo.
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -126,7 +126,7 @@ public class Grupo implements Serializable {
     }
     /**
      * Establece la descripcion del grupo
-     * @param descripcion
+     * @param descripcion la descripcion del grupo.
      */
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
@@ -176,7 +176,7 @@ public class Grupo implements Serializable {
     }
     /**
      * Establece una coleccion de alumno
-     * @param alumnos
+     * @param alumnos los alumnos.
      */
     public void setAlumnos(Collection<Alumno> alumnos) {
         this.alumnos = alumnos;

@@ -26,7 +26,7 @@ public abstract class ProfesorAbstractFacade extends AbstractFacade<Profesor> {
     /**
      * Constructor que llama al constructor de la superclase (AbstractFacade).
      *
-     * @param entityClass
+     * @param entityClass cualquier entidad.
      */
     public ProfesorAbstractFacade(Class<Profesor> entityClass) {
         super(entityClass);

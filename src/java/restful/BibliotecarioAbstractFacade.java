@@ -26,7 +26,7 @@ public abstract class BibliotecarioAbstractFacade extends AbstractFacade<Bibliot
     /**
      * Constructor que llama al constructor de la superclase (AbstractFacade).
      *
-     * @param entityClass
+     * @param entityClass cualquier entidad.
      */
     public BibliotecarioAbstractFacade(Class<Bibliotecario> entityClass) {
         super(entityClass);

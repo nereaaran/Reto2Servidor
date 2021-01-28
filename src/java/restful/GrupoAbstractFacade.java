@@ -53,8 +53,8 @@ public abstract class GrupoAbstractFacade extends AbstractFacade<Grupo> {
     /**
      * Método que ejecuta la query "listarGrupoPorNombre".
      *
-     * @param nombre
-     * @return
+     * @param nombre el nombre del grupo.
+     * @return una coleccion de grupos.
      * @throws excepcion.ReadException excepción al buscar un grupo.
      */
     public Collection<Grupo> listarGrupoPorNombre(String nombre) throws ReadException {

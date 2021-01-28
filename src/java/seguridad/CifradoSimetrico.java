@@ -42,12 +42,6 @@ public class CifradoSimetrico {
     private static final Logger LOGGER = Logger.getLogger("seguridad.CifradoSimetrico");
 
     /**
-     * Atributo que lee las rutas de las credenciales del archivo de
-     * propiedades.
-     */
-    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
-
-    /**
      * Atributo que guarda la ruta del email cifrado del archivo de propiedades.
      */
     private final static String EMAIL_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("EMAIL_EMAIL");
@@ -62,11 +56,6 @@ public class CifradoSimetrico {
      */
     private final static String CLAVE = ResourceBundle.getBundle("/archivos.Private").getString("CLAVE");
 
-    /**
-     * Atributo que lee las rutas de las credenciales del archivo de
-     * propiedades.
-     */
-    private static final ResourceBundle RB = ResourceBundle.getBundle("archivos.Paths");
     /**
      * Variable que guarda el salt.
      */

@@ -81,7 +81,7 @@ public class AlumnoLibroFacadeREST extends AbstractFacade<AlumnoLibro> {
      */
     @POST
     @Override
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_XML})
     public void create(AlumnoLibro entity) {
         try {
             LOGGER.info("AlumnoLibroFacadeREST: Creando alumnolibro");

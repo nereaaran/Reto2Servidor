@@ -32,7 +32,7 @@ public class GeneradorCifradoEmail {
         System.out.println("EMAIL Descifrado: " + textoDescifrado);
         System.out.println( "-----------");
         textoDescifrado = cifradoSimetrico.descifrarContraseñaConClavePrivada();
-        System.out.println("COntraseña Descifrada: " + textoDescifrado);
+        System.out.println("Contraseña Descifrada: " + textoDescifrado);
 
         //Mandar mail
         /*Mail mail = new Mail();

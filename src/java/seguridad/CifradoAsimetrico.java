@@ -5,10 +5,8 @@
  */
 package seguridad;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
@@ -64,7 +62,6 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Cifrando con clave publica");
 
-            //byte fileKey[] = fileReader(filePath + RB.getString("ASIMETRIC_KEY_PUBLIC"));/////////////////////////////////
             byte fileKey[] = getFileKey(PUBLIC_KEY_PATH);
 
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
@@ -147,41 +144,6 @@ public class CifradoAsimetrico {
     }
 
     /**
-     * Metodo que devuelve el contenido de un fichero.
-     *
-     * @param path Path del fichero.
-     * @return El texto del fichero.
-     *//*
-    private byte[] fileReader(String path) {
-        byte ret[] = null;
-        File file = new File(path);
-        try {
-            LOGGER.info("CifradoAsimetrico: Leyendo archivo");
-
-            System.out.println(path);////////////////////////////////////////////////////
-
-            ret = Files.readAllBytes(file.toPath());
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
-        }
-        return ret;
-    }*/
- /*
-    public byte[] getFileKey(String path) {
-        byte[] publicKeyBytes = null;
-        try {
-            LOGGER.info("CifradoAsimetrico: Leyendo archivo");
-
-            InputStream inputStream = CifradoAsimetrico.class.getClassLoader().getResourceAsStream(path);
-            publicKeyBytes = new byte[inputStream.available()];
-            inputStream.read(publicKeyBytes);
-        } catch (IOException e) {
-            LOGGER.severe(e.getMessage());
-        }
-        return publicKeyBytes;
-    }*/
-
-    /**
      * Se encarga de leer el fichero con la clave y devolverla como un byte de
      * arrays.
      *
@@ -193,9 +155,7 @@ public class CifradoAsimetrico {
         try {
             LOGGER.info("CifradoAsimetrico: Leyendo archivo");
 
-            InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream(keyFilePath);///////////FUNCIONA con el path en un archivo de propiedades y coger el properties file
-            //InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream("/archivos/ComicSansAsimetricPrivate.key");/////Funciona con fichero en carpeta archivos
-            //InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream("ComicSansAsimetricPrivate.key");///////////////// FUNCIONA con el fichero en la carpeta seguridad
+            InputStream inputStream = CifradoAsimetrico.class.getResourceAsStream(keyFilePath);
             keyBytes = new byte[inputStream.available()];
             inputStream.read(keyBytes);
         } catch (IOException ex) {

@@ -146,7 +146,6 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
     @GET
     @Path("grupo/{nombre}")
     @Produces({MediaType.APPLICATION_XML})
-    @Override
     public Collection<Grupo> listarGrupoPorNombre(@PathParam("nombre") String nombre) {
         try {
             LOGGER.info("listarGrupoPorNombre: Listando los grupos por el nombre");
@@ -165,7 +164,6 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    @Override
     public Collection<Grupo> listarGrupos() {
         try {
             LOGGER.info("listarTodosLosGrupo: Listando los grupos");
@@ -175,5 +173,4 @@ public class GrupoFacadeREST extends GrupoAbstractFacade {
             throw new InternalServerErrorException(e.getMessage());
         }
     }
-
 }

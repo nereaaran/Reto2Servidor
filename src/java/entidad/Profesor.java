@@ -76,13 +76,14 @@ public class Profesor extends Usuario implements Serializable {
      * Método que compara el código hash de dos objetos.
      * @return el código hash del objeto.
      */
-    @Override
+    @Override    
     public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + Objects.hashCode(this.telefono);
-        hash = 83 * hash + Objects.hashCode(this.grupos);
+        int hash = 7;
+        hash = 61 * hash + Objects.hashCode(this.telefono);
+        hash = 61 * hash + Objects.hashCode(this.grupos);
         return hash;
     }
+
     /**
      * Método que compara si un objeto es igual al objeto "Profesor".
      *

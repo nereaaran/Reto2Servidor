@@ -5,6 +5,7 @@
  */
 package entidad;
 
+import entidad.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
@@ -12,6 +13,8 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -120,16 +123,13 @@ public class GrupoLibro implements Serializable {
      * Metodo que compara el codigo hash de dos objetos
      * @return un codigo hash del objeto
      */
-    @Override
+    @Override    
     public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.idGrupoLibro);
-        hash = 47 * hash + Objects.hashCode(this.grupo);
-        hash = 47 * hash + Objects.hashCode(this.libro);
-        hash = 47 * hash + Objects.hashCode(this.fechaInicio);
-        hash = 47 * hash + Objects.hashCode(this.fechaFin);
+        int hash = 7;
+        hash = 59 * hash + Objects.hashCode(this.idGrupoLibro);
         return hash;
     }
+
     /**
      * Metodo que comprara si un objeto es igual al objeto GrupoLibro
      * @param obj cualquier tipo de objeto
@@ -150,21 +150,9 @@ public class GrupoLibro implements Serializable {
         if (!Objects.equals(this.idGrupoLibro, other.idGrupoLibro)) {
             return false;
         }
-        if (!Objects.equals(this.grupo, other.grupo)) {
-            return false;
-        }
-        if (!Objects.equals(this.libro, other.libro)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaInicio, other.fechaInicio)) {
-            return false;
-        }
-        if (!Objects.equals(this.fechaFin, other.fechaFin)) {
-            return false;
-        }
         return true;
     }
-    
+
     /**
      * Método que devuelve un String con los atributos del grupo.
      * @return un String con los atributos de la entidad.

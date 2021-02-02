@@ -185,21 +185,19 @@ public class Grupo implements Serializable {
      * Implemantacion del metodo hasCode para la entidad.
      * @return Valor integer dej hasCode del objeto.
      */
-    @Override
+     @Override    
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + this.idGrupo;
-        hash = 37 * hash + Objects.hashCode(this.nombre);
-        hash = 37 * hash + Objects.hashCode(this.descripcion);
-        hash = 37 * hash + this.numAlumno;
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.idGrupo);
         return hash;
     }
+
     /**
      * Metodo qur comprueba el idGrupo de dos entidades de grupo por igualdad
      * @param obj Objeto para comprobar
      * @return True si todos los objetos son iguales
      */
-     @Override
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -211,36 +209,19 @@ public class Grupo implements Serializable {
             return false;
         }
         final Grupo other = (Grupo) obj;
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        if (!Objects.equals(this.descripcion, other.descripcion)) {
-            return false;
-        }
         if (!Objects.equals(this.idGrupo, other.idGrupo)) {
-            return false;
-        }
-        if (!Objects.equals(this.numAlumno, other.numAlumno)) {
-            return false;
-        }
-        if (!Objects.equals(this.profesor, other.profesor)) {
-            return false;
-        }
-        if (!Objects.equals(this.grupoLibros, other.grupoLibros)) {
-            return false;
-        }
-        if (!Objects.equals(this.alumnos, other.alumnos)) {
             return false;
         }
         return true;
     }
-     /**
+
+    /**
      * Meetodo que devuelve un string con los datos del Grupo.
      * @return un string del objeto Grupo.
      */
     @Override
     public String toString() {
-        return "Grupo{" + "idGrupo=" + idGrupo + ", nombre=" + nombre 
-            + ", descripcion=" + descripcion + ", numAlumno=" + numAlumno + '}';
+        return "Grupo{" + "idGrupo=" + idGrupo + ", nombre=" + nombre
+                + ", descripcion=" + descripcion + ", numAlumno=" + numAlumno + '}';
     }
 }

@@ -81,4 +81,21 @@ public abstract class LibroAbstractFacade extends AbstractFacade<Libro> {
         }
     }
 
+    /**
+     * Método que ejecuta la query "buscarLibrosPorIsbn".
+     *
+     * @param isbn El isbn del libro que se quiere buscar.
+     * @return Una coleccion de libros.
+     * @throws excepcion.ReadException Excepción al buscar un libro.
+     */
+    public Collection<Libro> buscarLibrosPorIsbn(Long isbn) throws ReadException {
+        try {
+            LOGGER.info("LibroAbstractFacade: Buscando libros por isbn");
+            return getEntityManager().createNamedQuery("buscarLibrosPorIsbn").setParameter("isbn", isbn).getResultList();
+        } catch (Exception e) {
+            LOGGER.severe(e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+    }
+
 }

@@ -189,6 +189,26 @@ public class LibroFacadeREST extends LibroAbstractFacade {
     }
 
     /**
+     * Metodo que busca libros a partir de un isbn.
+     *
+     * @param isbn El isbn que se quiere buscar.
+     * @return Una colección de libros que contienen el isbn.
+     */
+    @GET
+    @Path("isbn/{isbn}")
+    @Produces({MediaType.APPLICATION_XML})
+    @Override
+    public Collection<Libro> buscarLibrosPorIsbn(@PathParam("isbn") Long isbn) {
+        try {
+            LOGGER.info("LibroFacadeREST: Buscando librso por isbn");
+            return super.buscarLibrosPorIsbn(isbn);
+        } catch (ReadException e) {
+            LOGGER.severe(e.getMessage());
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    /**
      * Método que establece el Entity Manager.
      *
      * @return El Entity MAnager.

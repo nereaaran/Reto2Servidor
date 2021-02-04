@@ -42,12 +42,12 @@ public class CifradoAsimetrico {
      * Atributo que guarda la ruta de la clave publica del archivo de
      * propiedades.
      */
-    private final static String PUBLIC_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PUBLIC");
+    private final static String PUBLIC_KEY_PATH = ResourceBundle.getBundle("archivos.Paths").getString("ASIMETRIC_KEY_PUBLIC");
     /**
      * Atributo que guarda la ruta de la clave privada del archivo de
      * propiedades.
      */
-    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("/archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
+    private final static String PRIVATE_KEY_PATH = ResourceBundle.getBundle("archivos.Paths").getString("ASIMETRIC_KEY_PRIVATE");
 
     /**
      * Atributo que lee las rutas de las claves del archivo de propiedades.
